@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using MDPro3;
 using MDPro3.Servant;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace MDPro3
 {
@@ -31,7 +33,18 @@ namespace MDPro3
         private void Awake()
         {
             instance = this;
+            _ = Initialize();
+        }
+
+        private async UniTask Initialize()
+        {
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+            if (!ABLoader.mdCached)
+                await ABLoader.CacheMasterDuelOutDuelBundles();
+
+            cardRenderer = (await Addressables.InstantiateAsync("Prefab/CardRenderer.prefab")).GetComponent<CardRenderer>();
             InitializeDuelServants();
+
         }
 
     }
