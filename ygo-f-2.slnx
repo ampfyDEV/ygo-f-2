@@ -1,0 +1,13 @@
+﻿<Solution>
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="spine-unity.csproj" />
+  <Project Path="Unity.AssetBundleBrowser.Editor.csproj" />
+  <Project Path="spine-csharp.csproj" />
+  <Project Path="spine-unity-editor.csproj" />
+  <Project Path="Assembly-CSharp-Editor-firstpass.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="spine-timeline.csproj" />
+  <Project Path="spine-timeline-editor.csproj" />
+  <Project Path="BetterStreamingAssets.csproj" />
+  <Project Path="Assembly-CSharp-firstpass.csproj" />
+</Solution>
