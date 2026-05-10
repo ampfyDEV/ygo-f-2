@@ -116,7 +116,7 @@ namespace MDPro3.Servant
                 OnExit();
             else if (Cursor.lockState == CursorLockMode.None)
                 OnExit();
-            else if (selected.TryGetComponent<SelectionToggle_AppearanceItem>(out _) 
+            else if (selected.TryGetComponent<SelectionToggle_AppearanceItem>(out _)
                 || selected == GetUI<AppearanceUI>().InputPlayerName.gameObject)
             {
                 if (lastSelectedToggle != null)
@@ -288,8 +288,8 @@ namespace MDPro3.Servant
             #endregion
 
             loaded = true;
-            if (Program.instance.currentServant == Program.instance.room)
-                Program.instance.room.Realize();
+            if (Program.instance.currentServant == DuelProvider.instance.room)
+                DuelProvider.instance.room.Realize();
         }
 
     }

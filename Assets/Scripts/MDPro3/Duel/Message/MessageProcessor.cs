@@ -17,7 +17,7 @@ namespace MDPro3.Duel
             this.dispatcher = dispatcher;
         }
 
-        protected OcgCore Core => Program.instance.ocgcore;
+        protected OcgCore Core => DuelProvider.instance.ocgcore;
 
         public virtual void Dispose()
         {

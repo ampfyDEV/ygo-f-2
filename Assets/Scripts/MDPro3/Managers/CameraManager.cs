@@ -83,7 +83,7 @@ namespace MDPro3
                 camera.cameraMain.fieldOfView = duelFov;
                 camera.cameraDuelOverlay3D.fieldOfView = duelFov;
 
-                if (Program.instance.ocgcore != null && Program.instance.ocgcore.showing)
+                if (DuelProvider.instance.ocgcore != null && DuelProvider.instance.ocgcore.showing)
                 {
                     camera.cameraMain.transform.localPosition = mainCameraDefaultPosition;
                     if (!overlaySticking)

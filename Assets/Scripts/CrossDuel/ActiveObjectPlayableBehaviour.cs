@@ -6,62 +6,62 @@ using UnityEngine.Playables;
 
 namespace Willow
 {
-	public class ActiveObjectPlayableBehaviour : PlayableBehaviour
-	{
-		public string m_name;
+    public class ActiveObjectPlayableBehaviour : PlayableBehaviour
+    {
+        public string m_name;
 
-		public Playable m_root;
+        public Playable m_root;
 
-		public GameObject m_owner;
+        public GameObject m_owner;
 
-		public GameObject m_parentObject;
+        public GameObject m_parentObject;
 
-		public CustomTimelineObject m_relayObject;
+        public CustomTimelineObject m_relayObject;
 
-		public GameObject m_prefab;
+        public GameObject m_prefab;
 
-		public bool m_isFullLifespan;
+        public bool m_isFullLifespan;
 
-		public CustomTimelineController controller;
+        public CustomTimelineController controller;
 
         private CustomTimelineController m_controller;
 
-		private GameObject m_object;
+        private GameObject m_object;
 
-		private List<ParticleSystem> m_listParticle;
+        private List<ParticleSystem> m_listParticle;
 
-		private List<AraTrail> m_listTrail;
+        private List<AraTrail> m_listTrail;
 
-		private double m_prevTime;
+        private double m_prevTime;
 
-		private double m_duration;
+        private double m_duration;
 
-		private bool m_isPlay;
+        private bool m_isPlay;
 
-		private bool m_isKeepObject;
+        private bool m_isKeepObject;
 
-		public const string kPrefixTempPrefab = "_____tmp_playing_";
+        public const string kPrefixTempPrefab = "_____tmp_playing_";
 
-		public bool m_isLookAtCamera;
+        public bool m_isLookAtCamera;
 
-		Transform needRotate;
+        Transform needRotate;
         Transform m_parent;
 
         private bool isFullLifespan => false;
 
-		public override void OnGraphStart(Playable playable)
-		{
+        public override void OnGraphStart(Playable playable)
+        {
         }
 
         public override void OnGraphStop(Playable playable)
-		{
+        {
         }
 
         public override void OnBehaviourPlay(Playable playable, FrameData info)
-		{
+        {
             if (m_prefab == null)
                 return;
-            if(m_object == null)
+            if (m_object == null)
             {
                 m_object = Object.Instantiate(m_prefab);
                 if (Program.instance.currentServant == Program.instance.mate)
@@ -129,7 +129,7 @@ namespace Willow
         }
 
         public override void OnBehaviourPause(Playable playable, FrameData info)
-		{
+        {
             //if (m_object != null && !m_isFullLifespan)
             //    m_object.SetActive(false);
             if (m_object != null && m_isFullLifespan)
@@ -139,12 +139,12 @@ namespace Willow
         }
 
         public override void PrepareFrame(Playable playable, FrameData info)
-		{
+        {
             //if (m_parentObject != null && m_isLookAtCamera)
             //             m_parentObject.transform.LookAt(Program.instance.camera_.cameraMain.transform);
             if (needRotate != null)
             {
-                if(Program.instance.currentServant == Program.instance.ocgcore)
+                if (Program.instance.currentServant == DuelProvider.instance.ocgcore)
                     needRotate.LookAt(Program.instance.camera_.cameraMain.transform);
                 else
                     needRotate.LookAt(Program.instance.camera_.cameraDuelOverlay2D.transform);
@@ -152,7 +152,7 @@ namespace Willow
         }
 
         private static void GetComponentRoots<T>(Transform t, ICollection<T> roots) where T : Component
-		{
-		}
-	}
+        {
+        }
+    }
 }

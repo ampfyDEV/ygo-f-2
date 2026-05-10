@@ -44,8 +44,7 @@ namespace MDPro3
         public SettingServant setting;
         public Appearance appearance;
         public CharacterSelector character;
-        public OcgCore ocgcore;
-        public RoomServant room;
+
         public DeckEditor deckEditor;
         public DeckBrowser deckBrowser;
 
@@ -110,11 +109,6 @@ namespace MDPro3
             if (!Directory.Exists(PATH_DATA))
                 Directory.CreateDirectory(PATH_DATA);
             Config.Initialize(PATH_CONFIG);
-
-            Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
-            if (!ABLoader.mdCached)
-                await ABLoader.CacheMasterDuelOutDuelBundles();
 
             if (items == null)
             {
@@ -250,8 +244,6 @@ namespace MDPro3
             servants.Add(deckSelector);
             servants.Add(appearance);
             servants.Add(character);
-            servants.Add(ocgcore);
-            servants.Add(room);
             servants.Add(deckEditor);
             servants.Add(deckBrowser);
             foreach (Servant.Servant servant in servants)

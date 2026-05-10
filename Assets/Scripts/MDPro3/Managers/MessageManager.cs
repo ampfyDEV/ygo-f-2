@@ -49,10 +49,10 @@ namespace MDPro3
         public override void PerFrameFunction()
         {
             base.PerFrameFunction();
-            if(messageFromSubString != string.Empty)
+            if (messageFromSubString != string.Empty)
             {
                 Cast(messageFromSubString);
-                messageFromSubString= string.Empty;
+                messageFromSubString = string.Empty;
             }
         }
 
@@ -61,7 +61,7 @@ namespace MDPro3
             CameraManager.UIBlurPlus();
             var item = Instantiate(Program.instance.message_.messageCard);
             DOTweenLifecycle.AttachKillOnDestroy(item);
-            Program.instance.ocgcore.AllGameObjects.Add(item);
+            DuelProvider.instance.ocgcore.AllGameObjects.Add(item);
             item.transform.SetParent(instance.transform, false);
             _ = RefreshAsync(item, code);
         }
@@ -117,11 +117,11 @@ namespace MDPro3
                 return;
             }
 
-            if(cachedMessage.Count > 0)
+            if (cachedMessage.Count > 0)
             {
                 var ms = new List<string>(cachedMessage);
                 cachedMessage.Clear();
-                foreach(var m in ms)
+                foreach (var m in ms)
                     Cast(m);
             }
 

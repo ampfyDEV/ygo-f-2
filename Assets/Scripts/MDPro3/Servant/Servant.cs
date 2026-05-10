@@ -38,7 +38,7 @@ namespace MDPro3.Servant
 
         public void Show(int preDepth)
         {
-            if(showing) return;
+            if (showing) return;
 
             showing = true;
 
@@ -169,14 +169,14 @@ namespace MDPro3.Servant
         {
             inTransition = true;
 
-            bool fromDuel = 
-                Program.instance.currentServant == this 
+            bool fromDuel =
+                Program.instance.currentServant == this
                 && preDepth == -1;
 
             if (fromDuel)
             {
                 servantUI.ShowEvent();
-                DOTween.To(v => { }, 0, 0, Program.instance.ocgcore.TransitionTime)
+                DOTween.To(v => { }, 0, 0, DuelProvider.instance.ocgcore.TransitionTime)
                     .SetUpdate(true)
                     .OnComplete(() =>
                 {
@@ -217,7 +217,7 @@ namespace MDPro3.Servant
                     Program.instance.currentServant is OcgCore
                     ? SubBlackAlpha : BlackAlpha
                     , TransitionTime
-                    , () => 
+                    , () =>
                     {
                         inTransition = false;
                         AfterShowingEvent();

@@ -92,7 +92,7 @@ namespace MDPro3.Servant
             }
             onlineAppearances.Clear();
             base.OnExit();
-            Program.instance.ocgcore.CloseConnection();
+            DuelProvider.instance.ocgcore.CloseConnection();
         }
 
         public override void Select(bool forced = false)
@@ -214,7 +214,7 @@ namespace MDPro3.Servant
         {
             if (CoreShowing == 0)
                 CoreShowing = 1;
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
                 return;
             if (Mode != 2)
             {
@@ -268,17 +268,17 @@ namespace MDPro3.Servant
             OcgCore.timeLimit = TimeLimit;
             OcgCore.lpLimit = StartLp;
             if (FromSolo)
-                Program.instance.ocgcore.returnServant = Program.instance.solo;
+                DuelProvider.instance.ocgcore.returnServant = Program.instance.solo;
             else if (FromHandTest)
-                Program.instance.ocgcore.returnServant = Program.instance.deckEditor;
+                DuelProvider.instance.ocgcore.returnServant = Program.instance.deckEditor;
             else
-                Program.instance.ocgcore.returnServant = Program.instance.solo;
+                DuelProvider.instance.ocgcore.returnServant = Program.instance.solo;
             if (SelfType == 7)
                 OcgCore.condition = OcgCore.Condition.Watch;
             else
                 OcgCore.condition = OcgCore.Condition.Duel;
             OcgCore.inPuzzle = false;
-            Program.instance.ShiftToServant(Program.instance.ocgcore);
+            Program.instance.ShiftToServant(DuelProvider.instance.ocgcore);
         }
 
         public void Realize()
@@ -306,7 +306,7 @@ namespace MDPro3.Servant
                 Function = r.ReadByte(),
                 Data = new BinaryMaster(r.ReadToEnd())
             };
-            Program.instance.ocgcore.AddPackage(p);
+            DuelProvider.instance.ocgcore.AddPackage(p);
         }
 
         public void StocMessage_ErrorMsg(BinaryReader r)
@@ -421,7 +421,7 @@ namespace MDPro3.Servant
         {
             List<string> selections = new List<string>
             {
-                Program.instance.currentServant == Program.instance.room ?
+                Program.instance.currentServant == DuelProvider.instance.room ?
                 InterString.Get("猜拳获胜") :
                 InterString.Get("选择先后手"),
                 InterString.Get("选择是否由我方先手？"),
@@ -454,7 +454,7 @@ namespace MDPro3.Servant
         {
             NeedSide = true;
             if (OcgCore.condition != OcgCore.Condition.Duel || JoinWithReconnect)
-                Program.instance.ocgcore.OnDuelResultConfirmed();
+                DuelProvider.instance.ocgcore.OnDuelResultConfirmed();
         }
 
         public void StocMessage_WaitingSide(BinaryReader r)
@@ -492,7 +492,7 @@ namespace MDPro3.Servant
             onlineAppearances.Clear();
 
             if (!FromHandTest)
-                Program.instance.ShiftToServant(Program.instance.room);
+                Program.instance.ShiftToServant(DuelProvider.instance.room);
         }
 
         public void StocMessage_TypeChange(BinaryReader r)
@@ -531,7 +531,7 @@ namespace MDPro3.Servant
         public void StocMessage_DuelEnd(BinaryReader r)
         {
             duelEnded = true;
-            Program.instance.ocgcore.ForceMSquit();
+            DuelProvider.instance.ocgcore.ForceMSquit();
         }
 
         public void StocMessage_Replay(BinaryReader r)

@@ -64,7 +64,7 @@ namespace MDPro3.UI
         public void Show(bool takeOver = true)
         {
             base.Show();
-            if (Program.instance.currentServant != Program.instance.room
+            if (Program.instance.currentServant != DuelProvider.instance.room
                 && !DeviceInfo.OnMobile())
                 input.Select();
 
@@ -78,7 +78,7 @@ namespace MDPro3.UI
 
             if ((UserInput.WasCancelPressed
                 || UserInput.MouseRightDown)
-                && Program.instance.currentServant == Program.instance.ocgcore)
+                && Program.instance.currentServant == DuelProvider.instance.ocgcore)
                 HideWithSound();
         }
 
@@ -86,7 +86,7 @@ namespace MDPro3.UI
         {
             if (input.isFocused)
                 return false;
-            return base.NeedResponse() || Program.instance.room.showing;
+            return base.NeedResponse() || DuelProvider.instance.room.showing;
         }
 
         public void OnSend()
@@ -221,14 +221,14 @@ namespace MDPro3.UI
             p.Data.writer.Write(player);
             p.Data.writer.WriteUnicode(content, content.Length + 1);
             TcpHelper.AddRecordLine(p);
-            if (Program.instance.ocgcore.showing)
-                Program.instance.ocgcore.Chat(player, content);
+            if (DuelProvider.instance.ocgcore.showing)
+                DuelProvider.instance.ocgcore.Chat(player, content);
 
         }
 
         private static int GetRoomPlayerIndex(int player)
         {
-            if (!Program.instance.ocgcore.showing)
+            if (!DuelProvider.instance.ocgcore.showing)
                 return player;
             if (player > -1 && player < 4)
             {

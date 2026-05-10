@@ -64,7 +64,7 @@ namespace MDPro3.UI
             bool showHead = false;
             if (id == 0)
                 showHead = true;
-            else if (card.p.location != cards[id - 1].p.location 
+            else if (card.p.location != cards[id - 1].p.location
                 || card.p.controller != cards[id - 1].p.controller)
                 showHead = true;
             if (showHead)
@@ -75,7 +75,7 @@ namespace MDPro3.UI
             bool isEnd = false;
             if (id == cards.Count - 1)
                 isEnd = true;
-            else if (card.p.location != cards[id + 1].p.location 
+            else if (card.p.location != cards[id + 1].p.location
                 || card.p.controller != cards[id + 1].p.controller)
                 isEnd = true;
             if (isEnd)
@@ -154,7 +154,7 @@ namespace MDPro3.UI
                 if (manager.arrow == null)
                 {
                     manager.arrow = ABLoader.LoadMasterDuelGameObject("fxp_arrow_aim_001");
-                    Program.instance.ocgcore.AllGameObjects.Add(manager.arrow);
+                    DuelProvider.instance.ocgcore.AllGameObjects.Add(manager.arrow);
                 }
                 manager.arrow.transform.position = card.model.transform.position;
             }
@@ -164,7 +164,7 @@ namespace MDPro3.UI
                     manager.arrow.SetActive(false);
             }
 
-            Program.instance.ocgcore.GetUI<OcgCoreUI>().CardDescription.Show(card, cardFace.material);
+            DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().CardDescription.Show(card, cardFace.material);
 
             if (selected)
             {
@@ -190,7 +190,7 @@ namespace MDPro3.UI
                 }
                 else
                 {
-                    if (manager.max == 1 
+                    if (manager.max == 1
                         && manager.min == 1
                         && OcgCore.currentMessage != GameMessage.SelectSum)
                     {
@@ -210,7 +210,7 @@ namespace MDPro3.UI
             selected = true;
             manager.SelectedCount++;
 
-            if(OcgCore.currentMessage == GameMessage.ConfirmCards)
+            if (OcgCore.currentMessage == GameMessage.ConfirmCards)
             {
             }
             else if (!manager.order)

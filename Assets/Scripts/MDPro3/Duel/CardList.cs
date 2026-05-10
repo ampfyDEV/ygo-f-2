@@ -38,7 +38,7 @@ namespace MDPro3.UI
         private OcgCoreUI _coreUI;
         private OcgCoreUI CoreUI =>
             _coreUI = _coreUI != null ? _coreUI
-            : Program.instance.ocgcore.GetUI<OcgCoreUI>();
+            : DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>();
 
         private void Awake()
         {
@@ -49,7 +49,7 @@ namespace MDPro3.UI
 
         public void Show(List<GameCard> cards, CardLocation location, int controller)
         {
-            if(OcgCore.cantCheckGrave && location == CardLocation.Grave)
+            if (OcgCore.cantCheckGrave && location == CardLocation.Grave)
             {
                 MessageManager.Cast(InterString.Get("现在不能查看此处的卡片。"));
                 return;
@@ -65,18 +65,18 @@ namespace MDPro3.UI
                 baseRect.DOMove(targetPos.position, transitionTime);
                 cg.DOFade(1f, transitionTime);
                 cg.blocksRaycasts = true;
-                if (Program.instance.ocgcore.GetUI<OcgCoreUI>().DuelLog.showing)
+                if (DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().DuelLog.showing)
                 {
-                    Program.instance.ocgcore.GetUI<OcgCoreUI>().OnLog(true);
+                    DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().OnLog(true);
                     showWithCloseDuelLog = true;
                 }
                 textCount.text = cards.Count.ToString();
             }
             else
             {
-                if(location != CardLocation.Unknown)
+                if (location != CardLocation.Unknown)
                 {
-                    Program.instance.ocgcore.GetUI<OcgCoreUI>().ResetAttachedEffectState();
+                    DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().ResetAttachedEffectState();
                     showForAttachedEffects = false;
                 }
                 baseRect.DOMove(targetPos.position, transitionTime).OnComplete(() =>
@@ -90,7 +90,7 @@ namespace MDPro3.UI
                 cg.DOFade(0f, transitionTime);
             }
 
-            if(UsingMobileLayout && !showing)
+            if (UsingMobileLayout && !showing)
                 CoreUI.StretchIn(transitionTime);
             showing = true;
         }
@@ -100,14 +100,14 @@ namespace MDPro3.UI
             if (showWithCloseDuelLog)
             {
                 showWithCloseDuelLog = false;
-                Program.instance.ocgcore.GetUI<OcgCoreUI>().OnLog();
+                DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().OnLog();
             }
 
             if (!showing)
                 return;
             showing = false;
             if (showForAttachedEffects)
-                Program.instance.ocgcore.GetUI<OcgCoreUI>().ResetAttachedEffectState();
+                DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().ResetAttachedEffectState();
 
             showForAttachedEffects = false;
             baseRect.DOMove(originPos.position, transitionTime);
@@ -254,7 +254,7 @@ namespace MDPro3.UI
         {
             Show(GetAttachedEffectCards(), CardLocation.Unknown, 0);
             showForAttachedEffects = true;
-            Program.instance.ocgcore.GetUI<OcgCoreUI>().SwitchAttachedEffectState();
+            DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().SwitchAttachedEffectState();
         }
 
         private List<GameCard> GetAttachedEffectCards()
@@ -313,7 +313,7 @@ namespace MDPro3.UI
                 return false;
             if ((attachedEffects[code] & value) == 0)
                 return false;
-            if(attachedEffects[code] == value)
+            if (attachedEffects[code] == value)
             {
                 attachedEffects.Remove(code);
                 SetNum();
@@ -325,7 +325,7 @@ namespace MDPro3.UI
 
         private int GetAttachedEffectPlayer(int code)
         {
-            if(attachedEffects.ContainsKey(code))
+            if (attachedEffects.ContainsKey(code))
                 return attachedEffects[code];
             return 0;
         }
@@ -349,9 +349,9 @@ namespace MDPro3.UI
             _attachedEffectCards.Clear();
             attachedEffectsDirty = true;
             Hide();
-            var ui = Program.instance.ocgcore.GetUI<OcgCoreUI>();
+            var ui = DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>();
             ui.ResetAttachedEffectState();
-            foreach(var card in gameCardsForAttachedEffects)
+            foreach (var card in gameCardsForAttachedEffects)
                 card.Dispose();
             gameCardsForAttachedEffects.Clear();
             SetNum();
@@ -360,7 +360,7 @@ namespace MDPro3.UI
         private void SetNum()
         {
             var num = attachedEffects.Count;
-            Program.instance.ocgcore.GetUI<OcgCoreUI>().SetAttachedEffectNum(num);
+            DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().SetAttachedEffectNum(num);
         }
 
         #endregion

@@ -14,7 +14,7 @@ namespace MDPro3.UI
         protected override void CallHoverOnEvent()
         {
             base.CallHoverOnEvent();
-            if(RoomServant.IsHost && playerIndex != RoomServant.SelfType)
+            if (RoomServant.IsHost && playerIndex != RoomServant.SelfType)
                 Manager.GetElement("KickIcon").SetActive(true);
         }
 
@@ -30,9 +30,9 @@ namespace MDPro3.UI
             if (RoomServant.IsHost)
             {
                 if (playerIndex != RoomServant.SelfType)
-                    Program.instance.room.GetUI<RoomServantUI>().OnKick(playerIndex);
+                    DuelProvider.instance.room.GetUI<RoomServantUI>().OnKick(playerIndex);
                 else
-                    Program.instance.room.GetUI<RoomServantUI>().OnReady();
+                    DuelProvider.instance.room.GetUI<RoomServantUI>().OnReady();
             }
         }
 

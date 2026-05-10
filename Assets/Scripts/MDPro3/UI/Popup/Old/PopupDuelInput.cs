@@ -29,7 +29,7 @@ namespace MDPro3.UI
             }
 
             OcgCore.inputMode = true;
-            Program.instance.ocgcore.GreenBackgroundOff();
+            DuelProvider.instance.ocgcore.GreenBackgroundOff();
         }
 
         public override void OnConfirm()

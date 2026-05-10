@@ -58,7 +58,7 @@ namespace MDPro3.UI
 #endif
             Program.instance.character.GetUI<CharacterSelectorUI>().TextDetailDescription.text = charaProfile;
             Config.Set(CharacterSelector.condition + "Character" + CharacterSelectorUI.player, characterID);
-            Program.instance.ocgcore.CheckCharaFace();
+            DuelProvider.instance.ocgcore.CheckCharaFace();
             Program.instance.character.lastSelectedCharacter = this;
             Program.instance.currentServant.lastSelectable = Selectable;
             GetSelectable().Select();

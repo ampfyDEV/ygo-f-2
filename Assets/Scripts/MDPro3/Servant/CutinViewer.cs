@@ -119,11 +119,11 @@ namespace MDPro3.Servant
             lastSelectedCutinItem.GetSelectable().Select();
         }
 
-#endregion
+        #endregion
 
         public void LoadCutins()
         {
-            if(dirInfos == null || fileInfos == null)
+            if (dirInfos == null || fileInfos == null)
             {
                 var targetFolder = Program.root + "MonsterCutin";
                 var targetFolder2 = Program.root + "MonsterCutin2";
@@ -146,7 +146,7 @@ namespace MDPro3.Servant
 
             for (int i = 0; i < dirInfos.Length; i++)
             {
-                if(int.TryParse(dirInfos[i].Name, out var code))
+                if (int.TryParse(dirInfos[i].Name, out var code))
                 {
                     Card card = CardsManager.GetCard(code);
                     if (card == null)
@@ -157,7 +157,7 @@ namespace MDPro3.Servant
             }
             for (int i = 0; i < fileInfos.Length; i++)
             {
-                if(int.TryParse(fileInfos[i].Name, out var code))
+                if (int.TryParse(fileInfos[i].Name, out var code))
                 {
                     if (!codes.Contains(code))
                     {
@@ -196,7 +196,7 @@ namespace MDPro3.Servant
 
         public static async UniTask Play(int code, int controller)
         {
-            if (playing) 
+            if (playing)
                 return;
             playing = true;
 
@@ -325,7 +325,7 @@ namespace MDPro3.Servant
             var frontEffect = ABLoader.LoadMasterDuelOutDuelObject("SummonMonster_Thunder_power");
             frontEffect.transform.SetParent(Program.instance.container_2D, false);
 
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
                 AudioManager.PlayBgmKeyCard();
 
             await UniTask.WaitForSeconds(CUTIN_PLAY_TIME).ContinueWith(() =>
@@ -347,8 +347,8 @@ namespace MDPro3.Servant
 
         private async UniTask AutoPlayAsync(CancellationToken token)
         {
-            await UniTask.WaitWhile(() => playing, cancellationToken : token);
-            if(!showing)
+            await UniTask.WaitWhile(() => playing, cancellationToken: token);
+            if (!showing)
                 return;
 
             AudioManager.PlayRandomKeyCardBGM();

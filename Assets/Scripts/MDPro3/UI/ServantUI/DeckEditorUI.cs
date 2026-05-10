@@ -1068,7 +1068,7 @@ namespace MDPro3.UI.ServantUI
             UIManager.UIBlackIn(0.3f);
             await UniTask.WaitForSeconds(0.3f);
 
-            OcgCore.handler = Program.instance.room.Handler;
+            OcgCore.handler = DuelProvider.instance.room.Handler;
 
             Program.instance.solo.StartAIForHandTest(port);
             await UniTask.Delay(100);

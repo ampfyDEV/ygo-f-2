@@ -138,7 +138,7 @@ namespace MDPro3.UI
                 if ((p.location & (uint)CardLocation.Onfield) == 0 && !countShowing)
                 {
                     countShowing = true;
-                    Program.instance.ocgcore.GetUI<OcgCoreUI>().ShowLocationCount(p);
+                    DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().ShowLocationCount(p);
                 }
             }
             else
@@ -150,7 +150,7 @@ namespace MDPro3.UI
                 if (countShowing)
                 {
                     countShowing = false;
-                    Program.instance.ocgcore.GetUI<OcgCoreUI>().HidePlaceCount();
+                    DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().HidePlaceCount();
                 }
             }
 
@@ -178,13 +178,13 @@ namespace MDPro3.UI
                     select.SetActive(true);
                 }
                 var selectedCount = 0;
-                foreach(var place in Program.instance.ocgcore.Places)
-                    if(place.selected)
+                foreach (var place in DuelProvider.instance.ocgcore.Places)
+                    if (place.selected)
                         selectedCount++;
                 if (selectedCount == OcgCore.ES_min)
                 {
                     var binaryMaster = new BinaryMaster();
-                    foreach (var place in Program.instance.ocgcore.Places)
+                    foreach (var place in DuelProvider.instance.ocgcore.Places)
                         if (place.selected)
                         {
                             var response = new byte[3];
@@ -193,7 +193,7 @@ namespace MDPro3.UI
                             response[2] = (byte)place.p.sequence;
                             binaryMaster.writer.Write(response);
                         }
-                    Program.instance.ocgcore.SendReturn(binaryMaster.Get());
+                    DuelProvider.instance.ocgcore.SendReturn(binaryMaster.Get());
                 }
             }
             else if (cardSelecting)
@@ -240,8 +240,8 @@ namespace MDPro3.UI
                         card.OnClick();
                     else
                     {
-                        Program.instance.ocgcore.GetUI<OcgCoreUI>().CardDescription.Hide();
-                        Program.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Hide();
+                        DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().CardDescription.Hide();
+                        DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Hide();
                     }
                     foreach (var c in OcgCore.cards)
                         if (c != card)
@@ -255,7 +255,7 @@ namespace MDPro3.UI
                         if ((card.p.location & p.location) > 0)
                             if (card.p.controller == p.controller)
                                 cards.Add(card);
-                    Program.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Show(cards, (CardLocation)p.location, (int)p.controller);
+                    DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Show(cards, (CardLocation)p.location, (int)p.controller);
 
                     if (!buttonsCreated)
                     {
@@ -285,7 +285,7 @@ namespace MDPro3.UI
                     }
                     else
                     {
-                        if (Program.instance.ocgcore.returnAction == null)
+                        if (DuelProvider.instance.ocgcore.returnAction == null)
                             ShowButtons();
                     }
                 }
@@ -294,7 +294,7 @@ namespace MDPro3.UI
 
         private void CreateButtons()
         {
-            if (buttonsCreated || Program.instance.ocgcore.returnAction != null || buttons.Count == 0)
+            if (buttonsCreated || DuelProvider.instance.ocgcore.returnAction != null || buttons.Count == 0)
             {
                 buttons.Clear();
                 return;
@@ -443,7 +443,7 @@ namespace MDPro3.UI
                 selectCard.SetActive(false);
             selectCardPush.SetActive(false);
             selectCardPush.SetActive(true);
-            Program.instance.ocgcore.FieldSelectRefresh(cookieCard);
+            DuelProvider.instance.ocgcore.FieldSelectRefresh(cookieCard);
         }
 
         public void UnselectCardInThisZone()
@@ -451,7 +451,7 @@ namespace MDPro3.UI
             if (OcgCore.currentMessage == GameMessage.SelectCounter)
                 return;
             cardSelected = false;
-            Program.instance.ocgcore.FieldSelectRefresh(cookieCard);
+            DuelProvider.instance.ocgcore.FieldSelectRefresh(cookieCard);
         }
 
         public void CardInThisZoneSelectable()
@@ -571,7 +571,7 @@ namespace MDPro3.UI
             {
                 hintObj = ABLoader.LoadMasterDuelGameObject("fxp_HL_EXdeck_001");
                 hintObj.transform.SetParent(transform, false);
-                int cardCount = Program.instance.ocgcore.GetLocationCardCount((CardLocation)location, controller);
+                int cardCount = DuelProvider.instance.ocgcore.GetLocationCardCount((CardLocation)location, controller);
                 hintObj.transform.localScale = new Vector3(1f, cardCount * 0.1f, 1f);
             }
         }

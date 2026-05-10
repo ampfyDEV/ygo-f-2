@@ -90,7 +90,7 @@ namespace MDPro3
 
     public class GameCard : MonoBehaviour
     {
-        private Card data = new ();
+        private Card data = new();
         private readonly Card lastValidData = new();
         public GPS p;
         private bool m_disabled;
@@ -174,9 +174,9 @@ namespace MDPro3
             hover = UserInput.HoverObject == manager.GetElement("CardModel");
             if (hover)
             {
-                if(p.InMyControl() && HideMyHandCard)
+                if (p.InMyControl() && HideMyHandCard)
                     HideMyHandCard = false;
-                else if(!p.InMyControl() && HideOpHandCard)
+                else if (!p.InMyControl() && HideOpHandCard)
                     HideOpHandCard = false;
             }
             if (!hover) hoving = false;
@@ -239,18 +239,18 @@ namespace MDPro3
                 return;
             if ((p.location & (uint)CardLocation.Hand) == 0)
                 AudioManager.PlaySE("SE_DUEL_SELECT");
-            Program.instance.ocgcore.GetUI<OcgCoreUI>().CardDescription.Show(this, GetMaterial());
+            DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().CardDescription.Show(this, GetMaterial());
             if (data.HasType(CardType.Xyz) && (p.location & (uint)CardLocation.MonsterZone) > 0)
-                Program.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Show(Program.instance.ocgcore.GCS_GetOverlays(this), CardLocation.Overlay, (int)p.controller);
+                DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Show(DuelProvider.instance.ocgcore.GCS_GetOverlays(this), CardLocation.Overlay, (int)p.controller);
             else
-                Program.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Hide();
+                DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Hide();
 
             if (equipedCard != null)
-                Program.instance.ocgcore.ShowEquipLine(model.transform.position, equipedCard.model.transform.position);
+                DuelProvider.instance.ocgcore.ShowEquipLine(model.transform.position, equipedCard.model.transform.position);
             if (targets != null)
-                Program.instance.ocgcore.ShowTargetLines(model.transform.position, targets);
+                DuelProvider.instance.ocgcore.ShowTargetLines(model.transform.position, targets);
 
-            if (buttons.Count == 0 || Program.instance.ocgcore.currentPopup != null)
+            if (buttons.Count == 0 || DuelProvider.instance.ocgcore.currentPopup != null)
                 return;
             foreach (var button in buttonObjs)
                 button.Show();
@@ -368,12 +368,12 @@ namespace MDPro3
 
             var back = manager.GetElement<Transform>("CardModel").GetChild(0).GetComponent<Renderer>();
 
-            back.material = p.controller ==0 ? myProtector : opProtector;
+            back.material = p.controller == 0 ? myProtector : opProtector;
             back.material.renderQueue = 3000;
             back.material.SetFloat("_ZWrite", 1f);
             SetFace();
 
-            model.transform.SetParent(Program.instance.ocgcore.GetFieldTransform(p.controller));
+            model.transform.SetParent(DuelProvider.instance.ocgcore.GetFieldTransform(p.controller));
             if (real)
                 return model;
             else
@@ -388,7 +388,7 @@ namespace MDPro3
 
         private void SetFace()
         {
-            if(cts != null)
+            if (cts != null)
             {
                 cts.Cancel();
                 cts.Dispose();
@@ -405,7 +405,7 @@ namespace MDPro3
             var config = Config.GetBool("VideoCard", true);
             if (config && CardImageLoader.CardHasVideoArt(data.Id))
                 SetFace();
-            else if(!config && isRenderTexture)
+            else if (!config && isRenderTexture)
                 SetFace();
         }
 
@@ -591,9 +591,9 @@ namespace MDPro3
                 int handsCount;
 
                 if (p.InMyControl())
-                    handsCount = Program.instance.ocgcore.GetMyHandCount();
+                    handsCount = DuelProvider.instance.ocgcore.GetMyHandCount();
                 else
-                    handsCount = Program.instance.ocgcore.GetOpHandCount();
+                    handsCount = DuelProvider.instance.ocgcore.GetOpHandCount();
 
                 float x = p.sequence * 4 - (handsCount - 1) * 2;
                 if (p.controller == 0)
@@ -777,7 +777,7 @@ namespace MDPro3
 
         private static float GetMyHandBaseZ()
         {
-            if(DeviceInfo.OnMobile())
+            if (DeviceInfo.OnMobile())
                 return -28 + (30 - Program.instance.camera_.cameraMain.fieldOfView) * 0.7f;
             else
                 return -28f - GetHandDepthOffsetByFov();
@@ -1019,12 +1019,12 @@ namespace MDPro3
         public void UpdateExDeckTop()
         {
             var player = p.controller;
-            if(cacheP != null)
+            if (cacheP != null)
                 player = cacheP.controller;
 
             if (p.InLocation(CardLocation.Extra) ||
                 (cacheP != null && cacheP.InLocation(CardLocation.Extra)))
-                Program.instance.ocgcore.UpdateExDeckTop(player);
+                DuelProvider.instance.ocgcore.UpdateExDeckTop(player);
         }
 
         public async UniTask MoveAsync(GPS gps, bool rush = false, float wait = 0f, float overrideMoveTime = 0f)
@@ -1046,7 +1046,7 @@ namespace MDPro3
                 RefreshData();
             }
 
-            overlays = Program.instance.ocgcore.GCS_GetOverlays(this);
+            overlays = DuelProvider.instance.ocgcore.GCS_GetOverlays(this);
             cacheP = p;
             p = gps;
 
@@ -1071,7 +1071,7 @@ namespace MDPro3
                 overlays[i].p.sequence = gps.sequence;
                 overlays[i].p.position = i;
             }
-            Program.instance.ocgcore.ArrangeCards();
+            DuelProvider.instance.ocgcore.ArrangeCards();
 
             if (currentMessage == GameMessage.Move
                 && cacheP.location != p.location
@@ -1122,16 +1122,16 @@ namespace MDPro3
                 CreateModel();
                 if (cacheP.InLocation(CardLocation.Deck))
                     cacheP.position = (int)CardPosition.FaceDownAttack;
-                model.transform.SetParent(Program.instance.ocgcore.GetFieldTransform(p.controller));
+                model.transform.SetParent(DuelProvider.instance.ocgcore.GetFieldTransform(p.controller));
                 ModelAt(cacheP);
             }
-            if ( nextMoveAction != null)
+            if (nextMoveAction != null)
             {
                 model.SetActive(false);
                 var code = data.Id;
                 if (code == 0)
                 {
-                    code = Program.instance.ocgcore.GetNextConfirmedCardCode();
+                    code = DuelProvider.instance.ocgcore.GetNextConfirmedCardCode();
                     SetCode(code);
                 }
                 nextMoveAction.Invoke(code);
@@ -1197,7 +1197,7 @@ namespace MDPro3
                             moveTime = 0.5f;
                             handAppeal = true;
                         }
-                        if(cacheP != null 
+                        if (cacheP != null
                             && !cacheP.InLocation(CardLocation.Onfield)
                             && p.InLocation(CardLocation.Onfield))
                         {
@@ -1228,7 +1228,7 @@ namespace MDPro3
                 && p.InLocation(CardLocation.Hand))
                 se = "SE_CARD_MOVE_0" + UnityEngine.Random.Range(1, 5);
             //Destroy
-            if(p.IsReason(CardReason.DESTROY)
+            if (p.IsReason(CardReason.DESTROY)
                 && model != null
                 && cacheP.InLocation(CardLocation.Onfield, CardLocation.Hand))
             {
@@ -1302,7 +1302,7 @@ namespace MDPro3
                 else if (p.IsReason(CardReason.Synchro))
                 {
                     se2 = "SE_SUMMON_SYNC_MATERIAL";
-                    if(GetData().HasType(CardType.Tuner))
+                    if (GetData().HasType(CardType.Tuner))
                         trail = "Synchro00TrailFieldCard01";
                     else
                         trail = "Synchro01TrailFieldCard01";
@@ -1324,7 +1324,7 @@ namespace MDPro3
                 if (p.InLocation(CardLocation.Extra)
                     && !p.InLocation(CardLocation.Overlay)
                     && p.InPosition(CardPosition.FaceUp))
-                    Program.instance.ocgcore.SetExDeckTop(this);
+                    DuelProvider.instance.ocgcore.SetExDeckTop(this);
                 var director = fx.GetComponent<PlayableDirector>();
                 _ = director.AutoDestroy();
             }
@@ -1360,13 +1360,13 @@ namespace MDPro3
                     sequence.Pause();
                     if (data.Id == 0)
                     {
-                        var code = Program.instance.ocgcore.GetUpdateDataIdByGameCard(this);
+                        var code = DuelProvider.instance.ocgcore.GetUpdateDataIdByGameCard(this);
                         SetCode(code);
                     }
                     var fxManager = fx.GetComponent<ElementObjectManager>();
                     _ = Program.instance.texture_.LoadDummyCard(
-                        fxManager.GetElement<ElementObjectManager>("DummyCard01"), 
-                        data.Id, cacheP.controller, false, 
+                        fxManager.GetElement<ElementObjectManager>("DummyCard01"),
+                        data.Id, cacheP.controller, false,
                         fxManager.GetElement<Renderer>("DummyCardModel_front02"),
                         fxManager.GetElement<Renderer>("DummyCardModel_front03"));
 
@@ -1419,8 +1419,8 @@ namespace MDPro3
                     && (TypeMatchReason(data.Type, (int)materialCards[0].p.reason)
                     || TypeMatchReason(data.Type, materialCards[0].GetData().Reason)))
                 {
-                    Program.instance.ocgcore.GetUI<OcgCoreUI>().CardDescription.Hide();
-                    Program.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Hide();
+                    DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().CardDescription.Hide();
+                    DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Hide();
 
                     AudioManager.PlaySE(se);
                     summonCard = this;
@@ -1615,11 +1615,11 @@ namespace MDPro3
                 UpdateExDeckTop();
             if ((cacheP != null && cacheP.InLocation(CardLocation.Hand))
                 || p.InLocation(CardLocation.Hand))
-                Program.instance.ocgcore.RefreshHandCardPosition();
+                DuelProvider.instance.ocgcore.RefreshHandCardPosition();
             if (cacheP != null && cacheP.InLocation(CardLocation.Deck, CardLocation.Extra))
-                Program.instance.ocgcore.DuelBGManager.ResizeDecks();
+                DuelProvider.instance.ocgcore.DuelBGManager.ResizeDecks();
             if (cacheP != null && cacheP.InLocation(CardLocation.Grave, CardLocation.Removed))
-                Program.instance.ocgcore.DuelBGManager.RefreshGravesState();
+                DuelProvider.instance.ocgcore.DuelBGManager.RefreshGravesState();
             if ((p.position & (uint)CardPosition.FaceDown) > 0
                 || (p.location & (uint)CardLocation.MonsterZone) == 0)
                 HideLabel();
@@ -1645,7 +1645,7 @@ namespace MDPro3
             if (p.InLocation(CardLocation.Extra)
                 && !p.InLocation(CardLocation.Overlay)
                 && p.InPosition(CardPosition.FaceUp))
-                Program.instance.ocgcore.SetExDeckTop(this);
+                DuelProvider.instance.ocgcore.SetExDeckTop(this);
 
             if (shouldHaveModel && model != null && manager != null)
             {
@@ -1655,9 +1655,9 @@ namespace MDPro3
             }
 
             if (p.InLocation(CardLocation.Deck, CardLocation.Extra))
-                Program.instance.ocgcore.DuelBGManager.ResizeDecks();
+                DuelProvider.instance.ocgcore.DuelBGManager.ResizeDecks();
             if (p.InLocation(CardLocation.Grave, CardLocation.Removed))
-                Program.instance.ocgcore.DuelBGManager.RefreshGravesState();
+                DuelProvider.instance.ocgcore.DuelBGManager.RefreshGravesState();
         }
 
         private void RefreshHandTurnByCode()
@@ -1799,7 +1799,7 @@ namespace MDPro3
             {
                 model?.SetActive(false);
                 dummy.SetActive(true);
-                Program.instance.ocgcore.PlayGraveEffect(p, false);
+                DuelProvider.instance.ocgcore.PlayGraveEffect(p, false);
             });
             sequence.AppendInterval(time);
             sequence.AppendCallback(() =>
@@ -1835,8 +1835,8 @@ namespace MDPro3
             {
                 Destroy(model);
                 dummy.SetActive(true);
-                if(!NextMessageIsMovingToGrave(p.controller))
-                    Program.instance.ocgcore.PlayGraveEffect(p, false);
+                if (!NextMessageIsMovingToGrave(p.controller))
+                    DuelProvider.instance.ocgcore.PlayGraveEffect(p, false);
                 if (p.InMyControl())
                     movingToMyGrave--;
                 else
@@ -1876,8 +1876,8 @@ namespace MDPro3
             {
                 Destroy(model);
                 dummy.SetActive(true);
-                if(!NextMessageIsMovingToExclude(p.controller))
-                    Program.instance.ocgcore.PlayGraveEffect(p, false);
+                if (!NextMessageIsMovingToExclude(p.controller))
+                    DuelProvider.instance.ocgcore.PlayGraveEffect(p, false);
                 if (p.InMyControl())
                     movingToMyExclude--;
                 else
@@ -2054,7 +2054,7 @@ namespace MDPro3
             if (HideMyHandCard && p.InMyControl())
             {
                 var z = GetMyHandBaseZ();
-                if(z > -28f) z = -28f;
+                if (z > -28f) z = -28f;
                 targetPosition.z = z;
             }
             if (HideOpHandCard && !p.InMyControl())
@@ -2078,7 +2078,7 @@ namespace MDPro3
         public void SetHandDefault()
         {
             if (model == null || !p.InLocation(CardLocation.Hand))
-                return;            
+                return;
             appealed = false;
             KillHandTransformTweens(
                 manager.GetElement<Transform>("Pivot"),
@@ -2096,9 +2096,9 @@ namespace MDPro3
         {
             if (inAnimation || !p.InLocation(CardLocation.Hand))
                 return;
-            if(model == null)
+            if (model == null)
                 ShowUnexpectedModelMissingError("AnimationHandHover");
-            
+
             var offset = manager.GetElement<Transform>("Offset");
             DOTween.Kill(offset, false);
             offset.DOLocalMove(new Vector3(0, 2, 1), 0.1f);
@@ -2133,7 +2133,7 @@ namespace MDPro3
             GameObject model;
             if (ThisLocationShouldHaveModel(p))
             {
-                if(this.model == null)
+                if (this.model == null)
                 {
                     ShowUnexpectedModelMissingError("AnimationNegate");
                     CreateModel();
@@ -2375,20 +2375,20 @@ namespace MDPro3
             var turnEulerAngles = turn.localEulerAngles;
 
             var sequence = DOTween.Sequence();
-            if(id > 0)
+            if (id > 0)
                 sequence.AppendInterval(id);
 
             var endPosition = new Vector3(0f, 2f, 3f);
             if (p.InLocation(CardLocation.Grave, CardLocation.Removed))
                 endPosition.z = 0f;
 
-            sequence.Append(offset.DOLocalMove(endPosition, 0.1f).OnStart(() => 
+            sequence.Append(offset.DOLocalMove(endPosition, 0.1f).OnStart(() =>
             {
                 model.SetActive(true);
                 ShowFaceDownCardOrNot(false);
                 AudioManager.PlaySE("SE_CARDVIEW_02");
-                if(Program.instance.ocgcore.GetAutoInfo())
-                    Program.instance.ocgcore.GetUI<OcgCoreUI>().CardDescription.Show(this, null);
+                if (DuelProvider.instance.ocgcore.GetAutoInfo())
+                    DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().CardDescription.Show(this, null);
             }));
             sequence.Join(turn.DOLocalRotate(Vector3.zero, 0.1f).OnComplete(() =>
             {
@@ -2461,7 +2461,7 @@ namespace MDPro3
             GameObject model;
             if (ThisLocationShouldHaveModel(p))
             {
-                if(this.model == null)
+                if (this.model == null)
                 {
                     ShowUnexpectedModelMissingError("AnimationTarget");
                     CreateModel();
@@ -2494,7 +2494,7 @@ namespace MDPro3
 
         public void AnimationLandShake(GameCard card, int shakeLevel)
         {
-            if(shakeLevel == 0)
+            if (shakeLevel == 0)
                 return;
             if (card == this)
                 return;
@@ -2540,7 +2540,7 @@ namespace MDPro3
                         .Join(model.transform.DORotateQuaternion(originalRotation, duration / 2).SetEase(Ease.InQuad));
                 }
             }
-            else if(shakeLevel == 1)
+            else if (shakeLevel == 1)
             {
                 int bounceCount = 4;
                 float height = 3f;
@@ -2576,7 +2576,7 @@ namespace MDPro3
         {
             CreateModel();
             var pTop = p.Copy();
-            pTop.sequence = (uint)Program.instance.ocgcore.GetLocationCardCount((CardLocation)p.location, p.controller) - 1;
+            pTop.sequence = (uint)DuelProvider.instance.ocgcore.GetLocationCardCount((CardLocation)p.location, p.controller) - 1;
 
             ModelAt(pTop);
             model.SetActive(false);
@@ -2585,14 +2585,14 @@ namespace MDPro3
             sequence.AppendInterval(1f * id);
             sequence.Append(turn.DOLocalMoveY(2, 0.1f).OnStart(() =>
             {
-                if (Program.instance.ocgcore.GetAutoInfo())
-                    Program.instance.ocgcore.GetUI<OcgCoreUI>().CardDescription.Show(this, null);
+                if (DuelProvider.instance.ocgcore.GetAutoInfo())
+                    DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().CardDescription.Show(this, null);
 
                 model.SetActive(true);
-                if (Program.instance.ocgcore.GetLocationCardCount(CardLocation.Deck, p.controller) == 1)
+                if (DuelProvider.instance.ocgcore.GetLocationCardCount(CardLocation.Deck, p.controller) == 1)
                 {
-                    var deckModel = Program.instance.ocgcore.GetDeckModel(p.controller, CardLocation.Deck);
-                    Program.instance.ocgcore.SetDeckModelActive(deckModel, false);
+                    var deckModel = DuelProvider.instance.ocgcore.GetDeckModel(p.controller, CardLocation.Deck);
+                    DuelProvider.instance.ocgcore.SetDeckModelActive(deckModel, false);
                 }
             }));
             sequence.Join(turn.DOLocalRotate(Vector3.zero, 0.1f));
@@ -2611,8 +2611,8 @@ namespace MDPro3
             sequence.OnComplete(() =>
             {
                 Destroy(model);
-                var deckModel = Program.instance.ocgcore.GetDeckModel(p.controller, CardLocation.Deck);
-                Program.instance.ocgcore.SetDeckModelActive(deckModel, true);
+                var deckModel = DuelProvider.instance.ocgcore.GetDeckModel(p.controller, CardLocation.Deck);
+                DuelProvider.instance.ocgcore.SetDeckModelActive(deckModel, true);
             });
 
             return sequence;
@@ -2689,8 +2689,8 @@ namespace MDPro3
             var t3 = manager.GetElement<Transform>("EffectHighlightYellowSelect").GetChild(0);
             var t4 = manager.GetElement<Transform>("EffectHighlightBlueSelect").GetChild(0);
             var needDown = p.InPosition(CardPosition.FaceUp);
-            if(p.InLocation(CardLocation.Hand))
-                needDown  = true;
+            if (p.InLocation(CardLocation.Hand))
+                needDown = true;
             var position = new Vector3(0f, needDown ? -0.05f : 0.05f, 0f);
             t1.localPosition = position;
             t2.localPosition = position;
@@ -2738,7 +2738,7 @@ namespace MDPro3
 
         public void RefreshLabel()
         {
-            if(model == null) 
+            if (model == null)
                 return;
             if ((p.location & (uint)CardLocation.Onfield) == 0 || (p.position & (uint)CardPosition.FaceUp) == 0)
             {
@@ -2770,7 +2770,7 @@ namespace MDPro3
                 if (data.HasType(CardType.Xyz))
                 {
                     manager.GetElement("MonsterMaterialsRoot").SetActive(true);
-                    int overlayCounts = Program.instance.ocgcore.GCS_GetOverlays(this).Count;
+                    int overlayCounts = DuelProvider.instance.ocgcore.GCS_GetOverlays(this).Count;
                     manager.GetElement<TextMeshPro>("TextMonsterMaterials").text = overlayCounts.ToString();
                 }
                 else
@@ -3303,7 +3303,7 @@ namespace MDPro3
             if (NeedShowCloseup())
             {
                 var renderer = manager.GetElement<MeshRenderer>("Closeup");
-                if(renderer.material.mainTexture == null)
+                if (renderer.material.mainTexture == null)
                     closeupShowing = false;
                 if (!closeupShowing)
                 {
@@ -3396,13 +3396,13 @@ namespace MDPro3
         {
             if (model == null)
                 return false;
-            if(!CloseupConfig())
+            if (!CloseupConfig())
                 return false;
-            if((p.location & (uint)CardLocation.MonsterZone) == 0)
+            if ((p.location & (uint)CardLocation.MonsterZone) == 0)
                 return false;
             if ((p.position & (uint)CardPosition.FaceDown) > 0)
                 return false;
-            if(!File.Exists(Program.PATH_CLOSEUP + data.Id + Program.EXPANSION_PNG))
+            if (!File.Exists(Program.PATH_CLOSEUP + data.Id + Program.EXPANSION_PNG))
                 return false;
             return true;
         }
@@ -3420,11 +3420,11 @@ namespace MDPro3
 
         public bool NeedShowFaceDownCard()
         {
-            if(data.Id == 0)
+            if (data.Id == 0)
                 return false;
-            if((p.position & (uint)CardPosition.FaceUp) > 0)
+            if ((p.position & (uint)CardPosition.FaceUp) > 0)
                 return false;
-            if((p.location & (uint)CardLocation.Onfield) == 0)
+            if ((p.location & (uint)CardLocation.Onfield) == 0)
                 return false;
 
             return true;
@@ -3579,7 +3579,7 @@ namespace MDPro3
         public void AddChain(int i)
         {
             var obj = ABLoader.LoadMasterDuelGameObject("ChainSpot");
-            Program.instance.ocgcore.AllGameObjects.Add(obj);
+            DuelProvider.instance.ocgcore.AllGameObjects.Add(obj);
             chains.Add(new Chain() { i = i, chainSpot = obj.GetComponent<DuelChainSpot>() });
             chains[^1].chainSpot.Play(i, p, model != null);
         }

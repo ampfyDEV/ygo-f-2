@@ -67,11 +67,11 @@ namespace MDPro3.UI
                 playerMaterial.SetFloat("_Active", 1);
 
                 //Click
-                if (!EventSystem.current.IsPointerOverGameObject() 
-                    && UserInput.HoverObject == collider_.gameObject 
+                if (!EventSystem.current.IsPointerOverGameObject()
+                    && UserInput.HoverObject == collider_.gameObject
                     && UserInput.MouseLeftUp)
                 {
-                    if (Program.instance.ocgcore.currentPopup == null)
+                    if (DuelProvider.instance.ocgcore.currentPopup == null)
                     {
                         var tasks = new List<string>
                         {OcgCore.duelPhase.ToString()};
@@ -82,28 +82,28 @@ namespace MDPro3.UI
                             tasks.Add(DuelPhase.Main2.ToString());
                         if (endPhase)
                             tasks.Add(DuelPhase.End.ToString());
-                        Program.instance.ocgcore.GetUI<OcgCoreUI>().ShowPopupPhase(tasks);
-                        Program.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Hide();
+                        DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().ShowPopupPhase(tasks);
+                        DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Hide();
                     }
                 }
 
                 if (!EventSystem.current.IsPointerOverGameObject()
-                    && UserInput.HoverObject == collider_.gameObject 
+                    && UserInput.HoverObject == collider_.gameObject
                     && UserInput.MouseLeftPressing)
                     playerMaterial.SetFloat("_PressButton", 1);
                 else
                     playerMaterial.SetFloat("_PressButton", 0);
 
                 //MouseOver
-                if (!EventSystem.current.IsPointerOverGameObject() 
-                    && UserInput.HoverObject == collider_.gameObject 
+                if (!EventSystem.current.IsPointerOverGameObject()
+                    && UserInput.HoverObject == collider_.gameObject
                     && !hover)
                 {
                     hover = true;
                     DOTween.To(() => mouseOver, x => mouseOver = x, 1, 0.2f);
                 }
                 else if (!EventSystem.current.IsPointerOverGameObject()
-                    && UserInput.HoverObject != collider_ 
+                    && UserInput.HoverObject != collider_
                     && hover)
                 {
                     hover = false;

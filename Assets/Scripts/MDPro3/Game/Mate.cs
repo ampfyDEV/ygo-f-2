@@ -243,7 +243,7 @@ namespace MDPro3
                 m_collider.size = new Vector3(2, 2, 2);
                 m_collider.center = new Vector3(0, 1, 0);
 
-                if (Program.instance.currentServant == Program.instance.ocgcore)
+                if (Program.instance.currentServant == DuelProvider.instance.ocgcore)
                     Tools.ChangeLayer(gameObject, "Default");
                 for (int i = 0; i < transform.childCount; i++)
                 {
@@ -277,7 +277,7 @@ namespace MDPro3
                     }
                 }
                 transform.localScale = Vector3.one * 5;
-                if(huge)
+                if (huge)
                     transform.localScale = Vector3.one * 4f;
 
                 var animator = GetComponent<Animator>();
@@ -436,8 +436,8 @@ namespace MDPro3
                         case MateAction.Victory:
                             break;
                         case MateAction.Defeat:
-                            if (directorB != null) 
-                            { 
+                            if (directorB != null)
+                            {
                                 directorB.Play();
                                 MateViewer.PlayCrossDuelSe(directorB.name.Replace("(Clone)", string.Empty));
                                 animator.SetBool("IsKnockDown", true);

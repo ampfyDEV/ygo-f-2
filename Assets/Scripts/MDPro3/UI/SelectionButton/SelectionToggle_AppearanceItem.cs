@@ -116,7 +116,7 @@ namespace MDPro3.UI
                 }
                 else //CrossDuel Mate
                 {
-                    if(!cachedArtSprites.TryGetValue(itemID, out var sprite))
+                    if (!cachedArtSprites.TryGetValue(itemID, out var sprite))
                     {
                         var art = await CardImageLoader.LoadArtAsync(itemID, true, cancellationToken);
                         if (cancellationToken.IsCancellationRequested || this == null)
@@ -169,7 +169,7 @@ namespace MDPro3.UI
             {
                 if (path.StartsWith("DeckCase"))
                 {
-                    if(DeckEditor.Deck.Case != itemID)
+                    if (DeckEditor.Deck.Case != itemID)
                     {
                         DeckEditor.Deck.Case = itemID;
                         Program.instance.deckEditor.GetUI<DeckEditorUI>().DeckView.SetDirty(true);
@@ -236,8 +236,8 @@ namespace MDPro3.UI
                 if (Appearance.condition == Appearance.Condition.Duel
                     && Appearance.player == "0"
                     && Config.GetBool("OverrideDeckAppearance", false)
-                    && Program.instance.room != null
-                    && Program.instance.room.showing
+                    && DuelProvider.instance.room != null
+                    && DuelProvider.instance.room.showing
                     && RoomServant.SelfType < 4)
                     TcpHelper.CtosMessage_UpdateAppearanceFromCurrentDeck();
             }
@@ -412,7 +412,7 @@ namespace MDPro3.UI
 
         public void Show()
         {
-            if(hideCoroutine != null)
+            if (hideCoroutine != null)
             {
                 StopCoroutine(hideCoroutine);
                 hideCoroutine = null;
@@ -430,7 +430,7 @@ namespace MDPro3.UI
         {
             StopPremiumCrossfade();
 
-            if(refreshCoroutine != null)
+            if (refreshCoroutine != null)
                 StopCoroutine(refreshCoroutine);
 
             if (hideCoroutine != null)

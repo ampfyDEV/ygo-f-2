@@ -134,7 +134,7 @@ namespace MDPro3.UI
 
         private void OnClick()
         {
-            Program.instance.ocgcore.GetUI<OcgCoreUI>().CardDescription.Show(card, face.material);
+            DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().CardDescription.Show(card, face.material);
         }
     }
 }

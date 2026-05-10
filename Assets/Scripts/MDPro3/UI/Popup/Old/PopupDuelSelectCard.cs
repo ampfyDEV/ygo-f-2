@@ -48,8 +48,8 @@ namespace MDPro3.UI
 
         public override void InitializeSelections()
         {
-            core = Program.instance.ocgcore;
-            if(OcgCore.currentMessage == GameMessage.ConfirmCards)
+            core = DuelProvider.instance.ocgcore;
+            if (OcgCore.currentMessage == GameMessage.ConfirmCards)
             {
                 btnConfirm.gameObject.SetActive(false);
                 btnCancel.gameObject.SetActive(false);
@@ -177,7 +177,7 @@ namespace MDPro3.UI
                 }
                 title.text = hint + "-" + selectedSum[0].ToString() + Program.STRING_SLASH + OcgCore.ES_level;
             }
-            else if(OcgCore.currentMessage == GameMessage.ConfirmCards)
+            else if (OcgCore.currentMessage == GameMessage.ConfirmCards)
             {
 
             }
@@ -284,7 +284,7 @@ namespace MDPro3.UI
                                     selections.Add(desc);
                                     responses.Add(mono.card.effects[i].ptr);
                                 }
-                                Program.instance.ocgcore.GetUI<OcgCoreUI>().ShowPopupSelection(selections, responses);
+                                DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().ShowPopupSelection(selections, responses);
                             }
                         }
                     break;
@@ -311,7 +311,7 @@ namespace MDPro3.UI
                 case GameMessage.SelectIdleCmd:
                 case GameMessage.SelectBattleCmd:
                     PopupDuelSelectCardItem selectedCard = null;
-                    foreach(var mono in monos)
+                    foreach (var mono in monos)
                         if (mono.selected)
                         {
                             selectedCard = mono;
@@ -339,7 +339,7 @@ namespace MDPro3.UI
                                 selections.Add(desc);
                                 responses.Add(selectedCard.card.effects[i].ptr);
                             }
-                            Program.instance.ocgcore.GetUI<OcgCoreUI>().ShowPopupSelection(selections, responses);
+                            DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().ShowPopupSelection(selections, responses);
                             needSend = false;
                         }
                     }
@@ -364,12 +364,12 @@ namespace MDPro3.UI
                             binaryMaster.writer.Write(mono.card.GetData().Id);
                             SendReturn(binaryMaster.Get());
                         }
-                    Program.instance.ocgcore.ClearAnnounceCards();
+                    DuelProvider.instance.ocgcore.ClearAnnounceCards();
                     break;
                 case GameMessage.SortCard:
                 case GameMessage.SortChain:
                     var bytes = new byte[monos.Count];
-                    for(int i = 0; i < monos.Count; i++)
+                    for (int i = 0; i < monos.Count; i++)
                         bytes[i] = (byte)(monos[i].GetOrder() - 1);
                     binaryMaster = new BinaryMaster();
                     binaryMaster.writer.Write(bytes);
@@ -402,8 +402,8 @@ namespace MDPro3.UI
                         string.Empty,
                         string.Empty
                     };
-                    whenQuitDo = () => { Program.instance.ocgcore.GetUI<OcgCoreUI>().ShowPopupInput(ss, Program.instance.ocgcore.OnAnnounceCard, null); };
-                    Program.instance.ocgcore.ClearAnnounceCards();
+                    whenQuitDo = () => { DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().ShowPopupInput(ss, DuelProvider.instance.ocgcore.OnAnnounceCard, null); };
+                    DuelProvider.instance.ocgcore.ClearAnnounceCards();
                     break;
                 case GameMessage.SelectIdleCmd:
                 case GameMessage.SelectBattleCmd:
@@ -425,7 +425,7 @@ namespace MDPro3.UI
         {
             DOTween.To(v => { }, 0, 0, transitionTime).OnComplete(() =>
             {
-                Program.instance.ocgcore.messageDispatcher.playerResponed = true;
+                DuelProvider.instance.ocgcore.messageDispatcher.playerResponed = true;
             });
             AudioManager.PlaySE("SE_DUEL_DECIDE");
             Hide();
@@ -440,10 +440,10 @@ namespace MDPro3.UI
             window.DOAnchorPos(new Vector2(0f, -1100f), transitionTime).OnComplete(() =>
             {
                 Destroy(gameObject);
-                Program.instance.ocgcore.returnAction = null;
+                DuelProvider.instance.ocgcore.returnAction = null;
                 whenQuitDo?.Invoke();
             });
-            Program.instance.ocgcore.currentPopup = null;
+            DuelProvider.instance.ocgcore.currentPopup = null;
         }
     }
 }

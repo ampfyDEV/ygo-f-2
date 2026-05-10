@@ -102,7 +102,7 @@ namespace MDPro3
             //p.writer.WriteUnicode(result, result.Length + 1);
             //ReceiveHandler(p.Get());
 
-            MDPro3.Program.instance.ocgcore.StocMessage_Error(result);
+            MDPro3.DuelProvider.instance.ocgcore.StocMessage_Error(result);
         }
 
         private void ReceiveHandler(byte[] buffer)
@@ -120,7 +120,7 @@ namespace MDPro3
 
         public void Response(byte[] resp)
         {
-            //UnityEngine.Debug.Log(Program.instance.ocgcore.currentMessage + ": " + BitConverter.ToString(resp));
+            //UnityEngine.Debug.Log(DuelProvider.instance.ocgcore.currentMessage + ": " + BitConverter.ToString(resp));
             ygopro.Response(resp);
         }
 
@@ -138,17 +138,17 @@ namespace MDPro3
 
                 OcgCore.condition = OcgCore.Condition.Duel;
                 OcgCore.isFirst = true;
-                Program.instance.ocgcore.returnServant = DeckEditor.ToHandTest ? Program.instance.deckEditor : Program.instance.puzzle;
+                DuelProvider.instance.ocgcore.returnServant = DeckEditor.ToHandTest ? Program.instance.deckEditor : Program.instance.puzzle;
                 OcgCore.timeLimit = 0;
                 OcgCore.inPuzzle = true;
-                Program.instance.ShiftToServant(Program.instance.ocgcore);
+                Program.instance.ShiftToServant(DuelProvider.instance.ocgcore);
                 OcgCore.handler = Response;
             }
         }
 
         public void StartAI()
         {
-            //Program.instance.ocgcore.handler = Response;
+            //DuelProvider.instance.ocgcore.handler = Response;
         }
 
         public void StartDuel()

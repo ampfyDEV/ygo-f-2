@@ -45,96 +45,96 @@ namespace YgomGame.Duel
 
 		private LabeledPlayableController m_LPController;
 
-        private void Awake()
-        {
-            m_LPController = LabeledPlayableController.Create(GetComponent<PlayableDirector>());
+		private void Awake()
+		{
+			m_LPController = LabeledPlayableController.Create(GetComponent<PlayableDirector>());
 			foreach (var sr in transform.GetComponentsInChildren<SpriteRenderer>(true))
 				sr.sortingLayerName = "ChainSpot";
-        }
+		}
 
 		public void Play(int chainNum, GPS p, bool modelExist)
 		{
-            if (chainNum < 10)
-            {
-                m_EOManager.GetElement("DummyNum02_01").SetActive(false);
-                m_EOManager.GetElement("DummyNum02_02").SetActive(false);
-                m_EOManager.GetElement<SpriteRenderer>("DummyNum01").sprite = GetNumSprite(chainNum);
-            }
-            else
-            {
-                m_EOManager.GetElement("DummyNum01").SetActive(false);
-                int tensDigit = (chainNum / 10) % 10;
-                int onesDigit = chainNum % 10;
-                m_EOManager.GetElement<SpriteRenderer>("DummyNum02_01").sprite = GetNumSprite(tensDigit);
-                m_EOManager.GetElement<SpriteRenderer>("DummyNum02_02").sprite = GetNumSprite(onesDigit);
-            }
+			if (chainNum < 10)
+			{
+				m_EOManager.GetElement("DummyNum02_01").SetActive(false);
+				m_EOManager.GetElement("DummyNum02_02").SetActive(false);
+				m_EOManager.GetElement<SpriteRenderer>("DummyNum01").sprite = GetNumSprite(chainNum);
+			}
+			else
+			{
+				m_EOManager.GetElement("DummyNum01").SetActive(false);
+				int tensDigit = (chainNum / 10) % 10;
+				int onesDigit = chainNum % 10;
+				m_EOManager.GetElement<SpriteRenderer>("DummyNum02_01").sprite = GetNumSprite(tensDigit);
+				m_EOManager.GetElement<SpriteRenderer>("DummyNum02_02").sprite = GetNumSprite(onesDigit);
+			}
 
 			var position = GameCard.GetCardPosition(p);
 			var offsetY = 0f;
-			if(p.InLocation(CardLocation.Hand))
+			if (p.InLocation(CardLocation.Hand))
 				offsetY = 3f;
-			else if(p.InLocation(CardLocation.Deck, CardLocation.Extra))
-                offsetY = 0.11f * Program.instance.ocgcore.GetLocationCardCount((CardLocation)p.location, p.controller);
+			else if (p.InLocation(CardLocation.Deck, CardLocation.Extra))
+				offsetY = 0.11f * DuelProvider.instance.ocgcore.GetLocationCardCount((CardLocation)p.location, p.controller);
 			position.y += offsetY;
 			transform.position = position;
 			transform.localScale = GameCard.GetCardScale(p);
 
-            if (!modelExist)
-                Destroy(m_EOManager.GetElement(LABEL_ICON_CHAINWRAP));
-			if(p.InLocation(CardLocation.MonsterZone) && p.InPosition(CardPosition.Defence))
-                m_EOManager.GetElement<Transform>(LABEL_ICON_CHAINWRAP).localEulerAngles = new Vector3(0, 90, 0);
-            if (chainNum == 1)
-                AudioManager.nextMuteSE = "SE_DUELCHAIN_01";
-        }
+			if (!modelExist)
+				Destroy(m_EOManager.GetElement(LABEL_ICON_CHAINWRAP));
+			if (p.InLocation(CardLocation.MonsterZone) && p.InPosition(CardPosition.Defence))
+				m_EOManager.GetElement<Transform>(LABEL_ICON_CHAINWRAP).localEulerAngles = new Vector3(0, 90, 0);
+			if (chainNum == 1)
+				AudioManager.nextMuteSE = "SE_DUELCHAIN_01";
+		}
 
-        Sprite GetNumSprite(int num)
+		Sprite GetNumSprite(int num)
 		{
-			switch(num)
+			switch (num)
 			{
 				case 0:
 					return TextureManager.container.chainCircleNum0;
-                case 1:
-                    return TextureManager.container.chainCircleNum1;
-                case 2:
-                    return TextureManager.container.chainCircleNum2;
-                case 3:
-                    return TextureManager.container.chainCircleNum3;
-                case 4:
-                    return TextureManager.container.chainCircleNum4;
-                case 5:
-                    return TextureManager.container.chainCircleNum5;
-                case 6:
-                    return TextureManager.container.chainCircleNum6;
-                case 7:
-                    return TextureManager.container.chainCircleNum7;
-                case 8:
-                    return TextureManager.container.chainCircleNum8;
-                case 9:
-                    return TextureManager.container.chainCircleNum9;
+				case 1:
+					return TextureManager.container.chainCircleNum1;
+				case 2:
+					return TextureManager.container.chainCircleNum2;
+				case 3:
+					return TextureManager.container.chainCircleNum3;
+				case 4:
+					return TextureManager.container.chainCircleNum4;
+				case 5:
+					return TextureManager.container.chainCircleNum5;
+				case 6:
+					return TextureManager.container.chainCircleNum6;
+				case 7:
+					return TextureManager.container.chainCircleNum7;
+				case 8:
+					return TextureManager.container.chainCircleNum8;
+				case 9:
+					return TextureManager.container.chainCircleNum9;
 				default:
 					return TextureManager.container.typeNone;
-            }
-        }
+			}
+		}
 
 		IEnumerator PlayLabel(int type)
 		{
 			while (m_LPController.loopMixerBehaviour == null)
 				yield return null;
-			if(type == 0)
-                m_LPController.PlayLabel("ChainResolveBegin", m_LPController.loopMixerBehaviour.loopClips[1]);
-			else if(type == 1)
-                m_LPController.PlayLabel("ChainResolveEnd", (TimelineClip)null);
-        }
+			if (type == 0)
+				m_LPController.PlayLabel("ChainResolveBegin", m_LPController.loopMixerBehaviour.loopClips[1]);
+			else if (type == 1)
+				m_LPController.PlayLabel("ChainResolveEnd", (TimelineClip)null);
+		}
 
-        public void OnChainResolveBegin()
+		public void OnChainResolveBegin()
 		{
 			StartCoroutine(PlayLabel(0));
 		}
 
 		public void OnChainResolveEnd()
 		{
-            StartCoroutine(PlayLabel(1));
-        }
+			StartCoroutine(PlayLabel(1));
+		}
 
 		public void OnChainSetMore()
 		{

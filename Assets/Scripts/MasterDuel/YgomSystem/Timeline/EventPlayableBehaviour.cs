@@ -9,29 +9,29 @@ using UnityEngine.Playables;
 
 namespace YgomSystem.Timeline
 {
-	public class EventPlayableBehaviour : PlayableBehaviour
-	{
-		public class EventInfo
-		{
-			public string label;
+    public class EventPlayableBehaviour : PlayableBehaviour
+    {
+        public class EventInfo
+        {
+            public string label;
 
-			public double time;
+            public double time;
 
-			public bool isDone;
-		}
+            public bool isDone;
+        }
 
-		public List<EventInfo> eventList;
+        public List<EventInfo> eventList;
 
-		public double startTime;
+        public double startTime;
 
-		private bool processed;
+        private bool processed;
 
-		//DIY
+        //DIY
         public string label;
         PlayableDirector director;
 
         public override void OnBehaviourPlay(Playable playable, FrameData info)
-		{
+        {
             PlayContent();
             foreach (var e in eventList)
             {
@@ -47,25 +47,25 @@ namespace YgomSystem.Timeline
         }
 
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
-		{
-            if(playable.GetPlayState() == PlayState.Playing)
+        {
+            if (playable.GetPlayState() == PlayState.Playing)
                 PlayContent();
         }
 
         public override void OnBehaviourPause(Playable playable, FrameData info)
-		{
+        {
         }
 
-		private void CheckEventInfos(Playable playable)
-		{
-		}
+        private void CheckEventInfos(Playable playable)
+        {
+        }
 
-		bool played = false;
-		private void PlayContent()
-		{
-			if(played)
-				return;
-			played = true;
+        bool played = false;
+        private void PlayContent()
+        {
+            if (played)
+                return;
+            played = true;
             if (label == "StartCard")
             {
                 OcgCore.startCard?.Invoke();
@@ -74,7 +74,7 @@ namespace YgomSystem.Timeline
             {
                 if (Program.instance == null)
                     return;
-                if (Program.instance.currentServant != Program.instance.ocgcore)
+                if (Program.instance.currentServant != DuelProvider.instance.ocgcore)
                     return;
                 if (OcgCore.summonCard == null)
                     return;
@@ -82,7 +82,7 @@ namespace YgomSystem.Timeline
                 if (CutinViewer.CutinExist(code))
                     _ = CutinViewer.Play(code, (int)OcgCore.summonCard.p.controller);
             }
-            else if(label == "Next")
+            else if (label == "Next")
             {
                 OcgCore.nextEventAction?.Invoke();
             }

@@ -39,7 +39,7 @@ namespace MDPro3
 
             var director = GetPlayableDirector();
             _ = director.AutoDestroy(false);
-            Program.instance.ocgcore.AllGameObjects.Add(director.gameObject);
+            DuelProvider.instance.ocgcore.AllGameObjects.Add(director.gameObject);
             var strongSummontime = GetDirectorLabelTime(director, "StrongSummon");
             var startCardTime = GetDirectorLabelTime(director, "StartCard");
 
@@ -47,7 +47,7 @@ namespace MDPro3
             var inputTask = UniTask.WaitUntil(() => UserInput.MouseLeftDown);
 
             await UniTask.WhenAny(directorTask, inputTask);
-            if(director.time < strongSummontime)
+            if (director.time < strongSummontime)
             {
                 director.time = strongSummontime;
                 AudioManager.ResetSESource();
@@ -179,14 +179,14 @@ namespace MDPro3
                 }
             }
 
-            Program.instance.ocgcore.AllGameObjects.Add(unitCards);
+            DuelProvider.instance.ocgcore.AllGameObjects.Add(unitCards);
             var director = unitCards.GetComponent<PlayableDirector>();
             await director.AutoDestroy();
         }
 
         private static PlayableDirector GetPlayableDirector()
         {
-            if(data.HasType(CardType.Fusion))
+            if (data.HasType(CardType.Fusion))
                 return GetFusionDirector();
             else if (data.HasType(CardType.Synchro))
                 return GetSynchroDirector();
@@ -369,7 +369,7 @@ namespace MDPro3
                 DestroyLinkTrail(trail3, linkMarkers, linkCount > 3 ? 2 : 1);
             }
 
-            if(DeviceInfo.OnAndroid())
+            if (DeviceInfo.OnAndroid())
                 foreach (var child in go.transform.GetComponentsInChildren<MeshRenderer>(true))
                     if (child.name.StartsWith("SummonLinkTrail"))
                         child.material.GetTexture("_Texture2D").wrapMode = TextureWrapMode.Clamp;
@@ -426,7 +426,7 @@ namespace MDPro3
         private static async UniTask RefreshCardFace(Renderer face, int code, bool post = false)
         {
             var texture = await CardImageLoader.LoadCardAsync(code, false, face.GetCancellationTokenOnDestroy());
-            if(!post)
+            if (!post)
                 face.material = MaterialLoader.GetCardMaterial(code, true);
             face.material.mainTexture = texture;
         }
@@ -578,7 +578,7 @@ namespace MDPro3
         {
             if (Program.instance == null)
                 return;
-            if (Program.instance.currentServant != Program.instance.ocgcore)
+            if (Program.instance.currentServant != DuelProvider.instance.ocgcore)
                 return;
             if (dummyCard == null)
                 return;

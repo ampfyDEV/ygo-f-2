@@ -252,7 +252,7 @@ namespace MDPro3.UI.ServantUI
             TextPlaceCount.rectTransform.localScale = RectPlaceCount.localScale;
             RectPlaceCount.anchoredPosition = position;
             RectPlaceCount.gameObject.SetActive(true);
-            TextPlaceCount.text = Program.instance.ocgcore.GetLocationCardCount((CardLocation)p.location, p.controller).ToString();
+            TextPlaceCount.text = DuelProvider.instance.ocgcore.GetLocationCardCount((CardLocation)p.location, p.controller).ToString();
         }
 
         public void HidePlaceCount()
@@ -424,14 +424,14 @@ namespace MDPro3.UI.ServantUI
         private void OnSaveReplay(string replayName)
         {
             TcpHelper.SaveRecord(replayName);
-            Program.instance.ocgcore.returnAction = null;
-            Program.instance.ocgcore.OnDuelResultConfirmed();
+            DuelProvider.instance.ocgcore.returnAction = null;
+            DuelProvider.instance.ocgcore.OnDuelResultConfirmed();
         }
 
         private void OnGiveUpReplay()
         {
-            Program.instance.ocgcore.returnAction = null;
-            Program.instance.ocgcore.OnDuelResultConfirmed();
+            DuelProvider.instance.ocgcore.returnAction = null;
+            DuelProvider.instance.ocgcore.OnDuelResultConfirmed();
         }
 
         public void OnStop()
@@ -468,7 +468,7 @@ namespace MDPro3.UI.ServantUI
 
             ButtonAcc.gameObject.SetActive(false);
             ButtonNor.gameObject.SetActive(true);
-            Program.instance.ocgcore.SetBgTimeScale(1f / targetSpeed);
+            DuelProvider.instance.ocgcore.SetBgTimeScale(1f / targetSpeed);
         }
 
         public void OnNor()
@@ -482,7 +482,7 @@ namespace MDPro3.UI.ServantUI
 #endif
             ButtonAcc.gameObject.SetActive(true);
             ButtonNor.gameObject.SetActive(false);
-            Program.instance.ocgcore.SetBgTimeScale(targetSpeed);
+            DuelProvider.instance.ocgcore.SetBgTimeScale(targetSpeed);
         }
 
         public void OnTiming()
@@ -615,7 +615,7 @@ namespace MDPro3.UI.ServantUI
         private bool bgDetailShowing;
         public void RefreshBgDetail()
         {
-            var core = Program.instance.ocgcore;
+            var core = DuelProvider.instance.ocgcore;
             var info = core.messageDispatcher.duel.duelBGManager.fieldSummonRightInfo;
             if (info == null)
                 return;
@@ -652,7 +652,7 @@ namespace MDPro3.UI.ServantUI
             foreach (var card in cards)
                 card.HideHiddenLabel();
 
-            var info = Program.instance.ocgcore.messageDispatcher.duel.duelBGManager.fieldSummonRightInfo;
+            var info = DuelProvider.instance.ocgcore.messageDispatcher.duel.duelBGManager.fieldSummonRightInfo;
             if (info != null)
             {
                 if (wasShowing || info.activeSelf)
@@ -671,7 +671,7 @@ namespace MDPro3.UI.ServantUI
 
         private void ShowBgDetail()
         {
-            var info = Program.instance.ocgcore.messageDispatcher.duel.duelBGManager.fieldSummonRightInfo;
+            var info = DuelProvider.instance.ocgcore.messageDispatcher.duel.duelBGManager.fieldSummonRightInfo;
 
             if (bgDetailShowing)
                 return;
@@ -689,7 +689,7 @@ namespace MDPro3.UI.ServantUI
 
         private void HideBgDetail()
         {
-            var info = Program.instance.ocgcore.messageDispatcher.duel.duelBGManager.fieldSummonRightInfo;
+            var info = DuelProvider.instance.ocgcore.messageDispatcher.duel.duelBGManager.fieldSummonRightInfo;
 
             if (!bgDetailShowing)
                 return;

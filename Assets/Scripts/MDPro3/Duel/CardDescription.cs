@@ -38,7 +38,7 @@ namespace MDPro3
 
         private void ShowDetail()
         {
-            Program.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Hide();
+            DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Hide();
             Program.instance.ui_.chatPanel.Hide();
 
             //var cardFace = manager.GetElement<RawImage>("Card").texture;
@@ -173,7 +173,7 @@ namespace MDPro3
         public void Show(GameCard card, Material mat, int code = -1, GPS gps = null)
         {
             Card data;
-            if(code > -1)
+            if (code > -1)
                 data = CardsManager.Get(code);
             else
                 data = card.GetData();
@@ -183,7 +183,7 @@ namespace MDPro3
                 return;
 
             var tails = string.Empty;
-            if(code == -1)
+            if (code == -1)
                 tails = "<color=#0FFF0F>" + card.tails.managedString + "</color>";
             GPS p;
             if (code > -1)
@@ -231,7 +231,7 @@ namespace MDPro3
             manager.GetElement<Image>("BaseActivated").color = frameColors[1];
 
             if (mat == null)
-            _ = RefreshFace(data.Id);
+                _ = RefreshFace(data.Id);
             else
             {
                 manager.GetElement<RawImage>("Card").material = Instantiate(mat);
@@ -265,7 +265,7 @@ namespace MDPro3
                 else
                     manager.GetElement("Tuner").SetActive(false);
 
-                if(isTuner)
+                if (isTuner)
                 {
                     if (origin.HasType(CardType.Tuner))
                         manager.GetElement("TunerOutline").SetActive(false);
@@ -488,7 +488,7 @@ namespace MDPro3
                 returnValue.notOriginal = true;
             else
                 if (data.Race != origin.Race)
-                returnValue.notOriginal = true;
+                    returnValue.notOriginal = true;
             returnValue.sprite = TextureManager.GetCardRaceIcon(data.Race);
             return returnValue;
         }

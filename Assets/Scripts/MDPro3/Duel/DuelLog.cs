@@ -102,7 +102,7 @@ namespace MDPro3.Duel
             var height = rect.rect.height;
             if (UsingMobileLayout)
             {
-                rect.localScale = new Vector3 (mobileLayoutScale, mobileLayoutScale, 1f);
+                rect.localScale = new Vector3(mobileLayoutScale, mobileLayoutScale, 1f);
                 height *= mobileLayoutScale;
             }
             rect.SetParent(scrollRect.content, false);
@@ -316,7 +316,7 @@ namespace MDPro3.Duel
                 if (showing)
                 {
                     Hide();
-                    Program.instance.ocgcore.GetUI<OcgCoreUI>().ResetButtonLogIcon();
+                    DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().ResetButtonLogIcon();
                 }
             }
         }
@@ -327,7 +327,7 @@ namespace MDPro3.Duel
 
         public void AddSingleCardMessageToLog(int code, GPS from, GPS to, string reason, bool indent = false, bool boxed = false)
         {
-            var core = Program.instance.ocgcore;
+            var core = DuelProvider.instance.ocgcore;
 
             var item = ABLoader.LoadMasterDuelGameObject(code > 0 ? "DuelLogSingleCard" : "DuelLogSingleCard2");
             var sideImage = item.transform.GetChild(1).GetComponent<Image>();
@@ -359,7 +359,7 @@ namespace MDPro3.Duel
 
             if (to.InPosition(CardPosition.Defence) && to.InLocation(CardLocation.MonsterZone))
                 cardFace.transform.localEulerAngles = new Vector3(0f, 0f, 90f);
-            if(to.InPosition(CardPosition.FaceUp))
+            if (to.InPosition(CardPosition.FaceUp))
                 cardFace.transform.GetChild(0).gameObject.SetActive(false);
 
             List<Sprite> icons;
@@ -439,7 +439,7 @@ namespace MDPro3.Duel
 
         public void AddOpeningDrawMessageToLog(IReadOnlyList<int> codes, GPS to, string reason)
         {
-            var core = Program.instance.ocgcore;
+            var core = DuelProvider.instance.ocgcore;
             var item = ABLoader.LoadMasterDuelGameObject("DuelLogSingleCard");
             var rootRect = item.GetComponent<RectTransform>();
 
@@ -545,7 +545,7 @@ namespace MDPro3.Duel
 
         public void AddLpChangeMessageToLog(int player, string reason, int value, bool red = true, bool indent = false)
         {
-            var core = Program.instance.ocgcore;
+            var core = DuelProvider.instance.ocgcore;
 
             var item = ABLoader.LoadMasterDuelGameObject("DuelLogLpChange");
             var targetColor = player == 0 ? myColor : opColor;

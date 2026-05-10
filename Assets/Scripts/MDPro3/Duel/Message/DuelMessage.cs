@@ -82,7 +82,7 @@ namespace MDPro3.Duel
             cardsMustBeSelected.Clear();
             myActivated.Clear();
             opActivated.Clear();
-            var ui = Program.instance.ocgcore.GetUI<OcgCoreUI>();
+            var ui = DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>();
             ui.CardDescription.Hide();
             ui.CardList.ResetAttachedEffects();
             ui.ResetBgDetailState();
@@ -117,9 +117,9 @@ namespace MDPro3.Duel
             ui.DuelLog.showing = true;
             ui.OnLog(true);
 
-            Program.instance.ocgcore.greenBackground.gameObject.SetActive(false);
+            DuelProvider.instance.ocgcore.greenBackground.gameObject.SetActive(false);
             inputMode = false;
-            Program.instance.ocgcore.returnAction = null;
+            DuelProvider.instance.ocgcore.returnAction = null;
             movingToMyGrave = 0;
             movingToMyExclude = 0;
             movingToOpGrave = 0;
@@ -197,7 +197,7 @@ namespace MDPro3.Duel
 
             Core.SetFace();
 
-            if(preload)
+            if (preload)
                 return;
 
             Core.GCS_CreateBundle(reader.ReadInt16(), LocalPlayer(0), CardLocation.Deck);
@@ -280,7 +280,7 @@ namespace MDPro3.Duel
                 }
 
                 var value = reader.ReadByte();
-                for(var i = 0; i < value; i++)
+                for (var i = 0; i < value; i++)
                 {
                     var gps = new GPS
                     {
@@ -364,7 +364,7 @@ namespace MDPro3.Duel
             duelBGManager.RefreshBgState();
 
             for (int i = 0; i < cards.Count; i++)
-                _ =cards[i].MoveAsync(cards[i].p, true);
+                _ = cards[i].MoveAsync(cards[i].p, true);
 
             await PreloadUpdateCardMessages();
             await duelBGManager.ShowDecksAsync();
@@ -373,7 +373,7 @@ namespace MDPro3.Duel
         protected override UniTask GameMessage_sibyl_chat(BinaryReader reader)
         {
             var player = (int)reader.ReadUInt32();
-            if(!Core.GetMessageConfig(player))
+            if (!Core.GetMessageConfig(player))
                 return UniTask.CompletedTask;
             var name = string.Empty;
             if (isTag)
@@ -445,9 +445,9 @@ namespace MDPro3.Duel
             name_1_tag = reader.ReadUnicode(50);
             name_1_c = reader.ReadUnicode(50);
 
-            isTag = !(name_0_tag == "---" 
-                && name_1_tag == "---" 
-                && name_0 == name_0_c 
+            isTag = !(name_0_tag == "---"
+                && name_1_tag == "---"
+                && name_0 == name_0_c
                 && name_1 == name_1_c);
 
             if (Config.Get("ReplayPlayerName0", Config.EMPTY_STRING).Length > 0)
@@ -481,7 +481,7 @@ namespace MDPro3.Duel
             Core.GetUI<OcgCoreUI>().TextPlayer0Name.text = name_0_c;
             Core.GetUI<OcgCoreUI>().TextPlayer1Name.text = name_1_c;
             Core.SetFace();
-            
+
             if (reader.BaseStream.Position < reader.BaseStream.Length)
                 MasterRule = reader.ReadInt32();
             else
@@ -507,7 +507,8 @@ namespace MDPro3.Duel
 
         protected override UniTask GameMessage_ShowHint(BinaryReader reader)
         {
-            /*var lenth = */reader.ReadInt16();
+            /*var lenth = */
+            reader.ReadInt16();
             var buffer = reader.ReadToEnd();
             var text = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
             MessageManager.Cast(text);
@@ -598,7 +599,7 @@ namespace MDPro3.Duel
             Core.GetUI<OcgCoreUI>().CG.alpha = 1f;
             Core.GetUI<OcgCoreUI>().Buttons.SetActive(true);
 
-            if(cookie_matchKill > 0)
+            if (cookie_matchKill > 0)
             {
                 await duelBGManager.PlayCommonSpecialWin(new int[] { cookie_matchKill });
             }
@@ -672,8 +673,10 @@ namespace MDPro3.Duel
 
         protected override UniTask GameMessage_UpdateData(BinaryReader reader)
         {
-            /*var player = */LocalPlayer(reader.ReadChar());
-            /*var location = */reader.ReadChar();
+            /*var player = */
+            LocalPlayer(reader.ReadChar());
+            /*var location = */
+            reader.ReadChar();
 
             try
             {
@@ -715,7 +718,7 @@ namespace MDPro3.Duel
             var reason = reader.ReadUInt32();
 
             var card = Core.GCS_Get(from);
-            if(card == null)
+            if (card == null)
             {
                 //DebugNoCard();
                 card = Core.GCS_Create(from);
@@ -726,7 +729,7 @@ namespace MDPro3.Duel
             to.reason = reason;
             nextMoveNeedCode = false;
 
-            if(CanSyncNextMove(from, to))
+            if (CanSyncNextMove(from, to))
                 _ = card.MoveAsync(to);
             else
                 await card.MoveAsync(to);
@@ -738,7 +741,7 @@ namespace MDPro3.Duel
             var code = reader.ReadInt32();
             var from = reader.ReadGPS();
             var card = Core.GCS_Get(from);
-            if(card == null)
+            if (card == null)
             {
                 DebugNoCard();
                 return;
@@ -749,7 +752,7 @@ namespace MDPro3.Duel
             card.ShowFaceDownCardOrNot(false);
             card.SetCode(code);
             await card.MoveAsync(to);
-            if(to.InPosition(CardPosition.FaceUp)
+            if (to.InPosition(CardPosition.FaceUp)
                 && to.InLocation(CardLocation.MonsterZone))
             {
                 card.AnimationPosition();
@@ -769,12 +772,14 @@ namespace MDPro3.Duel
 
         protected override async UniTask GameMessage_Swap(BinaryReader reader)
         {
-            /*var code = */reader.ReadInt32();
+            /*var code = */
+            reader.ReadInt32();
             var from = reader.ReadGPS();
-            /*code = */reader.ReadInt32();
+            /*code = */
+            reader.ReadInt32();
             var to = reader.ReadGPS();
 
-            if(from.controller != to.controller)
+            if (from.controller != to.controller)
                 ES_hint = StringHelper.GetUnsafe(1602);//卡的控制权改变了
 
             var from2 = new GPS
@@ -811,13 +816,13 @@ namespace MDPro3.Duel
             var code = reader.ReadInt32();
             var gps = reader.ReadGPS();
             var card = Core.GCS_Get(gps);
-            if(card == null)
+            if (card == null)
             {
                 DebugNoCard();
                 return;
             }
 
-            if(gps.InMyControl())
+            if (gps.InMyControl())
                 mySummonCount++;
             else
                 opSummonCount++;
@@ -870,7 +875,7 @@ namespace MDPro3.Duel
                 UnityEngine.Object.Destroy(effect, 5f);
             }
 
-            if(Core.GetAutoInfo())
+            if (Core.GetAutoInfo())
                 Core.GetUI<OcgCoreUI>().CardDescription.Show(card, card.GetMaterial());
 
             AudioManager.PlaySE(se);
@@ -904,13 +909,13 @@ namespace MDPro3.Duel
             var code = reader.ReadInt32();
             var gps = reader.ReadGPS();
             var card = Core.GCS_Get(gps);
-            if(card == null)
+            if (card == null)
             {
                 DebugNoCard();
                 return;
             }
 
-            if(gps.InMyControl())
+            if (gps.InMyControl())
                 mySpSummonCount++;
             else
                 opSpSummonCount++;
@@ -934,7 +939,7 @@ namespace MDPro3.Duel
             if (isExtraDeckMonster)
                 duelBGManager.OnSpecialSummonFromExtra(gps.InMyControl() ? 0 : 1);
 
-            if(materialCards.Count > 0)
+            if (materialCards.Count > 0)
             {
                 if (card.GetData().HasType(CardType.Link))
                 {
@@ -1012,14 +1017,14 @@ namespace MDPro3.Duel
                 Core.GetUI<OcgCoreUI>().CardDescription.Show(card, card.GetMaterial());
 
             int shakeLevel = 0;
-            if(CutinViewer.CutinExist(card.GetData().Id))
+            if (CutinViewer.CutinExist(card.GetData().Id))
                 shakeLevel = 1;
             if (card.GetData().IsHighLevel())
                 shakeLevel = 2;
-            foreach(var c in cards)
+            foreach (var c in cards)
                 c.AnimationLandShake(card, shakeLevel);
 
-            TokenPass:
+        TokenPass:
             if (card.GetData().HasType(CardType.Token))
                 await UniTask.WaitForSeconds(0.2f);
             else
@@ -1042,7 +1047,7 @@ namespace MDPro3.Duel
             var code = reader.ReadInt32();
             var gps = reader.ReadShortGPS();
             var card = Core.GCS_Get(gps);
-            if(card == null)
+            if (card == null)
             {
                 DebugNoCard();
                 return;
@@ -1072,9 +1077,9 @@ namespace MDPro3.Duel
             var code = reader.ReadInt32();
             var gps = reader.ReadGPS();
             var card = Core.GCS_Get(gps);
-            if(card == null)
+            if (card == null)
             {
-                DebugNoCard(); 
+                DebugNoCard();
                 return;
             }
 
@@ -1093,7 +1098,7 @@ namespace MDPro3.Duel
                 if (!opActivated.Contains(code))
                     opActivated.Add(code);
             }
-            if(Core.GetAutoInfo())
+            if (Core.GetAutoInfo())
                 Core.GetUI<OcgCoreUI>().CardDescription.Show(card, null);
             await card.AnimationActivate().WaitAsync();
         }
@@ -1123,7 +1128,7 @@ namespace MDPro3.Duel
             materialCards.Clear();
 
             var id = reader.ReadByte();
-            if(id > cardsInChain.Count)
+            if (id > cardsInChain.Count)
             {
                 LogDebug("[Duel]: Chain index overflow.");
                 return UniTask.CompletedTask;
@@ -1193,7 +1198,7 @@ namespace MDPro3.Duel
             var from = reader.ReadGPS();
             var to = reader.ReadGPS();
             var attackCard = Core.GCS_Get(from);
-            if(attackCard == null)
+            if (attackCard == null)
             {
                 DebugNoCard();
                 return;
@@ -1213,7 +1218,7 @@ namespace MDPro3.Duel
                     var diff = attackCard.GetData().Attack - attackedCard.GetData().Attack;
                     if (attackCard.p.InMyControl())
                     {
-                        if(diff >= life1)
+                        if (diff >= life1)
                             finalBlow = true;
                     }
                     else
@@ -1275,7 +1280,7 @@ namespace MDPro3.Duel
             reader.ReadByte();
             var attackCard = Core.GCS_Get(from);
 
-            if(attackCard != null)
+            if (attackCard != null)
             {
                 var data = attackCard.GetData();
                 data.Attack = reader.ReadInt32();
@@ -1291,7 +1296,7 @@ namespace MDPro3.Duel
             reader.ReadByte();
             var to = reader.ReadShortGPS();
             reader.ReadByte();
-            var  attackedCard = Core.GCS_Get(to);
+            var attackedCard = Core.GCS_Get(to);
             if (attackedCard != null && to.location != 0)
             {
                 var data = attackedCard.GetData();
@@ -1313,7 +1318,7 @@ namespace MDPro3.Duel
             Vector3 attackedPosition;
             int directAttack = 0;
 
-            if(attackedCard == null || to.location == 0)
+            if (attackedCard == null || to.location == 0)
             {
                 if (from.InMyControl())
                 {
@@ -1394,7 +1399,7 @@ namespace MDPro3.Duel
                 sound2 = "SE_ATTACK_A_DIVINE_SPECIAL_02";
             }
 
-            if(attackCard.GetData().Attack < 2000)
+            if (attackCard.GetData().Attack < 2000)
             {
                 tail = tail.Replace("S2", "S1");
                 hit = hit.Replace("S2", "S1");
@@ -1406,8 +1411,8 @@ namespace MDPro3.Duel
 
             if (directAttack == 0)
             {
-                if(attackedCard.p.InPosition(CardPosition.Defence))
-                    if(attackedCard.GetData().Defense >= attackCard.GetData().Attack)
+                if (attackedCard.p.InPosition(CardPosition.Defence))
+                    if (attackedCard.GetData().Defense >= attackCard.GetData().Attack)
                     {
                         hit = "fxp_hit_guard_001";
                         sound2 = "SE_ATTACK_GUARD";
@@ -1421,7 +1426,7 @@ namespace MDPro3.Duel
             }
             else
             {
-                if(directAttack == 1)
+                if (directAttack == 1)
                 {
                     hit = "fxp_dithit_far_001";
                     sound2 = "SE_DIRECT_ATTACK_RIVAL";
@@ -1517,10 +1522,10 @@ namespace MDPro3.Duel
             var player = LocalPlayer(reader.ReadByte());
             var value = reader.ReadInt32();
 
-            if(player == 0)
+            if (player == 0)
             {
                 life0 -= value;
-                if(currentMessage == GameMessage.Damage)
+                if (currentMessage == GameMessage.Damage)
                     ES_hint = InterString.Get("我方受到伤害时");
             }
             else
@@ -1530,7 +1535,7 @@ namespace MDPro3.Duel
                     ES_hint = InterString.Get("对方受到伤害时");
             }
 
-            if(life0 <= 0 || life1 <= 0)
+            if (life0 <= 0 || life1 <= 0)
                 duelBGManager.FinishDamageEffect();
 
             if (currentMessage == GameMessage.Damage)
@@ -1554,7 +1559,7 @@ namespace MDPro3.Duel
             var player = LocalPlayer(reader.ReadByte());
             var value = reader.ReadInt32();
 
-            if(player == 0)
+            if (player == 0)
             {
                 life0 += value;
                 ES_hint = InterString.Get("我方生命值回复时");
@@ -1596,7 +1601,7 @@ namespace MDPro3.Duel
                 duelBGManager.OnPlayerDamaged(player, -diff);
             duelBGManager.OnLifePointsChanged(0, life0);
             duelBGManager.OnLifePointsChanged(1, life1);
-            if(diff < 0)
+            if (diff < 0)
                 AudioManager.PlaySE("SE_COST_DAMAGE");
             Core.SetLP(player, diff);
             await UniTask.WaitForSeconds(0.5f);
@@ -1607,7 +1612,7 @@ namespace MDPro3.Duel
             var player = LocalPlayer(reader.ReadByte());
             var count = reader.ReadByte();
             bool config = true;
-            if(condition == Condition.Duel
+            if (condition == Condition.Duel
                 && !Config.GetBool("DuelCoin", true))
                 config = false;
             if (condition == Condition.Watch
@@ -1728,7 +1733,7 @@ namespace MDPro3.Duel
             }
             else
             {
-                for(var i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
                     var data = reader.ReadByte();
                     MessageManager.Cast(InterString.Get("骰子结果：[?]", data.ToString()));
@@ -1745,7 +1750,7 @@ namespace MDPro3.Duel
             var handCount = Core.GetLocationCardCount(CardLocation.Hand, (uint)player);
 
             var preHands = new List<GameCard>();
-            for(var i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var card = Core.GCS_Get(
                     new GPS
@@ -1757,7 +1762,7 @@ namespace MDPro3.Duel
                 card.SetCode(reader.ReadInt32() & 0x7fffffff);
                 preHands.Add(card);
             }
-            if(player == 0)
+            if (player == 0)
             {
                 needRefreshMyHand = true;
                 myPreHandCards = preHands;
@@ -1768,7 +1773,7 @@ namespace MDPro3.Duel
                 opPreHandCards = preHands;
             }
 
-            for(var i = 0; i < preHands.Count; i++)
+            for (var i = 0; i < preHands.Count; i++)
             {
                 _ = preHands[i].MoveAsync(
                     new GPS
@@ -2001,14 +2006,14 @@ namespace MDPro3.Duel
 
             if (duelPhase == DuelPhase.Draw)
                 PhaseButtonHandler.SetTextMain("Draw");
-            else if(duelPhase == DuelPhase.Standby)
+            else if (duelPhase == DuelPhase.Standby)
                 PhaseButtonHandler.SetTextMain("Standby");
             else if (duelPhase == DuelPhase.Main1)
                 PhaseButtonHandler.SetTextMain("Main1");
             else if (duelPhase == DuelPhase.BattleStart)
             {
                 PhaseButtonHandler.SetTextMain("Battle");
-                if(myTurn && Core.GetAllAtk(true) >= life1)
+                if (myTurn && Core.GetAllAtk(true) >= life1)
                     AudioManager.PlayBgmClimax();
                 if (!myTurn && Core.GetAllAtk(false) >= life0)
                     AudioManager.PlayBgmClimax();
@@ -2071,7 +2076,8 @@ namespace MDPro3.Duel
 
         protected override async UniTask GameMessage_ConfirmCards(BinaryReader reader)
         {
-            /*var player = LocalPlayer(*/reader.ReadByte()/*)*/;
+            /*var player = LocalPlayer(*/
+            reader.ReadByte()/*)*/;
             if (condition != Condition.Replay || CurrentReplayUseYRP2)
                 reader.ReadByte();
 
@@ -2087,7 +2093,7 @@ namespace MDPro3.Duel
                 var code = reader.ReadInt32();
                 var gps = reader.ReadShortGPS();
                 var card = Core.GCS_Get(gps);
-                if(card == null)
+                if (card == null)
                 {
                     DebugNoCard();
                     continue;
@@ -2123,7 +2129,7 @@ namespace MDPro3.Duel
             };
             var code = reader.ReadInt32();
             var card = Core.GCS_Get(gps);
-            if(card == null)
+            if (card == null)
             {
                 DebugNoCard();
                 return;
@@ -2202,7 +2208,7 @@ namespace MDPro3.Duel
                 var gps = reader.ReadGPS();
                 gpss.Add(gps);
                 var card = Core.GCS_Get(gps);
-                if(card == null)
+                if (card == null)
                 {
                     DebugNoCard();
                     continue;
@@ -2236,7 +2242,7 @@ namespace MDPro3.Duel
         protected override UniTask GameMessage_FieldDisabled(BinaryReader reader)
         {
             var disabledFields = reader.ReadUInt32();
-            foreach(var field in duelBGManager.places)
+            foreach (var field in duelBGManager.places)
                 field.SetDisabled(disabledFields);
 
             return UniTask.CompletedTask;
@@ -2244,7 +2250,8 @@ namespace MDPro3.Duel
 
         protected override async UniTask GameMessage_RandomSelected(BinaryReader reader)
         {
-            /*var player = LocalPlayer(*/reader.ReadByte()/*)*/;
+            /*var player = LocalPlayer(*/
+            reader.ReadByte()/*)*/;
             var count = reader.ReadByte();
             for (var i = 0; i < count; i++)
             {
@@ -2264,7 +2271,7 @@ namespace MDPro3.Duel
         protected override async UniTask GameMessage_BecomeTarget(BinaryReader reader)
         {
             var count = reader.ReadByte();
-            for(var i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var gps = reader.ReadGPS();
                 var card = Core.GCS_Get(gps);
@@ -2278,7 +2285,7 @@ namespace MDPro3.Duel
                 if (cardsInChain.Count > 0)
                     cardsInChain[^1].AddEffectTarget(card);
 
-                if(cardsInChain.Count == 0
+                if (cardsInChain.Count == 0
                     && card.InPendulumZone())
                 {
                     //Pendulum
@@ -2290,7 +2297,7 @@ namespace MDPro3.Duel
                 }
             }
 
-            if(duelPhase == DuelPhase.Main1 || duelPhase == DuelPhase.Main2)
+            if (duelPhase == DuelPhase.Main1 || duelPhase == DuelPhase.Main2)
                 if (cardsInChain.Count == 0)
                     if (cardsBeTarget.Count == 2)
                         if (cardsBeTarget[0].InPendulumZone())
@@ -2301,7 +2308,7 @@ namespace MDPro3.Duel
             if (!inPendulumSummon)
                 return;
 
-            if(condition == Condition.Duel && !Config.GetBool("DuelPendulum", true))
+            if (condition == Condition.Duel && !Config.GetBool("DuelPendulum", true))
                 return;
             if (condition == Condition.Watch && !Config.GetBool("WatchPendulum", true))
                 return;
@@ -2318,7 +2325,7 @@ namespace MDPro3.Duel
 
             var cardFrom = Core.GCS_Get(from);
             var cardTo = Core.GCS_Get(to);
-            if(cardFrom == null || cardTo == null)
+            if (cardFrom == null || cardTo == null)
             {
                 DebugNoCard();
                 return UniTask.CompletedTask;
@@ -2348,7 +2355,7 @@ namespace MDPro3.Duel
                 DebugNoCard();
                 return UniTask.CompletedTask;
             }
-            if(currentMessage == GameMessage.CancelTarget)
+            if (currentMessage == GameMessage.CancelTarget)
                 card.targets.Clear();
             else if (currentMessage == GameMessage.Unequip)
                 card.equipedCard = null;
@@ -2387,7 +2394,7 @@ namespace MDPro3.Duel
 
         protected override UniTask GameMessage_Waiting(BinaryReader reader)
         {
-            if(Core.InIgnoranceReplay())
+            if (Core.InIgnoranceReplay())
                 return UniTask.CompletedTask;
             duelBGManager.SetPlayableGuide(false);
             return UniTask.CompletedTask;
@@ -2501,7 +2508,8 @@ namespace MDPro3.Duel
                 return;
             duelBGManager.SetPlayableGuide(true);
 
-            /*var player = LocalPlayer(*/reader.ReadChar()/*)*/;
+            /*var player = LocalPlayer(*/
+            reader.ReadChar()/*)*/;
 
             var count = reader.ReadByte();
             for (var i = 0; i < count; i++)
@@ -2509,7 +2517,7 @@ namespace MDPro3.Duel
                 var code = reader.ReadInt32();
                 var gps = reader.ReadShortGPS();
                 var card = Core.GCS_Get(gps);
-                if(card == null)
+                if (card == null)
                 {
                     DebugNoCard();
                     continue;
@@ -2636,7 +2644,8 @@ namespace MDPro3.Duel
                 return;
             duelBGManager.SetPlayableGuide(true);
 
-            /*var player = LocalPlayer(*/reader.ReadChar()/*)*/;
+            /*var player = LocalPlayer(*/
+            reader.ReadChar()/*)*/;
 
             var count = reader.ReadByte();
             for (var i = 0; i < count; i++)
@@ -2695,7 +2704,8 @@ namespace MDPro3.Duel
                 return;
             duelBGManager.SetPlayableGuide(true);
 
-            /*var player = LocalPlayer(*/reader.ReadByte()/*)*/;
+            /*var player = LocalPlayer(*/
+            reader.ReadByte()/*)*/;
 
             var desc = StringHelper.Get(reader.ReadInt32());
             var title = InterString.Get("选择");
@@ -2732,15 +2742,17 @@ namespace MDPro3.Duel
                 return;
             duelBGManager.SetPlayableGuide(true);
 
-            /*var player = LocalPlayer(*/reader.ReadByte()/*)*/;
+            /*var player = LocalPlayer(*/
+            reader.ReadByte()/*)*/;
 
-            /*var code = */reader.ReadInt32();
+            /*var code = */
+            reader.ReadInt32();
             var gps = reader.ReadShortGPS();
             reader.ReadByte();
             var cr = reader.ReadInt32();
             var card = Core.GCS_Get(gps);
 
-            if(card == null)
+            if (card == null)
             {
                 DebugNoCard();
                 return;
@@ -2780,7 +2792,8 @@ namespace MDPro3.Duel
                 return;
             duelBGManager.SetPlayableGuide(true);
 
-            /*var player = LocalPlayer(*/reader.ReadChar()/*)*/;
+            /*var player = LocalPlayer(*/
+            reader.ReadChar()/*)*/;
             var count = reader.ReadByte();
             int spcount = reader.ReadByte();
             var hint0 = reader.ReadInt32();
@@ -2912,7 +2925,8 @@ namespace MDPro3.Duel
                 return;
             duelBGManager.SetPlayableGuide(true);
 
-            /*var player = LocalPlayer(*/reader.ReadByte()/*)*/;
+            /*var player = LocalPlayer(*/
+            reader.ReadByte()/*)*/;
             var cancelable = reader.ReadByte() != 0;
             ES_min = reader.ReadByte();
             ES_max = reader.ReadByte();
@@ -2924,7 +2938,7 @@ namespace MDPro3.Duel
                 var code = reader.ReadInt32();
                 var gps = reader.ReadGPS();
                 var card = Core.GCS_Get(gps);
-                if(card == null)
+                if (card == null)
                 {
                     DebugNoCard();
                     continue;
@@ -2964,7 +2978,8 @@ namespace MDPro3.Duel
                 return;
             duelBGManager.SetPlayableGuide(true);
 
-            /*var player = LocalPlayer(*/reader.ReadByte()/*)*/;
+            /*var player = LocalPlayer(*/
+            reader.ReadByte()/*)*/;
             var finishable = reader.ReadByte() != 0;
             var cancelable = reader.ReadByte() != 0 || finishable;
             ES_min = reader.ReadByte();
@@ -2977,7 +2992,7 @@ namespace MDPro3.Duel
                 var code = reader.ReadInt32();
                 var gps = reader.ReadGPS();
                 var card = Core.GCS_Get(gps);
-                if(card == null)
+                if (card == null)
                 {
                     DebugNoCard();
                     continue;
@@ -3008,7 +3023,8 @@ namespace MDPro3.Duel
             duelBGManager.SetPlayableGuide(true);
 
             ES_overFlow = reader.ReadByte() != 0;
-            /*var player = LocalPlayer(*/reader.ReadByte()/*)*/;
+            /*var player = LocalPlayer(*/
+            reader.ReadByte()/*)*/;
             ES_level = reader.ReadInt32();
             ES_min = reader.ReadByte();
             ES_max = reader.ReadByte();
@@ -3025,7 +3041,7 @@ namespace MDPro3.Duel
                 var gps = reader.ReadShortGPS();
                 var para = reader.ReadInt32();
                 var card = Core.GCS_Get(gps);
-                if(card == null)
+                if (card == null)
                 {
                     DebugNoCard();
                     continue;
@@ -3076,7 +3092,7 @@ namespace MDPro3.Duel
                 var gps = reader.ReadShortGPS();
                 var para = reader.ReadInt32();
                 var card = Core.GCS_Get(gps);
-                if(card == null)
+                if (card == null)
                 {
                     DebugNoCard();
                     continue;
@@ -3136,7 +3152,8 @@ namespace MDPro3.Duel
                 return;
             duelBGManager.SetPlayableGuide(true);
 
-            /*var player = LocalPlayer(*/reader.ReadByte()/*)*/;
+            /*var player = LocalPlayer(*/
+            reader.ReadByte()/*)*/;
             var cancelable = reader.ReadByte() != 0;
             ES_min = reader.ReadByte();
             ES_max = reader.ReadByte();
@@ -3148,7 +3165,7 @@ namespace MDPro3.Duel
                 var code = reader.ReadInt32();
                 var gps = reader.ReadShortGPS();
                 var card = Core.GCS_Get(gps);
-                if(card == null)
+                if (card == null)
                 {
                     DebugNoCard();
                     continue;
@@ -3175,7 +3192,8 @@ namespace MDPro3.Duel
                 return;
             duelBGManager.SetPlayableGuide(true);
 
-            /*var player = LocalPlayer(*/reader.ReadByte()/*)*/;
+            /*var player = LocalPlayer(*/
+            reader.ReadByte()/*)*/;
             var count = reader.ReadByte();
             if (count > 1)
             {
@@ -3206,7 +3224,8 @@ namespace MDPro3.Duel
                 return;
             duelBGManager.SetPlayableGuide(true);
 
-            /*var player = LocalPlayer(*/reader.ReadByte()/*)*/;
+            /*var player = LocalPlayer(*/
+            reader.ReadByte()/*)*/;
             var min = reader.ReadByte();
             if (min == 0)
                 min = 1;
@@ -3217,7 +3236,7 @@ namespace MDPro3.Duel
             foreach (var place in duelBGManager.places)
             {
                 var p = place.HighlightThisZone(filter, min);
-                if(p != null)
+                if (p != null)
                     if (p.InLocation(CardLocation.SpellZone))
                     {
                         if (p.InMyControl())
@@ -3259,7 +3278,8 @@ namespace MDPro3.Duel
                 return;
             duelBGManager.SetPlayableGuide(true);
 
-            /*var player = LocalPlayer(*/reader.ReadByte()/*)*/;
+            /*var player = LocalPlayer(*/
+            reader.ReadByte()/*)*/;
             var code = reader.ReadInt32();
             int positions = reader.ReadByte();
             var op1 = 0x1;
@@ -3303,7 +3323,8 @@ namespace MDPro3.Duel
 
             var length_of_message = reader.BaseStream.Length;
             var version1033b = (length_of_message - 5) % 8 == 0;
-            /*var player = LocalPlayer(*/reader.ReadByte()/*)*/;
+            /*var player = LocalPlayer(*/
+            reader.ReadByte()/*)*/;
             reader.ReadInt16();
             if (version1033b)
                 ES_min = reader.ReadByte();
@@ -3341,7 +3362,8 @@ namespace MDPro3.Duel
                 return;
             duelBGManager.SetPlayableGuide(true);
 
-            /*var player = LocalPlayer(*/reader.ReadByte()/*)*/;
+            /*var player = LocalPlayer(*/
+            reader.ReadByte()/*)*/;
             var ES_sortSum = 0;
             var count = reader.ReadByte();
             List<GameCard> sortingCards = new List<GameCard>();

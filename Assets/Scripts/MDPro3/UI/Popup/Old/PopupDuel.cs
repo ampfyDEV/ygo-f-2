@@ -20,16 +20,16 @@ namespace MDPro3.UI
         public override void Initialize()
         {
             base.Initialize();
-            Program.instance.ocgcore.AllGameObjects.Add(gameObject);
+            DuelProvider.instance.ocgcore.AllGameObjects.Add(gameObject);
             if (btnHide != null)
                 btnHide.onClick.AddListener(FieldView);
-            Program.instance.ocgcore.currentPopup = this;
+            DuelProvider.instance.ocgcore.currentPopup = this;
             if (!exitable)
             {
                 if (btnHide != null)
-                    Program.instance.ocgcore.returnAction = FieldView;
+                    DuelProvider.instance.ocgcore.returnAction = FieldView;
                 else
-                    Program.instance.ocgcore.returnAction = () => { };
+                    DuelProvider.instance.ocgcore.returnAction = () => { };
             }
 
             var uiScale = Config.GetUIScale(maxUIScale);
@@ -75,10 +75,10 @@ namespace MDPro3.UI
             window.DOAnchorPos(new Vector2(0f, hideY), transitionTime).OnComplete(() =>
             {
                 Destroy(gameObject);
-                Program.instance.ocgcore.returnAction = null;
+                DuelProvider.instance.ocgcore.returnAction = null;
                 whenQuitDo?.Invoke();
             });
-            Program.instance.ocgcore.currentPopup = null;
+            DuelProvider.instance.ocgcore.currentPopup = null;
         }
 
         public override void OnConfirm()
@@ -93,12 +93,12 @@ namespace MDPro3.UI
 
         public void OnDestroy()
         {
-            Program.instance.ocgcore.returnAction = null;
+            DuelProvider.instance.ocgcore.returnAction = null;
         }
 
         protected void SendReturn(byte[] buffer)
         {
-            Program.instance.ocgcore.SendReturn(buffer, transitionTime);
+            DuelProvider.instance.ocgcore.SendReturn(buffer, transitionTime);
         }
 
     }

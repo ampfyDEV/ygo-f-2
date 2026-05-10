@@ -49,7 +49,7 @@ namespace MDPro3.Servant
                     returnServant = Program.instance.menu;
                     break;
                 case Condition.ForRoom:
-                    returnServant = Program.instance.room;
+                    returnServant = DuelProvider.instance.room;
                     break;
             }
 
@@ -213,7 +213,7 @@ namespace MDPro3.Servant
             if (!string.IsNullOrEmpty(aiCommand))
             {
                 StartWindBot(aiCommand, TcpHelper.joinedAddress, TcpHelper.joinedPort, TcpHelper.joinedPassword, GetUI<SoloSelectorUI>().IsLockHand(), 600);
-                Program.instance.ShiftToServant(Program.instance.room);
+                Program.instance.ShiftToServant(DuelProvider.instance.room);
             }
         }
 
@@ -338,7 +338,7 @@ namespace MDPro3.Servant
             }
             else
             {
-                MessageManager.messageFromSubString 
+                MessageManager.messageFromSubString
                     = InterString.Get("端口被占用， 请尝试修改端口后再尝试。端口号应大于0，小于65535。");
             }
         }

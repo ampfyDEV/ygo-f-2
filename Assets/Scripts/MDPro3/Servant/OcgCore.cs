@@ -175,7 +175,7 @@ namespace MDPro3.Servant
             set
             {
                 hideMyHandCard = value;
-                Program.instance.ocgcore.RefreshMyHandCardPosition();
+                DuelProvider.instance.ocgcore.RefreshMyHandCardPosition();
             }
         }
         private static bool hideOpHandCard;
@@ -185,7 +185,7 @@ namespace MDPro3.Servant
             set
             {
                 hideOpHandCard = value;
-                Program.instance.ocgcore.RefreshOpHandCardPosition();
+                DuelProvider.instance.ocgcore.RefreshOpHandCardPosition();
             }
         }
 
@@ -580,7 +580,7 @@ namespace MDPro3.Servant
 
         private bool DuelEndNeedExit()
         {
-            if (Program.instance.room.duelEnded)
+            if (DuelProvider.instance.room.duelEnded)
                 return true;
             if (TcpHelper.tcpClient == null)
                 return true;
@@ -1459,7 +1459,7 @@ namespace MDPro3.Servant
                         if ((flag & (int)Query.Position) != 0)
                         {
                             var gps = reader.ReadGPS();
-                            var cardToRefresh = Program.instance.ocgcore.GCS_Get(gps);
+                            var cardToRefresh = DuelProvider.instance.ocgcore.GCS_Get(gps);
                             if (cardToRefresh != null && cardToRefresh == card)
                                 return code;
                             else

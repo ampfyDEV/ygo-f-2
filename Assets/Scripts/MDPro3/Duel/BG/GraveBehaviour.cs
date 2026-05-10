@@ -62,7 +62,7 @@ namespace MDPro3.Duel
                 if (graveCountShowing)
                 {
                     graveCountShowing = false;
-                    Program.instance.ocgcore.GetUI<OcgCoreUI>().HidePlaceCount();
+                    DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().HidePlaceCount();
                 }
             }
 
@@ -85,7 +85,7 @@ namespace MDPro3.Duel
                 if (excludeCountShowing)
                 {
                     excludeCountShowing = false;
-                    Program.instance.ocgcore.GetUI<OcgCoreUI>().HidePlaceCount();
+                    DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().HidePlaceCount();
                 }
             }
 
@@ -93,13 +93,13 @@ namespace MDPro3.Duel
                 if (!graveCountShowing)
                 {
                     graveCountShowing = true;
-                    Program.instance.ocgcore.GetUI<OcgCoreUI>().ShowLocationCount(new GPS { location = (uint)CardLocation.Grave, controller = (uint)controller });
+                    DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().ShowLocationCount(new GPS { location = (uint)CardLocation.Grave, controller = (uint)controller });
                 }
             if (UserInput.HoverObject == exclude)
                 if (!excludeCountShowing)
                 {
                     excludeCountShowing = true;
-                    Program.instance.ocgcore.GetUI<OcgCoreUI>().ShowLocationCount(new GPS { location = (uint)CardLocation.Removed, controller = (uint)controller });
+                    DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().ShowLocationCount(new GPS { location = (uint)CardLocation.Removed, controller = (uint)controller });
                 }
         }
 
@@ -107,10 +107,10 @@ namespace MDPro3.Duel
         {
             AudioManager.PlaySE("SE_DUEL_SELECT");
 
-            List<GameCard> cards = Program.instance.ocgcore.GCS_GetLocationCards(controller, (int)CardLocation.Grave);
-            Program.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Show(cards, CardLocation.Grave, controller);
+            List<GameCard> cards = DuelProvider.instance.ocgcore.GCS_GetLocationCards(controller, (int)CardLocation.Grave);
+            DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Show(cards, CardLocation.Grave, controller);
 
-            if (Program.instance.ocgcore.returnAction != null)
+            if (DuelProvider.instance.ocgcore.returnAction != null)
                 return;
             if (!graveButtonsCreated)
             {
@@ -146,10 +146,10 @@ namespace MDPro3.Duel
         {
             AudioManager.PlaySE("SE_DUEL_SELECT");
 
-            List<GameCard> cards = Program.instance.ocgcore.GCS_GetLocationCards(controller, (int)CardLocation.Removed);
-            Program.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Show(cards, CardLocation.Removed, controller);
+            List<GameCard> cards = DuelProvider.instance.ocgcore.GCS_GetLocationCards(controller, (int)CardLocation.Removed);
+            DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().CardList.Show(cards, CardLocation.Removed, controller);
 
-            if (Program.instance.ocgcore.returnAction != null)
+            if (DuelProvider.instance.ocgcore.returnAction != null)
                 return;
             if (!excludeButtonsCreated)
             {
@@ -207,7 +207,7 @@ namespace MDPro3.Duel
 
         private void CreateGraveButtons()
         {
-            if (graveButtonsCreated || Program.instance.ocgcore.returnAction != null || graveButtons.Count == 0)
+            if (graveButtonsCreated || DuelProvider.instance.ocgcore.returnAction != null || graveButtons.Count == 0)
                 return;
             for (int i = 0; i < graveButtons.Count; i++)
             {
@@ -229,7 +229,7 @@ namespace MDPro3.Duel
 
         private void CreateExcludeButtons()
         {
-            if (excludeButtonsCreated || Program.instance.ocgcore.returnAction != null || excludeButtons.Count == 0)
+            if (excludeButtonsCreated || DuelProvider.instance.ocgcore.returnAction != null || excludeButtons.Count == 0)
                 return;
             for (int i = 0; i < excludeButtons.Count; i++)
             {

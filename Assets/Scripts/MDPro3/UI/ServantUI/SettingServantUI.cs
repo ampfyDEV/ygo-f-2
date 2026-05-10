@@ -604,7 +604,7 @@ namespace MDPro3.UI.ServantUI
         {
             base.ShowEvent();
 
-            if (Program.instance.currentServant == Program.instance.ocgcore)
+            if (Program.instance.currentServant == DuelProvider.instance.ocgcore)
             {
                 if (OcgCore.condition == OcgCore.Condition.Duel)
                 {
@@ -659,7 +659,7 @@ namespace MDPro3.UI.ServantUI
         {
             base.HideEvent();
             Save();
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
             {
                 UIManager.HideBlackBack(Program.instance.setting.TransitionTime);
                 UIManager.HideExitButton(Program.instance.setting.TransitionTime);
@@ -675,7 +675,7 @@ namespace MDPro3.UI.ServantUI
         protected override void AfterHideEvent()
         {
             base.AfterHideEvent();
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
                 UIManager.ShowFPSLeft();
         }
 
@@ -1175,7 +1175,7 @@ namespace MDPro3.UI.ServantUI
         }
         public static void ChangeShowFPS()
         {
-            if(Config.GetBool("ShowFPS", true))
+            if (Config.GetBool("ShowFPS", true))
                 UIManager.ShowFPS();
             else
                 UIManager.HideFPS();
@@ -1227,7 +1227,7 @@ namespace MDPro3.UI.ServantUI
         }
         private void OnLayoutClicked()
         {
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
             {
                 MessageManager.Toast(InterString.Get("决斗中不能更改此选项。"));
                 return;
@@ -1358,7 +1358,7 @@ namespace MDPro3.UI.ServantUI
 
         private void OnCardStyleChange()
         {
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
             {
                 MessageManager.Toast(InterString.Get("决斗中不能更改此选项。"));
                 return;
@@ -1381,7 +1381,7 @@ namespace MDPro3.UI.ServantUI
                 .GetComponent<SelectionButton>().GetButtonText();
             var currrent = Config.Get("CardStyle", selected);
             Config.Set("CardStyle", selected);
-            if(currrent != selected)
+            if (currrent != selected)
             {
                 ButtonCardStyle.SetModeText(selected);
                 UIManager.ChangeLanguage();
@@ -1422,7 +1422,7 @@ namespace MDPro3.UI.ServantUI
         }
         private void OnCardLanguageClicked()
         {
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
             {
                 MessageManager.Toast(InterString.Get("决斗中不能更改此选项。"));
                 return;
@@ -1464,7 +1464,7 @@ namespace MDPro3.UI.ServantUI
         }
         private void OnLanguageClicked()
         {
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
             {
                 MessageManager.Toast(InterString.Get("决斗中不能更改此选项。"));
                 return;
@@ -1477,7 +1477,7 @@ namespace MDPro3.UI.ServantUI
             };
             DirectoryInfo[] infos = new DirectoryInfo(Program.PATH_LOCALES).GetDirectories();
             foreach (DirectoryInfo info in infos)
-                if(!incorrectlyAddedFolder.Contains(info.Name))
+                if (!incorrectlyAddedFolder.Contains(info.Name))
                     selections.Add(InterString.Get(info.Name));
             UIManager.ShowPopupSelection(selections, OnLanguageSelection);
         }
@@ -1610,7 +1610,7 @@ namespace MDPro3.UI.ServantUI
             ButtonDuelVoice.SetModeText(InterString.Get(config ? "关" : "开"));
             Config.SetBool("DuelVoice", !config);
 
-            Program.instance.ocgcore.CheckCharaFace();
+            DuelProvider.instance.ocgcore.CheckCharaFace();
         }
         private void OnWatchVoiceClick()
         {
@@ -1618,7 +1618,7 @@ namespace MDPro3.UI.ServantUI
             ButtonWatchVoice.SetModeText(InterString.Get(config ? "关" : "开"));
             Config.SetBool("WatchVoice", !config);
 
-            Program.instance.ocgcore.CheckCharaFace();
+            DuelProvider.instance.ocgcore.CheckCharaFace();
         }
         private void OnReplayVoiceClick()
         {
@@ -1626,7 +1626,7 @@ namespace MDPro3.UI.ServantUI
             ButtonReplayVoice.SetModeText(InterString.Get(config ? "关" : "开"));
             Config.SetBool("ReplayVoice", !config);
 
-            Program.instance.ocgcore.CheckCharaFace();
+            DuelProvider.instance.ocgcore.CheckCharaFace();
         }
 
         #endregion
@@ -1652,21 +1652,21 @@ namespace MDPro3.UI.ServantUI
             var config = Config.GetBool("DuelCloseup", false);
             ButtonDuelCloseup.SetModeText(InterString.Get(config ? "关" : "开"));
             Config.SetBool("DuelCloseup", !config);
-            Program.instance.ocgcore.RefreshAllCardsLabel();
+            DuelProvider.instance.ocgcore.RefreshAllCardsLabel();
         }
         private void OnWatchCloseupClick()
         {
             var config = Config.GetBool("WatchCloseup", false);
             ButtonWatchCloseup.SetModeText(InterString.Get(config ? "关" : "开"));
             Config.SetBool("WatchCloseup", !config);
-            Program.instance.ocgcore.RefreshAllCardsLabel();
+            DuelProvider.instance.ocgcore.RefreshAllCardsLabel();
         }
         private void OnReplayCloseupClick()
         {
             var config = Config.GetBool("ReplayCloseup", false);
             ButtonReplayCloseup.SetModeText(InterString.Get(config ? "关" : "开"));
             Config.SetBool("ReplayCloseup", !config);
-            Program.instance.ocgcore.RefreshAllCardsLabel();
+            DuelProvider.instance.ocgcore.RefreshAllCardsLabel();
         }
 
         #endregion
@@ -2112,28 +2112,28 @@ namespace MDPro3.UI.ServantUI
         {
             string result = value.ToString();
             ButtonDuelAcc.SetModeText(result.Length > 4 ? result[..4] : result);
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
                 if (OcgCore.condition == OcgCore.Condition.Duel)
                     if (OcgCore.Accing)
-                        Program.instance.ocgcore.GetUI<OcgCoreUI>().OnAcc();
+                        DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().OnAcc();
         }
         private void OnWatchAccChange(float value)
         {
             string result = value.ToString();
             ButtonWatchAcc.SetModeText(result.Length > 4 ? result[..4] : result);
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
                 if (OcgCore.condition == OcgCore.Condition.Watch)
                     if (OcgCore.Accing)
-                        Program.instance.ocgcore.GetUI<OcgCoreUI>().OnAcc();
+                        DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().OnAcc();
         }
         private void OnReplayAccChange(float value)
         {
             string result = value.ToString();
             ButtonReplayAcc.SetModeText(result.Length > 4 ? result[..4] : result);
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
                 if (OcgCore.condition == OcgCore.Condition.Replay)
                     if (OcgCore.Accing)
-                        Program.instance.ocgcore.GetUI<OcgCoreUI>().OnAcc();
+                        DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().OnAcc();
         }
 
         #endregion
@@ -2215,7 +2215,7 @@ namespace MDPro3.UI.ServantUI
 
         public void OnImport()
         {
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
             {
                 MessageManager.Toast(InterString.Get("决斗中不能进行此操作。"));
                 return;
@@ -2241,7 +2241,7 @@ namespace MDPro3.UI.ServantUI
         }
         public void OnClearPicture()
         {
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
             {
                 MessageManager.Toast(InterString.Get("决斗中不能进行此操作。"));
                 return;
@@ -2264,7 +2264,7 @@ namespace MDPro3.UI.ServantUI
         }
         public void OnClearArtVideos()
         {
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
             {
                 MessageManager.Toast(InterString.Get("决斗中不能进行此操作。"));
                 return;
@@ -2298,7 +2298,7 @@ namespace MDPro3.UI.ServantUI
 
         public void OnSupportExpansions()
         {
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
             {
                 MessageManager.Toast(InterString.Get("决斗中不能更改此选项。"));
                 return;
@@ -2313,7 +2313,7 @@ namespace MDPro3.UI.ServantUI
 
         public void OnClearExpansions()
         {
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
             {
                 MessageManager.Toast(InterString.Get("决斗中不能进行此操作。"));
                 return;
@@ -2339,7 +2339,7 @@ namespace MDPro3.UI.ServantUI
 
         public void OnUpdatePrerelease()
         {
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
             {
                 MessageManager.Toast(InterString.Get("决斗中不能进行此操作。"));
                 return;
@@ -2349,7 +2349,7 @@ namespace MDPro3.UI.ServantUI
 
         public void OnDownloadYPK()
         {
-            if (Program.instance.ocgcore.showing)
+            if (DuelProvider.instance.ocgcore.showing)
             {
                 MessageManager.Toast(InterString.Get("决斗中不能进行此操作。"));
                 return;
@@ -2439,7 +2439,7 @@ namespace MDPro3.UI.ServantUI
 
         public void OnSurrender()
         {
-            Program.instance.ocgcore.OnDuelResultConfirmed(true);
+            DuelProvider.instance.ocgcore.OnDuelResultConfirmed(true);
         }
 
         public void OnRetry()
@@ -2449,8 +2449,8 @@ namespace MDPro3.UI.ServantUI
             if (!Program.instance.solo.CanRetryLastSoloDuel())
                 return;
 
-            Program.instance.ocgcore.onSurrenderConfirmed = Program.instance.solo.QueueRetryLastSoloDuel;
-            Program.instance.ocgcore.OnDuelResultConfirmed(true);
+            DuelProvider.instance.ocgcore.onSurrenderConfirmed = Program.instance.solo.QueueRetryLastSoloDuel;
+            DuelProvider.instance.ocgcore.OnDuelResultConfirmed(true);
         }
 
     }

@@ -56,7 +56,7 @@ namespace MDPro3.UI
             transform.SetParent(Program.instance.ui_.duelButton, false);
             RefreshPosition();
             text.text = hint;
-            if(hint == string.Empty)
+            if (hint == string.Empty)
                 bg.SetActive(false);
             transform.localScale = Vector3.zero;
             StartCoroutine(RefreshIcons());
@@ -184,7 +184,7 @@ namespace MDPro3.UI
                         else
                             height = -150f;
                     }
-                    else if ((location & (uint)CardLocation.SpellZone) >0)
+                    else if ((location & (uint)CardLocation.SpellZone) > 0)
                     {
                         if (controller != 0)
                             height = -150f;
@@ -197,7 +197,7 @@ namespace MDPro3.UI
                     {
                         if ((cookieCard.p.location & (uint)CardLocation.Hand) > 0)
                         {
-                            if(cookieCard.p.controller == 0)
+                            if (cookieCard.p.controller == 0)
                                 height = 250f;
                             else
                                 height = -200;
@@ -237,7 +237,7 @@ namespace MDPro3.UI
                         {
                             var p = new BinaryMaster();
                             p.writer.Write(response[0]);
-                            Program.instance.ocgcore.SendReturn(p.Get());
+                            DuelProvider.instance.ocgcore.SendReturn(p.Get());
                         }
                         else
                         {
@@ -253,7 +253,7 @@ namespace MDPro3.UI
                             }
                             selections.Add(InterString.Get("放弃"));
                             responses.Add(-233);
-                            Program.instance.ocgcore.GetUI<OcgCoreUI>().ShowPopupSelection(selections, responses);
+                            DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().ShowPopupSelection(selections, responses);
                         }
                         break;
                 }
@@ -271,13 +271,13 @@ namespace MDPro3.UI
                                     break;
                                 }
                 if (type == ButtonType.Activate)
-                    Program.instance.ocgcore.GetUI<OcgCoreUI>().ShowPopupSelectCard(InterString.Get("选择效果发动。"), responseCards, 1, 1, true, false);
+                    DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().ShowPopupSelectCard(InterString.Get("选择效果发动。"), responseCards, 1, 1, true, false);
                 else
-                    Program.instance.ocgcore.GetUI<OcgCoreUI>().ShowPopupSelectCard(InterString.Get("选择怪兽特殊召唤。"), responseCards, 1, 1, true, false);
+                    DuelProvider.instance.ocgcore.GetUI<OcgCoreUI>().ShowPopupSelectCard(InterString.Get("选择怪兽特殊召唤。"), responseCards, 1, 1, true, false);
             }
             else if (response[0] == -3)
             {
-                foreach (var place in Program.instance.ocgcore.Places)
+                foreach (var place in DuelProvider.instance.ocgcore.Places)
                 {
                     if (place.p.controller == controller)
                         if (place.p.location == location)
@@ -287,11 +287,11 @@ namespace MDPro3.UI
             }
             else if (response[0] == -4)
             {
-                Program.instance.ocgcore.FieldSelectedSend();
+                DuelProvider.instance.ocgcore.FieldSelectedSend();
             }
             else if (response[0] == -5)
             {
-                Program.instance.ocgcore.FieldSelectedCancel();
+                DuelProvider.instance.ocgcore.FieldSelectedCancel();
             }
         }
     }

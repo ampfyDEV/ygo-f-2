@@ -101,7 +101,7 @@ namespace MDPro3.UI.ServantUI
         public override void AfterShowEvent()
         {
             base.AfterShowEvent();
-            if (Program.instance.currentServant != Program.instance.room)
+            if (Program.instance.currentServant != DuelProvider.instance.room)
             {
                 ShutDown();
                 Program.instance.ui_.chatPanel.Hide();
@@ -151,7 +151,7 @@ namespace MDPro3.UI.ServantUI
 
             if (!Appearance.loaded)
             {
-                foreach(var rp in roomPlayers)
+                foreach (var rp in roomPlayers)
                     rp.gameObject.SetActive(false);
                 return;
             }
@@ -273,7 +273,7 @@ namespace MDPro3.UI.ServantUI
 
         public void OnAddBot()
         {
-            if (Program.instance.room.RoomIsFull())
+            if (DuelProvider.instance.room.RoomIsFull())
             {
                 MessageManager.Toast(InterString.Get("房间已满，无法继续添加AI。"));
             }
@@ -286,7 +286,7 @@ namespace MDPro3.UI.ServantUI
 
         public void OnSelectDeck()
         {
-            if (!Program.instance.room.CanChangeDeck())
+            if (!DuelProvider.instance.room.CanChangeDeck())
                 return;
             Program.instance.deckSelector.SwitchCondition(DeckSelector.Condition.ForDuel);
             Program.instance.ShiftToServant(Program.instance.deckSelector);

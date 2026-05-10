@@ -75,7 +75,7 @@ namespace MDPro3
 
         private static bool Join(string ipString, string name, string portString, string pswString, Action doWhenSuccess)
         {
-            Program.instance.room.duelEnded = false;
+            DuelProvider.instance.room.duelEnded = false;
 
             if (tcpClient != null && tcpClient.Connected)
             {
@@ -137,7 +137,7 @@ namespace MDPro3
                     && networkStream != null
                     && tcpClient.Connected
                     && Program.Running
-                    && !Program.instance.room.duelEnded)
+                    && !DuelProvider.instance.room.duelEnded)
                 {
                     var data = SocketMaster.ReadPacket(networkStream);
                     AddDateJumoLine(data);
@@ -178,72 +178,72 @@ namespace MDPro3
                             switch (ms)
                             {
                                 case StocMessage.GameMsg:
-                                    Program.instance.room.StocMessage_GameMsg(r);
+                                    DuelProvider.instance.room.StocMessage_GameMsg(r);
                                     break;
                                 case StocMessage.ErrorMsg:
-                                    Program.instance.room.StocMessage_ErrorMsg(r);
+                                    DuelProvider.instance.room.StocMessage_ErrorMsg(r);
                                     break;
                                 case StocMessage.SelectHand:
                                     if (!RoomServant.FromHandTest)
-                                        Program.instance.room.StocMessage_SelectHand(r);
+                                        DuelProvider.instance.room.StocMessage_SelectHand(r);
                                     break;
                                 case StocMessage.SelectTp:
                                     if (!RoomServant.FromHandTest)
-                                        Program.instance.room.StocMessage_SelectTp(r);
+                                        DuelProvider.instance.room.StocMessage_SelectTp(r);
                                     break;
                                 case StocMessage.HandResult:
-                                    Program.instance.room.StocMessage_HandResult(r);
+                                    DuelProvider.instance.room.StocMessage_HandResult(r);
                                     break;
                                 case StocMessage.TpResult:
-                                    Program.instance.room.StocMessage_TpResult(r);
+                                    DuelProvider.instance.room.StocMessage_TpResult(r);
                                     break;
                                 case StocMessage.ChangeSide:
-                                    Program.instance.room.StocMessage_ChangeSide(r);
+                                    DuelProvider.instance.room.StocMessage_ChangeSide(r);
                                     break;
                                 case StocMessage.WaitingSide:
-                                    Program.instance.room.StocMessage_WaitingSide(r);
+                                    DuelProvider.instance.room.StocMessage_WaitingSide(r);
                                     break;
                                 case StocMessage.DeckCount:
-                                    Program.instance.room.StocMessage_DeckCount(r);
+                                    DuelProvider.instance.room.StocMessage_DeckCount(r);
                                     break;
                                 case StocMessage.CreateGame:
-                                    Program.instance.room.StocMessage_CreateGame(r);
+                                    DuelProvider.instance.room.StocMessage_CreateGame(r);
                                     break;
                                 case StocMessage.JoinGame:
-                                    Program.instance.room.StocMessage_JoinGame(r);
+                                    DuelProvider.instance.room.StocMessage_JoinGame(r);
                                     break;
                                 case StocMessage.TypeChange:
-                                    Program.instance.room.StocMessage_TypeChange(r);
+                                    DuelProvider.instance.room.StocMessage_TypeChange(r);
                                     break;
                                 case StocMessage.LeaveGame:
-                                    Program.instance.room.StocMessage_LeaveGame(r);
+                                    DuelProvider.instance.room.StocMessage_LeaveGame(r);
                                     break;
                                 case StocMessage.DuelStart:
-                                    Program.instance.room.StocMessage_DuelStart(r);
+                                    DuelProvider.instance.room.StocMessage_DuelStart(r);
                                     break;
                                 case StocMessage.DuelEnd:
-                                    Program.instance.room.StocMessage_DuelEnd(r);
+                                    DuelProvider.instance.room.StocMessage_DuelEnd(r);
                                     break;
                                 case StocMessage.Replay:
-                                    Program.instance.room.StocMessage_Replay(r);
+                                    DuelProvider.instance.room.StocMessage_Replay(r);
                                     break;
                                 case StocMessage.TimeLimit:
-                                    Program.instance.ocgcore.StocMessage_TimeLimit(r);
+                                    DuelProvider.instance.ocgcore.StocMessage_TimeLimit(r);
                                     break;
                                 case StocMessage.Chat:
-                                    Program.instance.room.StocMessage_Chat(r);
+                                    DuelProvider.instance.room.StocMessage_Chat(r);
                                     break;
                                 case StocMessage.HsPlayerEnter:
-                                    Program.instance.room.StocMessage_HsPlayerEnter(r);
+                                    DuelProvider.instance.room.StocMessage_HsPlayerEnter(r);
                                     break;
                                 case StocMessage.HsPlayerChange:
-                                    Program.instance.room.StocMessage_HsPlayerChange(r);
+                                    DuelProvider.instance.room.StocMessage_HsPlayerChange(r);
                                     break;
                                 case StocMessage.HsWatchChange:
-                                    Program.instance.room.StocMessage_HsWatchChange(r);
+                                    DuelProvider.instance.room.StocMessage_HsWatchChange(r);
                                     break;
                                 case StocMessage.TeammateSurrender:
-                                    Program.instance.ocgcore.StocMessage_TeammateSurrender();
+                                    DuelProvider.instance.ocgcore.StocMessage_TeammateSurrender();
                                     break;
                             }
                         }
@@ -272,10 +272,10 @@ namespace MDPro3
                 deck = null;
                 deckStrings.Clear();
                 canJoin = true;
-                if (Program.instance.ocgcore.showing)
+                if (DuelProvider.instance.ocgcore.showing)
                 {
-                    Program.instance.room.duelEnded = true;
-                    Program.instance.ocgcore.ForceMSquit();
+                    DuelProvider.instance.room.duelEnded = true;
+                    DuelProvider.instance.ocgcore.ForceMSquit();
                     MessageManager.Cast(InterString.Get("对方已离开游戏，您现在可以离开。"));
                 }
                 else if (Program.instance.deckEditor.showing)
@@ -286,8 +286,8 @@ namespace MDPro3
                 else if (!Program.instance.solo.showing)
                 {
                     MessageManager.Cast(InterString.Get("连接被断开。"));
-                    if (Program.instance.room.showing)
-                        Program.instance.room.OnExit();
+                    if (DuelProvider.instance.room.showing)
+                        DuelProvider.instance.room.OnExit();
                 }
             }
         }
@@ -606,7 +606,7 @@ namespace MDPro3
                     {
                         if (startI > packagesInRecord.Count)
                             startI = packagesInRecord.Count;
-                        packagesInRecord.Insert(startI, Program.instance.ocgcore.GetNamePacket());
+                        packagesInRecord.Insert(startI, DuelProvider.instance.ocgcore.GetNamePacket());
                         if (File.Exists(Program.PATH_REPLAY + replayName + Program.EXPANSION_YRP3D))
                             File.Delete(Program.PATH_REPLAY + replayName + Program.EXPANSION_YRP3D);
                         var stream = File.Create(Program.PATH_REPLAY + replayName + Program.EXPANSION_YRP3D);
@@ -823,7 +823,7 @@ namespace MDPro3
             if ((flag & (int)Query.Position) != 0)
             {
                 gps = r.ReadGPS();
-                cardToRefresh = Program.instance.ocgcore.GCS_Get(gps);
+                cardToRefresh = DuelProvider.instance.ocgcore.GCS_Get(gps);
             }
 
 
@@ -875,17 +875,17 @@ namespace MDPro3
             if ((flag & (int)Query.ReasonCard) != 0)
                 data.ReasonCard = r.ReadInt32();
             if ((flag & (int)Query.EquipCard) != 0)
-                cardToRefresh.AddTarget(Program.instance.ocgcore.GCS_Get(r.ReadGPS()));
+                cardToRefresh.AddTarget(DuelProvider.instance.ocgcore.GCS_Get(r.ReadGPS()));
             if ((flag & (int)Query.TargetCard) != 0)
             {
                 var count = r.ReadInt32();
                 for (var i = 0; i < count; ++i)
-                    cardToRefresh.AddTarget(Program.instance.ocgcore.GCS_Get(r.ReadGPS()));
+                    cardToRefresh.AddTarget(DuelProvider.instance.ocgcore.GCS_Get(r.ReadGPS()));
             }
 
             if ((flag & (int)Query.OverlayCard) != 0)
             {
-                var overs = Program.instance.ocgcore.GCS_GetOverlays(cardToRefresh);
+                var overs = DuelProvider.instance.ocgcore.GCS_GetOverlays(cardToRefresh);
                 var count = r.ReadInt32();
                 for (var i = 0; i < count; ++i)
                     if (i < overs.Count)

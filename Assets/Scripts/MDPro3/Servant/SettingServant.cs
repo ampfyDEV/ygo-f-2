@@ -53,7 +53,7 @@ namespace MDPro3.Servant
                 servantUI.SelectDefaultSelectable();
             }
 
-            if (Program.instance.currentServant == Program.instance.ocgcore)
+            if (Program.instance.currentServant == DuelProvider.instance.ocgcore)
             {
                 Program.instance.currentSubServant = this;
                 UIManager.ShowFPSRight();
@@ -81,7 +81,7 @@ namespace MDPro3.Servant
         public override void OnReturn()
         {
             if (inTransition) return;
-            if(returnAction != null)
+            if (returnAction != null)
             {
                 returnAction.Invoke();
                 return;
@@ -308,7 +308,7 @@ namespace MDPro3.Servant
                     errorMessage = InterString.Get("未知错误：") + request.error;
                 }
 
-                if(errorMessage != string.Empty)
+                if (errorMessage != string.Empty)
                     MessageManager.Cast(errorMessage);
             }
             GetUI<SettingServantUI>().ButtonDownloadYPK.SetModeText(string.Empty);

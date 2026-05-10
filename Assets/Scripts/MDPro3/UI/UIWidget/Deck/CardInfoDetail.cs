@@ -329,7 +329,7 @@ namespace MDPro3.UI
         public override void Hide()
         {
             base.Hide();
-            if(Program.instance.currentServant != Program.instance.ocgcore)
+            if (Program.instance.currentServant != DuelProvider.instance.ocgcore)
                 UIManager.ShowFPSRight();
         }
 
@@ -471,9 +471,9 @@ namespace MDPro3.UI
 
         private bool CanNext()
         {
-            if(cards == null)
+            if (cards == null)
                 return false;
-            if(cardIndex >= cards.Count - 1)
+            if (cardIndex >= cards.Count - 1)
                 return false;
             return true;
         }
@@ -495,7 +495,7 @@ namespace MDPro3.UI
         public void OnNext()
         {
             if (shifting) return;
-            if(!CanNext()) return;
+            if (!CanNext()) return;
 
             shifting = true;
             AudioManager.PlaySE("SE_MENU_SELECT_01");
@@ -556,9 +556,9 @@ namespace MDPro3.UI
             if (UserInput.WasLeftTriggerPressed)
                 ShowCardExpand();
 
-            if(UserInput.WasLeftShoulderPressed || UserInput.WasLeftPressed)
+            if (UserInput.WasLeftShoulderPressed || UserInput.WasLeftPressed)
                 OnPrev();
-            if(UserInput.WasRightShoulderPressed || UserInput.WasRightPressed)
+            if (UserInput.WasRightShoulderPressed || UserInput.WasRightPressed)
                 OnNext();
         }
 
@@ -569,7 +569,7 @@ namespace MDPro3.UI
 
         public void OnCardPictureSave()
         {
-            if (Program.instance.ocgcore.showing
+            if (DuelProvider.instance.ocgcore.showing
                 || (Program.instance.deckEditor.showing && DeckEditor.condition == DeckEditor.Condition.ChangeSide))
             {
                 SaveShowingCard();
@@ -609,7 +609,7 @@ namespace MDPro3.UI
             if (texture == null)
                 texture = rawImage.material.mainTexture;
 
-            if(texture is RenderTexture)
+            if (texture is RenderTexture)
             {
                 _ = SaveShowingCardAsyncIfVideo(card.Id);
                 return;
@@ -740,7 +740,7 @@ namespace MDPro3.UI
                 popupProgress.text.text = string.Empty;
                 popupProgress.progressBar.value = 0f;
                 popupProgress.Show();
-                await UniTask.WaitForSeconds(popupProgress.transitionTime, cancellationToken : token);
+                await UniTask.WaitForSeconds(popupProgress.transitionTime, cancellationToken: token);
 
                 if (File.Exists(errorLogPath))
                     File.Delete(errorLogPath);

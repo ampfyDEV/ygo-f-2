@@ -253,7 +253,7 @@ namespace MDPro3.UI
 
                 else if (DeckSelector.condition == DeckSelector.Condition.ForDuel)
                 {
-                    Program.instance.ShiftToServant(Program.instance.room);
+                    Program.instance.ShiftToServant(DuelProvider.instance.room);
                 }
                 else if (DeckSelector.condition == DeckSelector.Condition.ForSolo)
                 {
