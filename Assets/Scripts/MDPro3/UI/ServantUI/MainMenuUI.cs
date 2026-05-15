@@ -12,7 +12,15 @@ namespace MDPro3.UI.ServantUI
 {
     public class MainMenuUI : ServantUI
     {
+        #region Elements
 
+        private const string LABEL_MYCARD_NEWS = "News";
+        private NewsManager m_News;
+        public NewsManager News =>
+            m_News = m_News != null ? m_News
+            : Manager.GetElement<NewsManager>(LABEL_MYCARD_NEWS);
+
+        #endregion
 
         public override void Initialize(Servant.Servant servant)
         {
@@ -32,7 +40,13 @@ namespace MDPro3.UI.ServantUI
             Program.instance.ShiftToServant(Program.instance.solo);
         }
 
+        public void OnOnline()
+        {
+            if (Program.exitOnReturn)
+                return;
 
+            Program.instance.ShiftToServant(Program.instance.online);
+        }
 
         public void OnPuzzle()
         {
@@ -42,7 +56,13 @@ namespace MDPro3.UI.ServantUI
             Program.instance.ShiftToServant(Program.instance.puzzle);
         }
 
+        public void OnReplay()
+        {
+            if (Program.exitOnReturn)
+                return;
 
+            Program.instance.ShiftToServant(Program.instance.replay);
+        }
 
         public void OnCutin()
         {

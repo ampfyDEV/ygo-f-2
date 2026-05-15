@@ -59,7 +59,7 @@ namespace MDPro3.Servant
 
         public override void Initialize()
         {
-            returnServant = Program.instance.solo;
+            returnServant = Program.instance.online;
             base.Initialize();
         }
 
@@ -69,7 +69,7 @@ namespace MDPro3.Servant
             CoreShowing = 0;
             Program.instance.ui_.chatPanel.Show(false);
             OcgCore.handler = Handler;
-            if (preDepth != Program.instance.deckSelector.Depth)
+            if(preDepth != Program.instance.deckSelector.Depth)
                 _ = Program.instance.appearance.LoadSettingAssets();
             GetUI<RoomServantUI>().RefreshDeckSelector();
         }
@@ -86,7 +86,7 @@ namespace MDPro3.Servant
                 returnServant = Program.instance.solo;
             else
             {
-                returnServant = Program.instance.solo;
+                returnServant = Program.instance.online;
                 if (FromLocalHost)
                     YgoServer.StopServer();
             }
@@ -212,7 +212,7 @@ namespace MDPro3.Servant
 
         private void ShowOcgCore()
         {
-            if (CoreShowing == 0)
+            if(CoreShowing == 0)
                 CoreShowing = 1;
             if (Program.instance.ocgcore.showing)
                 return;
@@ -267,12 +267,12 @@ namespace MDPro3.Servant
             }
             OcgCore.timeLimit = TimeLimit;
             OcgCore.lpLimit = StartLp;
-            if (FromSolo)
+            if(FromSolo)
                 Program.instance.ocgcore.returnServant = Program.instance.solo;
-            else if (FromHandTest)
+            else if(FromHandTest)
                 Program.instance.ocgcore.returnServant = Program.instance.deckEditor;
             else
-                Program.instance.ocgcore.returnServant = Program.instance.solo;
+                Program.instance.ocgcore.returnServant = Program.instance.online;
             if (SelfType == 7)
                 OcgCore.condition = OcgCore.Condition.Watch;
             else
@@ -352,7 +352,7 @@ namespace MDPro3.Servant
                             task = StringHelper.GetUnsafe(1411 + flag);
                             replace = new Regex("%ls");
                             task = replace.Replace(task, cardName);
-                            if (flag == 4)
+                            if(flag == 4)
                             {
                                 replace = new Regex("%d");
                                 task = replace.Replace(task, code.ToString());
@@ -365,7 +365,7 @@ namespace MDPro3.Servant
                             task = StringHelper.GetUnsafe(1411 + flag);
                             replace = new Regex("%d");
                             deck = new Deck(Program.PATH_DECK + Config.GetConfigDeckName() + Program.EXPANSION_YDK);
-                            if (deck != null)
+                            if(deck != null)
                             {
                                 string target;
                                 if (flag == 6)
@@ -491,7 +491,7 @@ namespace MDPro3.Servant
                 players[i] = null;
             onlineAppearances.Clear();
 
-            if (!FromHandTest)
+            if(!FromHandTest)
                 Program.instance.ShiftToServant(Program.instance.room);
         }
 
@@ -518,7 +518,7 @@ namespace MDPro3.Servant
             if (Program.instance.deckEditor.showing)
             {
                 Program.instance.deckEditor.Hide(0);
-                if (!FromHandTest)
+                if(!FromHandTest)
                     MessageManager.Cast(InterString.Get("更换副卡组成功，请等待对手更换副卡组。"));
             }
 
@@ -569,7 +569,7 @@ namespace MDPro3.Servant
 
         public void StocMessage_HsPlayerEnter(BinaryReader r)
         {
-            if (!FromHandTest)
+            if(!FromHandTest)
                 AudioManager.PlaySE("SE_ROOM_SITDOWN");
             var name = r.ReadUnicode(20);
             var pos = r.ReadByte() & 3;

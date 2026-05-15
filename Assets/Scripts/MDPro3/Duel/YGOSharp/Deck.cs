@@ -44,7 +44,7 @@ namespace MDPro3.Duel.YGOSharp
         public Deck(string path) : this(File.ReadAllText(path), string.Empty, string.Empty)
         {
             type = Path.GetFileName(Path.GetDirectoryName(path));
-            if (type == "Deck" && type == Path.GetDirectoryName(path))
+            if(type == "Deck" && type == Path.GetDirectoryName(path))
                 type = string.Empty;
         }
 
@@ -82,7 +82,7 @@ namespace MDPro3.Duel.YGOSharp
 
                 if (line.StartsWith("#main"))
                     flag = 1;
-                else if (line.StartsWith("#extra"))
+                else if (line.StartsWith( "#extra"))
                     flag = 2;
                 else if (line.StartsWith("!side"))
                     flag = 3;
@@ -301,7 +301,8 @@ namespace MDPro3.Duel.YGOSharp
                 File.WriteAllText(path, ydk, Encoding.UTF8);
                 File.SetLastWriteTimeUtc(path, saveTime);
 
-
+                if (MyCard.account != null && upload && Config.GetBool("SyncDeck", true))
+                    _ = OnlineDeck.SyncDeck(deckId, deckName, this, saveTime, showHint);
             }
             catch
             {

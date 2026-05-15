@@ -140,7 +140,7 @@ namespace MDPro3.Duel
             UIManager.UIBlackIn(Core.TransitionTime);
             await UniTask.WaitForSeconds(Core.TransitionTime);
             await UniTask.WaitUntil(() => Appearance.loaded);
-            if(inPuzzle || condition != Condition.Duel)
+            if (inPuzzle || condition != Condition.Duel)
                 await Program.instance.appearance.LoadSettingAssets();
             await ABLoader.CacheMasterDuelBundles();
             Program.instance.ocgcore.LoadDuelButton();
@@ -2027,7 +2027,7 @@ namespace MDPro3.Duel
 
         public void PlayGraveEffect(GPS p, bool isIn)
         {
-            if(grave0Manager == null || grave1Manager == null)
+            if (grave0Manager == null || grave1Manager == null)
                 return;
 
             ElementObjectManager manager;
@@ -2267,7 +2267,7 @@ namespace MDPro3.Duel
 
         public void Dispose()
         {
-            foreach(var go in turnEndDeleteObjects)
+            foreach (var go in turnEndDeleteObjects)
                 UnityEngine.Object.Destroy(go);
             turnEndDeleteObjects.Clear();
             foreach (var go in allGameObjects)
@@ -2291,9 +2291,9 @@ namespace MDPro3.Duel
 
         public void DuelEndEvent()
         {
-            if(timerHandler != null)
+            if (timerHandler != null)
                 timerHandler.DuelEnd();
-            if(playableGuide != null)
+            if (playableGuide != null)
                 playableGuide.End();
         }
 
@@ -2394,7 +2394,7 @@ namespace MDPro3.Duel
                 HeroLose();
                 RivalWin();
             }
-            else if(result == DuelResult.Draw)
+            else if (result == DuelResult.Draw)
             {
                 HeroLose();
                 RivalLose();
@@ -2432,7 +2432,7 @@ namespace MDPro3.Duel
             var director = animation.GetComponent<PlayableDirector>();
             var manager = animation.GetComponent<ElementObjectManager>();
 
-            if(chain >= 4)
+            if (chain >= 4)
             {
                 director.GetTrackAsset("LCardLightSetScaleC03").muted = true;
                 director.GetTrackAsset("LCardLightSetScaleC04").muted = false;
@@ -2724,18 +2724,18 @@ namespace MDPro3.Duel
             if (negatedInChain.Contains(chainSolvingIndex)
                 || card.disabledInChain)
                 return;
-            if (negatedInChain.Contains(chainSolvingIndex) 
+            if (negatedInChain.Contains(chainSolvingIndex)
                 || Core.CurrentChainDisabled(chainSolvingIndex)
-                || card.negated 
+                || card.negated
                 || card.Disabled)
             {
                 card.disabledInChain = true;
                 await card.AnimationNegate().WaitAsync();
                 return;
             }
-            
+
             if (condition == Condition.Duel
-                && !Config.GetBool("DuelEffect",true))
+                && !Config.GetBool("DuelEffect", true))
                 return;
             if (condition == Condition.Watch
                 && !Config.GetBool("WatchEffect", true))
@@ -2743,7 +2743,7 @@ namespace MDPro3.Duel
             if (condition == Condition.Replay
                 && !Config.GetBool("ReplayEffect", true))
                 return;
-            
+
             var code = card.GetData().GetOriginalID();
             if (card.GetData().Id == 83764719)//死者苏生 异画
                 code = 83764719;
@@ -2768,7 +2768,7 @@ namespace MDPro3.Duel
                     var prefabs = await ABLoader.LoadsFromFolderAsync<PlayableDirector>("MasterDuel/Card/" + code.ToString());
                     if (code == 83764718)
                         prefabs[0].name = "Ef83764718";
-                    else if(code == 83764719)
+                    else if (code == 83764719)
                         prefabs[0].name = "Ef83764719";
                     cardEffects.AddRange(prefabs);
                     cardEffectCodes.Add(code);
@@ -3267,7 +3267,7 @@ namespace MDPro3.Duel
 
         public async UniTask ShowAllDeckModelsAsync()
         {
-            if(myDeck == null || myExtra == null || opDeck == null || opExtra == null)
+            if (myDeck == null || myExtra == null || opDeck == null || opExtra == null)
                 return;
 
             myDeck.gameObject.SetActive(true);
@@ -3381,7 +3381,7 @@ namespace MDPro3.Duel
 
         public void HideAttackLine()
         {
-            
+
             if (attackLine == null)
                 return;
             attackLine.SetActive(false);
@@ -3389,14 +3389,14 @@ namespace MDPro3.Duel
 
         public void ShowDuelFinalBlowText()
         {
-            if(duelFinalBlow != null)
+            if (duelFinalBlow != null)
                 UnityEngine.Object.Destroy(duelFinalBlow.gameObject);
             duelFinalBlow = ABLoader.LoadMasterDuelGameObject("DuelFinalBlow").GetComponent<DuelFinalBlow>();
         }
 
         public void HideDuelFinalBlowText()
         {
-            if(duelFinalBlow == null) return;
+            if (duelFinalBlow == null) return;
             duelFinalBlow.Destroy();
         }
 
@@ -3457,7 +3457,7 @@ namespace MDPro3.Duel
 
         public void ReleaseTurnObjects()
         {
-            foreach(var go in turnEndDeleteObjects)
+            foreach (var go in turnEndDeleteObjects)
                 UnityEngine.Object.Destroy(go);
             turnEndDeleteObjects.Clear();
         }
@@ -3603,7 +3603,7 @@ namespace MDPro3.Duel
                     = ABLoader.LoadMasterDuelTexture("RPendulumNum0" + (scale2 - 10));
             }
 
-            if(MasterRule >= 4)
+            if (MasterRule >= 4)
             {
                 var scaleSet = ABLoader.LoadMasterDuelGameObject("SummonPendulumScaleSet");
                 scaleSet.transform.SetParent(Program.instance.container_3D);
@@ -3820,7 +3820,7 @@ namespace MDPro3.Duel
 
         public void SetExDeckTop(GameCard card)
         {
-            if(exTopCts != null)
+            if (exTopCts != null)
             {
                 exTopCts.Cancel();
                 exTopCts.Dispose();
@@ -3840,7 +3840,7 @@ namespace MDPro3.Duel
         private async UniTask SetCardToMaterialAsync(Material mat, int code, CancellationToken token)
         {
             var tex = await CardImageLoader.LoadCardAsync(code, true, token);
-            if(mat == null)
+            if (mat == null)
                 return;
             mat.mainTexture = tex;
         }
@@ -3854,7 +3854,7 @@ namespace MDPro3.Duel
                 {
                     topCard = c;
                     break;
-                }            
+                }
 
             if (topCard != null && topCard.p.InPosition(CardPosition.FaceUp) && topCard.GetData().Id != 0)
             {
@@ -3929,7 +3929,7 @@ namespace MDPro3.Duel
 
         private GameObject GetCardEffectPrefab(string name)
         {
-            foreach(var go in cardEffects)
+            foreach (var go in cardEffects)
                 if (go.name == name)
                     return UnityEngine.Object.Instantiate(go);
             return null;
@@ -4015,7 +4015,7 @@ namespace MDPro3.Duel
             sequence.Append(attackTransform.DOMove(attackPosition + offset, 0.3f).SetEase(Ease.InOutCubic));
             faceAngle.z = 0f;
             sequence.Join(attackTransform.DORotate(faceAngle, 0.3f).SetEase(Ease.InOutCubic));
-            sequence.Join(DOTween.To(v => { }, 0f, 0f, 0.1f).OnComplete(() => 
+            sequence.Join(DOTween.To(v => { }, 0f, 0f, 0.1f).OnComplete(() =>
             {
                 beam.SetActive(true);
             }));

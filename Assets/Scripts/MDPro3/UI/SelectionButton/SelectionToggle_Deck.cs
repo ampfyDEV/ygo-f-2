@@ -50,7 +50,7 @@ namespace MDPro3.UI
 
         public override void Refresh()
         {
-            if (index == 0)
+            if(index == 0)
             {
                 Manager.GetElement("DeckCaseIcon").SetActive(false);
                 Manager.GetElement("TextDeckName").SetActive(false);
@@ -95,8 +95,7 @@ namespace MDPro3.UI
                     cts?.Cancel();
                     cts?.Dispose();
                 }
-                catch { }
-                ;
+                catch { };
                 cts = new();
                 _ = RefreshAsync();
             }
@@ -219,14 +218,14 @@ namespace MDPro3.UI
 
         protected override void OnClick()
         {
-            if (index == 0)
+            if(index == 0)
             {
                 AudioManager.PlaySE(SoundLabelClick);
                 Program.instance.deckSelector.GetUI<DeckSelectorUI>().DeckCreate();
                 return;
             }
 
-            if (toggleMode)
+            if(toggleMode)
             {
                 isOn = !isOn;
                 if (isOn)
@@ -250,7 +249,10 @@ namespace MDPro3.UI
                     Program.instance.deckEditor.SwitchCondition(DeckEditor.Condition.EditDeck);
                     Program.instance.ShiftToServant(Program.instance.deckEditor);
                 }
-
+                else if (DeckSelector.condition == DeckSelector.Condition.MyCard)
+                {
+                    Program.instance.ShiftToServant(Program.instance.online);
+                }
                 else if (DeckSelector.condition == DeckSelector.Condition.ForDuel)
                 {
                     Program.instance.ShiftToServant(Program.instance.room);
@@ -314,7 +316,7 @@ namespace MDPro3.UI
             var tween8 = Manager.GetElement<RectTransform>("CardImage2").DOLocalRotate(Vector3.zero, 0.2f).SetEase(Ease.OutCubic);
             pickupTweens.Add(tween8);
 
-            if (!refreshed)
+            if(!refreshed)
                 StartRefresh();
         }
 
@@ -324,7 +326,7 @@ namespace MDPro3.UI
                 return;
             if (forced)
                 forcedPickup = false;
-            if (!pickuping)
+            if (!pickuping) 
                 return;
             if (forcedPickup)
                 return;
@@ -390,7 +392,7 @@ namespace MDPro3.UI
 
         public void ShowToggle()
         {
-            if (index == 0)
+            if(index == 0)
             {
                 return;
             }

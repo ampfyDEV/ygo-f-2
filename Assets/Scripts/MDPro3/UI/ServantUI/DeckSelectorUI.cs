@@ -55,7 +55,7 @@ namespace MDPro3.UI.ServantUI
 
         private const string LABEL_RT_HEADER = "Header";
         private RectTransform m_Header;
-        private RectTransform Header =>
+        private RectTransform Header => 
             m_Header = m_Header != null ? m_Header
             : Manager.GetElement<RectTransform>(LABEL_RT_HEADER);
 
@@ -116,7 +116,10 @@ namespace MDPro3.UI.ServantUI
                     ButtonOnline.gameObject.SetActive(false);
                     Title.text = InterString.Get("选择卡组");
                     break;
-
+                case Condition.MyCard:
+                    ButtonOnline.gameObject.SetActive(false);
+                    Title.text = InterString.Get("选择卡组");
+                    break;
             }
 
             ShowDefaultButtons();
@@ -317,7 +320,13 @@ namespace MDPro3.UI.ServantUI
                 string clipBoard = GUIUtility.systemCopyBuffer;
                 if (clipBoard.Contains("#main"))
                     File.WriteAllText(path!, clipBoard, Encoding.UTF8);
-
+                else if (clipBoard.Contains("ygotype=deck&v=1&d="))
+                {
+                    var uri = new Uri(clipBoard);
+                    var deck = DeckShareURL.UriToDeck(uri);
+                    deck.type = deckType;
+                    deck.Save(deckName, DateTime.UtcNow);
+                }
                 else if (clipBoard.Contains(YdkeConverter.ydkeHeader))
                 {
                     var deck = YdkeConverter.Ydke2Deck(clipBoard);
@@ -334,6 +343,17 @@ namespace MDPro3.UI.ServantUI
             }
         }
 
+        private void DeleteOnlineDecks(List<string> ids)
+        {
+            if (MyCard.account == null || !Config.GetBool("SyncDeck", true))
+                return;
+            _ = OnlineDeck.DeleteDecks(ids);
+        }
+
+        public void OnOnlineDeckView()
+        {
+            Program.instance.ShiftToServant(Program.instance.onlineDeckViewer);
+        }
 
         public void OnShowPickup()
         {
@@ -373,7 +393,7 @@ namespace MDPro3.UI.ServantUI
             var color = button.GetButtonTextColor();
             string selected = button.GetButtonText();
 
-            if (color != Color.white)
+            if(color != Color.white)
             {
                 if (selected == InterString.Get("新建分组"))
                     AddDeckType();
@@ -389,7 +409,7 @@ namespace MDPro3.UI.ServantUI
             }
 
             var type = selected;
-            if (selected == InterString.Get("默认分组"))
+            if(selected == InterString.Get("默认分组"))
                 type = string.Empty;
             deckType = type;
             RefreshList();
@@ -407,7 +427,7 @@ namespace MDPro3.UI.ServantUI
 
         private void AddDeckType(string type)
         {
-            if (type == string.Empty)
+            if(type == string.Empty)
                 return;
 
             var path = Program.PATH_DECK + type + "/";
@@ -441,7 +461,7 @@ namespace MDPro3.UI.ServantUI
             if (!Directory.Exists(path))
                 return;
             var files = Directory.GetFiles(path, "*.ydk");
-            if (files.Length > 0)
+            if(files.Length > 0)
             {
                 var selections = new List<string>
                 {
@@ -461,7 +481,7 @@ namespace MDPro3.UI.ServantUI
         private void DeleteDeckType(string type)
         {
             var path = Program.PATH_DECK + type + "/";
-
+            DeleteOnlineDecks(GetAllDeckIds(path));
             var files = Directory.GetFiles(path, "*.ydk");
             foreach (var file in files)
                 File.Delete(file);
@@ -514,7 +534,7 @@ namespace MDPro3.UI.ServantUI
             if (newType == selectedType)
                 return;
             var allTypes = GetAllDeckTypes();
-            bool exists = allTypes.Any(type => type != selectedType && type == newType);
+            bool exists = allTypes.Any(type=> type != selectedType && type == newType);
             if (exists)
             {
                 MessageManager.Cast(InterString.Get("该分组已存在！"));
@@ -577,7 +597,7 @@ namespace MDPro3.UI.ServantUI
 
         private string GetTypeName(string type)
         {
-            if (type == string.Empty)
+            if(type == string.Empty)
                 return InterString.Get("默认分组");
             else
                 return type;
@@ -610,7 +630,7 @@ namespace MDPro3.UI.ServantUI
         {
             var folders = Directory.GetDirectories(Program.PATH_DECK);
             var types = folders.Select(f => Path.GetFileName(f)).ToArray();
-            if (excludeType != null)
+            if(excludeType != null)
                 types = types.Where(t => t != excludeType).ToArray();
             return types;
         }
@@ -648,6 +668,7 @@ namespace MDPro3.UI.ServantUI
             Program.instance.deckSelector.lastSelectedDeckItem = (SelectionToggle_Deck)superScrollView.GetItemByIndex(lastSelect);
             if (Cursor.lockState == CursorLockMode.Locked)
                 Program.instance.deckSelector.Select();
+            DeleteOnlineDecks(deleteIds);
 
             SwitchToDefaultLayout();
             UpdateDeckNum();
@@ -662,7 +683,7 @@ namespace MDPro3.UI.ServantUI
             if (buttonLayoutSwitching) return;
             selectedType = UnityEngine.EventSystems.EventSystem.current.
                 currentSelectedGameObject.GetComponent<SelectionButton>().GetButtonText();
-            if (selectedType == InterString.Get("默认分组"))
+            if(selectedType == InterString.Get("默认分组"))
                 selectedType = string.Empty;
             SwitchButtonLayouts(LayoutType.MoveToType);
         }
@@ -677,7 +698,7 @@ namespace MDPro3.UI.ServantUI
                 {
                     var filePath = GetDeckPath(superScrollView.items[i].args[0]);
                     var newPath = GetDeckPath(superScrollView.items[i].args[0], selectedType);
-                    if (File.Exists(newPath))
+                    if(File.Exists(newPath))
                     {
                         MessageManager.Cast(InterString.Get("操作失败，目标分组已存在同名卡组：[[?]]。", superScrollView.items[i].args[0]));
                         continue;

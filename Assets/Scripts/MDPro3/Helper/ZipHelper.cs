@@ -13,7 +13,7 @@ namespace MDPro3
         {
             Dispose();
 
-            if (Config.GetBool("Expansions", true))
+            if(Config.GetBool("Expansions", true))
             {
                 if (!Directory.Exists("Expansions"))
                     Directory.CreateDirectory("Expansions");
@@ -25,7 +25,7 @@ namespace MDPro3
 
             zips.Add(new ZipFile(Program.PATH_DATA + Program.SCRIPT_ZIP));//Make "Data/script.zip" the last one to read.
 
-
+            PageLegacy.YpkServerSetDirty();
         }
 
         public static void Dispose()
@@ -86,11 +86,11 @@ namespace MDPro3
                 var isScriptZip = zip.Name.ToLower().EndsWith(Program.SCRIPT_ZIP);
                 if (isScript != isScriptZip)
                     continue;
-                foreach (var entry in zip.Entries)
+                foreach( var entry in zip.Entries)
                 {
                     if (entry.IsDirectory) continue;
                     var entryExt = Path.GetExtension(entry.FileName).TrimStart('.').ToLowerInvariant();
-                    if (entryExt != ext) continue;
+                    if(entryExt != ext) continue;
                     using var sr = new StreamReader(entry.OpenReader());
                     result.Add(sr.ReadToEnd());
                 }

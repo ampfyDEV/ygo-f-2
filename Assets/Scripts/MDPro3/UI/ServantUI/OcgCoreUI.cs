@@ -715,7 +715,7 @@ namespace MDPro3.UI.ServantUI
 
         #region Generic Card List
 
-        private string PathCardList => PropertyOverrider.NeedMobileLayout()
+        private string PathCardList => PropertyOverrider.NeedMobileLayout() 
             ? "ServantUI/Parts/GenericCardList_Mobile.prefab" : "ServantUI/Parts/GenericCardList.prefab";
 
         public CardList CardList;
@@ -750,7 +750,7 @@ namespace MDPro3.UI.ServantUI
 
         private async UniTask LoadDuelLogAsync()
         {
-            if (DuelLog != null)
+            if(DuelLog != null)
                 DuelLog.Hide(true);
 
             var path = PathDuelLog;
@@ -761,7 +761,7 @@ namespace MDPro3.UI.ServantUI
             }
 
             var obj = await Addressables.InstantiateAsync(path);
-            obj.transform.SetParent(transform, false);
+            obj.transform.SetParent (transform, false);
             cachedDuelLogs[path] = obj.GetComponent<DuelLog>();
             DuelLog = cachedDuelLogs[path];
         }

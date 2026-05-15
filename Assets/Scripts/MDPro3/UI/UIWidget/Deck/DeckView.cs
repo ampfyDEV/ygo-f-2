@@ -360,7 +360,7 @@ namespace MDPro3.UI
             _ = LoadDeckCaseAsync(deck.Case);
             StartCoroutine(PrintDeckAsync());
 
-            if (Program.instance.currentServant == Program.instance.deckEditor)
+            if(Program.instance.currentServant == Program.instance.deckEditor)
                 SetCardInfoTypeInternal(DeckEditor.cardInfoType);
         }
 
@@ -985,7 +985,7 @@ namespace MDPro3.UI
         public void ResetDeck()
         {
             if (!deckLoaded) return;
-            if (condition != Condition.ChangeSide)
+            if(condition != Condition.ChangeSide)
                 if (!CanEditCard()) return;
 
             PrintDeck(Deck, deckNameWithType, condition);
@@ -994,7 +994,7 @@ namespace MDPro3.UI
         public void Sort()
         {
             if (!deckLoaded) return;
-            if (condition != Condition.ChangeSide)
+            if(condition != Condition.ChangeSide)
                 if (!CanEditCard()) return;
 
             SetDirty(true);
@@ -1095,10 +1095,14 @@ namespace MDPro3.UI
             if (!CanEditCard()) return;
             if (GetDirty() || !File.Exists(Program.PATH_DECK + deckNameWithType + Program.EXPANSION_YDK))
             {
-                if (condition != Condition.ChangeSide)
+                if(condition != Condition.ChangeSide)
                     MessageManager.Toast(InterString.Get("请先保存卡组"));
                 return;
             }
+
+            var url = DeckShareURL.DeckToUri(Deck.Main, Deck.Extra, Deck.Side).ToString();
+            GUIUtility.systemCopyBuffer = url;
+            Application.OpenURL(url);
         }
 
         public bool ImportCardLists(Deck importedDeck)
@@ -1152,7 +1156,7 @@ namespace MDPro3.UI
             deck.deckId = Deck.deckId;
             deck.userId = Deck.userId;
 
-            if (Path.GetFileName(deckNameWithType) == deckNameWithType)
+            if(Path.GetFileName(deckNameWithType) == deckNameWithType)
                 deck.type = string.Empty;
             else
                 deck.type = Path.GetDirectoryName(deckNameWithType);
@@ -1203,7 +1207,7 @@ namespace MDPro3.UI
 
             if (Deck == null)//Online Deck
             {
-                while (DeckEditor.Deck == null)
+                while(DeckEditor.Deck == null)
                     yield return null;
                 Deck = DeckEditor.Deck;
             }
@@ -1364,7 +1368,7 @@ namespace MDPro3.UI
                 TextSideDeckGP.text = gc.ToString();
             }
 
-            if (Program.instance.currentServant == Program.instance.deckEditor)
+            if(Program.instance.currentServant == Program.instance.deckEditor)
                 SelectionButton_CardInfoType.SetGenesysCredits(GetGenesysCredits());
         }
 
@@ -1513,7 +1517,7 @@ namespace MDPro3.UI
 
         private void PrePick()
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++) 
             {
                 foreach (var card in cards)
                 {
@@ -1529,7 +1533,7 @@ namespace MDPro3.UI
 
         public void Pickup(SelectionButton_CardInDeck card)
         {
-            foreach (var c in cards)
+            foreach(var c in cards)
                 if (c != card && c.pickupIndex == card.pickupIndex)
                     c.DepickupThis();
         }
