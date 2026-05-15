@@ -377,7 +377,6 @@ Library/ScriptAssemblies/
  UnityEngine.TestRunner.dll
  UnityEngine.UI.dll
 Temp/bin/Debug/
- spine-csharp.dll
  spine-timeline.dll
  spine-unity-editor.dll
  spine-unity.dll
@@ -390,4 +389,5 @@ Temp/bin/Debug/
 ../../Users/nminh/.vscode/extensions/visualstudiotoolsforunity.vstuc-1.2.2/Analyzers/Microsoft.Unity.Analyzers.dll
 
 [analyzerConfigFiles]
+.editorconfig
 Temp/obj/spine-timeline-editor/spine-timeline-editor.GeneratedMSBuildEditorConfig.editorconfig
