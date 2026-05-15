@@ -10,7 +10,6 @@ using MDPro3.Servant;
 using Cysharp.Threading.Tasks;
 using MDPro3.Utility;
 
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -115,10 +114,10 @@ namespace MDPro3
 
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
-            if(!ABLoader.mdCached)
+            if (!ABLoader.mdCached)
                 await ABLoader.CacheMasterDuelOutDuelBundles();
 
-            if(items == null)
+            if (items == null)
             {
                 var handle = Addressables.LoadAssetAsync<Items>("ScriptableObjects/Items.asset");
                 await handle.Task;
@@ -142,11 +141,11 @@ namespace MDPro3
             var args = Environment.GetCommandLineArgs();
             //args = new string[11]
             //{
-                //"-r",
-                //"TURN023"
+            //"-r",
+            //"TURN023"
 
-                //"-s",
-                //"6ace for win!"
+            //"-s",
+            //"6ace for win!"
 
             //    "-d",
             //    "LL铁兽",
@@ -180,9 +179,9 @@ namespace MDPro3
                     Config.Save();
                 }
 
-                if (args[i].ToLower() == "-h" && args.Length > i + 1) 
+                if (args[i].ToLower() == "-h" && args.Length > i + 1)
                     host = args[++i];
-                if (args[i].ToLower() == "-p" && args.Length > i + 1) 
+                if (args[i].ToLower() == "-p" && args.Length > i + 1)
                     port = args[++i];
                 if (args[i].ToLower() == "-w" && args.Length > i + 1)
                     password = args[++i];
@@ -310,11 +309,11 @@ namespace MDPro3
 
         public float TimeScale
         {
-            get 
-            { 
+            get
+            {
                 return m_TimeScale;
             }
-            set 
+            set
             {
                 m_TimeScale = value;
                 Time.timeScale = value;
@@ -328,9 +327,9 @@ namespace MDPro3
         private void Update()
         {
             TcpHelper.PerFrameFunction();
-            foreach (Manager manager in managers) 
+            foreach (Manager manager in managers)
                 manager.PerFrameFunction();
-            foreach (Servant.Servant servant in servants) 
+            foreach (Servant.Servant servant in servants)
                 servant.PerFrameFunction();
 
 #if UNITY_EDITOR
@@ -400,7 +399,7 @@ namespace MDPro3
                             currentServant = servant;
                             break;
                         }
-                    if(currentServant == null)
+                    if (currentServant == null)
                         currentServant = online;
                 }
                 currentServant.OnReturn();
