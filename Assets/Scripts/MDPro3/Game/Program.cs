@@ -15,9 +15,6 @@ using MDPro3.Utility;
 using UnityEditor;
 #endif
 
-
-
-
 namespace MDPro3
 {
     public class Program : MonoBehaviour
