@@ -418,5 +418,4 @@ Library/ScriptAssemblies/
 ../../Users/nminh/.vscode/extensions/visualstudiotoolsforunity.vstuc-1.2.2/Analyzers/Microsoft.Unity.Analyzers.dll
 
 [analyzerConfigFiles]
-.editorconfig
 Temp/obj/spine-csharp/spine-csharp.GeneratedMSBuildEditorConfig.editorconfig
