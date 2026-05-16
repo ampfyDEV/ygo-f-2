@@ -184,7 +184,6 @@ namespace MDPro3
             InitializeLanguage();
             Program.instance.menu.EnsureButtonsWidth();
             Program.instance.cutin.LoadCutins();
-            Program.instance.mate.LoadMates();
             Program.instance.solo.LoadBots();
             Program.instance.character.LoadCharacters();
             Program.instance.setting.RefreshCharacterName();
@@ -201,7 +200,6 @@ namespace MDPro3
 
             ShowExitButton(0f);
             Program.instance.cutin.LoadCutins();
-            Program.instance.mate.LoadMates();
             Program.instance.solo.LoadBots();
 
         }

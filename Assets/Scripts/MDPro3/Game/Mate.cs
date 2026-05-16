@@ -277,7 +277,7 @@ namespace MDPro3
                     }
                 }
                 transform.localScale = Vector3.one * 5;
-                if(huge)
+                if (huge)
                     transform.localScale = Vector3.one * 4f;
 
                 var animator = GetComponent<Animator>();
@@ -379,13 +379,11 @@ namespace MDPro3
                             if (directorI != null)
                             {
                                 directorI.Play();
-                                MateViewer.PlayCrossDuelSe(directorI.name.Replace("(Clone)", string.Empty));
                                 mesh.updateWhenOffscreen = true;
                             }
                             else if (directorA != null)
                             {
                                 directorA.Play();
-                                MateViewer.PlayCrossDuelSe(directorA.name.Replace("(Clone)", string.Empty));
                             }
                             break;
                         case MateAction.Tap:
@@ -398,27 +396,27 @@ namespace MDPro3
                                 {
                                     case 0:
                                         directorM.Play();
-                                        MateViewer.PlayCrossDuelSe(directorM.name.Replace("(Clone)", string.Empty));
+
                                         break;
                                     case 1:
                                         directorN.Play();
-                                        MateViewer.PlayCrossDuelSe(directorN.name.Replace("(Clone)", string.Empty));
+
                                         break;
                                     case 2:
                                         directorO.Play();
-                                        MateViewer.PlayCrossDuelSe(directorO.name.Replace("(Clone)", string.Empty));
+
                                         break;
                                 }
                             }
                             else if (directorM != null)//艾克佐迪亞
                             {
                                 directorM.Play();
-                                MateViewer.PlayCrossDuelSe(directorM.name.Replace("(Clone)", string.Empty));
+
                             }
                             else if (directorD != null)
                             {
                                 directorD.Play();
-                                MateViewer.PlayCrossDuelSe(directorD.name.Replace("(Clone)", string.Empty));
+
                             }
                             break;
                         case MateAction.BattlePhase:
@@ -427,7 +425,7 @@ namespace MDPro3
                             if (directorE != null)
                             {
                                 directorE.Play();
-                                MateViewer.PlayCrossDuelSe(directorE.name.Replace("(Clone)", string.Empty));
+
                             }
                             break;
                         case MateAction.GetDamage:
@@ -436,10 +434,10 @@ namespace MDPro3
                         case MateAction.Victory:
                             break;
                         case MateAction.Defeat:
-                            if (directorB != null) 
-                            { 
+                            if (directorB != null)
+                            {
                                 directorB.Play();
-                                MateViewer.PlayCrossDuelSe(directorB.name.Replace("(Clone)", string.Empty));
+
                                 animator.SetBool("IsKnockDown", true);
                                 animator.SetBool("IsVisible", false);
                             }

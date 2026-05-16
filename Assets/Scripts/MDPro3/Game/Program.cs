@@ -37,7 +37,6 @@ namespace MDPro3
         public SoloSelector solo;
         public ReplaySelector replay;
         public CutinViewer cutin;
-        public MateViewer mate;
         public DeckSelector deckSelector;
         public SettingServant setting;
         public Appearance appearance;
@@ -242,7 +241,6 @@ namespace MDPro3
             servants.Add(solo);
             servants.Add(replay);
             servants.Add(cutin);
-            servants.Add(mate);
             servants.Add(deckSelector);
             servants.Add(appearance);
             servants.Add(character);

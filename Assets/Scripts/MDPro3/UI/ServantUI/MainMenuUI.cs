@@ -45,13 +45,6 @@ namespace MDPro3.UI.ServantUI
 
             Program.instance.ShiftToServant(Program.instance.cutin);
         }
-        public void OnMate()
-        {
-            if (Program.exitOnReturn)
-                return;
-
-            Program.instance.ShiftToServant(Program.instance.mate);
-        }
 
         public void OnDeck()
         {
