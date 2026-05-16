@@ -126,6 +126,7 @@ namespace MDPro3
             BanlistManager.Initialize();
 
             CardImageLoader.Initialize();
+            CutinViewer.LoadCutins();
 
             InitializeAllManagers();
             InitializeAllServants();
