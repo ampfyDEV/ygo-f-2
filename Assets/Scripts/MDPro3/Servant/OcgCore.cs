@@ -29,7 +29,6 @@ namespace MDPro3.Servant
         public List<PlaceSelector> Places => messageDispatcher.duel.duelBGManager.places;
         public static List<GameCard> materialCards = new();
 
-        public static bool inPuzzle;
         public static bool isTag;
         public static int playerType;
         public static bool isFirst;
@@ -516,7 +515,7 @@ namespace MDPro3.Servant
 
         public void ToChat()
         {
-            if (condition == Condition.Replay || inPuzzle)
+            if (condition == Condition.Replay)
                 return;
             Program.instance.ui_.chatPanel.Switch();
         }

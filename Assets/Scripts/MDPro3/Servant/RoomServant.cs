@@ -275,7 +275,7 @@ namespace MDPro3.Servant
                 OcgCore.condition = OcgCore.Condition.Watch;
             else
                 OcgCore.condition = OcgCore.Condition.Duel;
-            OcgCore.inPuzzle = false;
+
             Program.instance.ShiftToServant(Program.instance.ocgcore);
         }
 

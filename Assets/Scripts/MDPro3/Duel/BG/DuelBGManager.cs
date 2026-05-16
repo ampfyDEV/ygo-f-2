@@ -129,7 +129,6 @@ namespace MDPro3.Duel
             deck = null;
             var deckName = Config.GetConfigDeckName();
             if (condition == Condition.Duel
-                && !inPuzzle
                 && File.Exists(Program.PATH_DECK + deckName + Program.EXPANSION_YDK))
                 deck = new Deck(Program.PATH_DECK + deckName + Program.EXPANSION_YDK);
 
@@ -140,7 +139,7 @@ namespace MDPro3.Duel
             UIManager.UIBlackIn(Core.TransitionTime);
             await UniTask.WaitForSeconds(Core.TransitionTime);
             await UniTask.WaitUntil(() => Appearance.loaded);
-            if (inPuzzle || condition != Condition.Duel)
+            if (condition != Condition.Duel)
                 await Program.instance.appearance.LoadSettingAssets();
             await ABLoader.CacheMasterDuelBundles();
             Program.instance.ocgcore.LoadDuelButton();

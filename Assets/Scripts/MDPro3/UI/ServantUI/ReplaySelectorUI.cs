@@ -130,7 +130,7 @@ namespace MDPro3.UI.ServantUI
                     PushCollection(collections);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
 #if UNITY_EDITOR
                 Debug.LogError(e);

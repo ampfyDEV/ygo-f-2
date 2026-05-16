@@ -35,7 +35,6 @@ namespace MDPro3
         [Header("Servants")]
         public Servant.MainMenu menu;
         public SoloSelector solo;
-        public PuzzleSelector puzzle;
         public ReplaySelector replay;
         public CutinViewer cutin;
         public MateViewer mate;
@@ -166,7 +165,7 @@ namespace MDPro3
             string password = null;
             string deck = null;
             string replay = null;
-            string puzzle = null;
+
             var join = false;
             for (var i = 0; i < args.Length; i++)
             {
@@ -187,9 +186,6 @@ namespace MDPro3
                     deck = args[++i];
                 if (args[i].ToLower() == "-r" && args.Length > i + 1)
                     replay = args[++i];
-                if (args[i].ToLower() == "-s" && args.Length > i + 1)
-                    puzzle = args[++i];
-
                 if (args[i].ToLower() == "-j")
                 {
                     join = true;
@@ -215,11 +211,7 @@ namespace MDPro3
                 exitOnReturn = true;
                 this.replay.PlayReplay(replay);
             }
-            else if (puzzle != null)
-            {
-                this.puzzle.StartPuzzle(PATH_PUZZLE + puzzle);
-                exitOnReturn = true;
-            }
+
         }
 
         public void InitializeForDataChange()
@@ -248,7 +240,6 @@ namespace MDPro3
             servants.Add(setting);
             servants.Add(menu);
             servants.Add(solo);
-            servants.Add(puzzle);
             servants.Add(replay);
             servants.Add(cutin);
             servants.Add(mate);

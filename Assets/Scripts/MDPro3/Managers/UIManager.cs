@@ -82,7 +82,7 @@ namespace MDPro3
         {
             base.PerFrameFunction();
             foreach (UIHandler handler in handlers)
-                    handler.PerframeFunction();
+                handler.PerframeFunction();
         }
 
         public static void Translate(GameObject go)
@@ -132,11 +132,11 @@ namespace MDPro3
             {
                 if (t.name.StartsWith(TRANSLATE_PREFIX))
                 {
-                    if(t.TryGetComponent<Text>(out var text))
+                    if (t.TryGetComponent<Text>(out var text))
                     {
                         text.text = InterString.Get(text.text);
                     }
-                    else if(t.TryGetComponent<TextMeshProUGUI>(out var tmp))
+                    else if (t.TryGetComponent<TextMeshProUGUI>(out var tmp))
                     {
                         tmp.text = InterString.Get(tmp.text);
 
@@ -167,11 +167,11 @@ namespace MDPro3
         public static void ChangeLanguage()
         {
             UIManager instance = Program.instance.ui_;
-            foreach(var t in instance.GetComponentsInChildren<Transform>(true))
+            foreach (var t in instance.GetComponentsInChildren<Transform>(true))
             {
                 if (t.name.StartsWith(TRANSLATE_PREFIX))
                 {
-                    if(t.TryGetComponent<Text>(out var text))
+                    if (t.TryGetComponent<Text>(out var text))
                         text.text = InterString.GetOriginal(text.text);
                     else if (t.TryGetComponent<TextMeshProUGUI>(out var tmp))
                         tmp.text = InterString.GetOriginal(tmp.text);
@@ -203,7 +203,7 @@ namespace MDPro3
             Program.instance.cutin.LoadCutins();
             Program.instance.mate.LoadMates();
             Program.instance.solo.LoadBots();
-            Program.instance.puzzle.PrintPuzzles();
+
         }
 
         private async UniTask LoadDiyWallpaperAsync(string path, Transform parent)
@@ -319,8 +319,8 @@ namespace MDPro3
         #region Popup
 
         public static void ShowPopupSelection(
-            List<string> selections, 
-            Action decideAction, 
+            List<string> selections,
+            Action decideAction,
             Action cancelAction = null)
         {
             var handle = Addressables.InstantiateAsync("Popup/PopupSelection.prefab");
@@ -336,8 +336,8 @@ namespace MDPro3
         }
 
         public static void ShowPopupYesOrNo(
-            List<string> selections, 
-            Action decideAction, 
+            List<string> selections,
+            Action decideAction,
             Action cancelAction)
         {
             var handle = Addressables.InstantiateAsync("Popup/PopupYesOrNo.prefab");
@@ -365,9 +365,9 @@ namespace MDPro3
         }
 
         public static void ShowPopupInput(
-            List<string> selections, 
-            Action<string> decideAction, 
-            Action cancelAction, 
+            List<string> selections,
+            Action<string> decideAction,
+            Action cancelAction,
             TmpInputValidation.ValidationType type = TmpInputValidation.ValidationType.None)
         {
             var handle = Addressables.InstantiateAsync("Popup/PopupInput.prefab");
@@ -435,7 +435,7 @@ namespace MDPro3
         }
 
         public static void ShowPopupText(
-            List<string> selections, 
+            List<string> selections,
             HorizontalAlignmentOptions alignment = HorizontalAlignmentOptions.Center)
         {
             var handle = Addressables.InstantiateAsync("Popup/PopupText.prefab");
@@ -467,7 +467,7 @@ namespace MDPro3
 
         public static void UIBlackOut(float time)
         {
-            if(duelTransition != null)
+            if (duelTransition != null)
             {
                 duelTransition.GetComponent<LoopTrackManager>().StopLoop();
                 Destroy(duelTransition, 1f);
@@ -480,7 +480,7 @@ namespace MDPro3
             Program.instance.ui_.blackBack.raycastTarget = true;
             Program.instance.ui_.blackBack.DOFade(alpha, time)
                 .SetUpdate(true)
-                .OnComplete(() => 
+                .OnComplete(() =>
             {
                 action?.Invoke();
             });
@@ -490,7 +490,7 @@ namespace MDPro3
         {
             Program.instance.ui_.blackBack.DOFade(0f, time)
                 .SetUpdate(true)
-                .OnComplete(() => 
+                .OnComplete(() =>
             {
                 Program.instance.ui_.blackBack.raycastTarget = false;
             });

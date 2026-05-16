@@ -30,16 +30,6 @@ namespace MDPro3.UI.ServantUI
             Program.instance.ShiftToServant(Program.instance.solo);
         }
 
-
-
-        public void OnPuzzle()
-        {
-            if (Program.exitOnReturn)
-                return;
-
-            Program.instance.ShiftToServant(Program.instance.puzzle);
-        }
-
         public void OnReplay()
         {
             if (Program.exitOnReturn)

@@ -76,7 +76,7 @@ namespace MDPro3.Duel
                         var clip = await AudioManager.LoadAudioFileUniAsync(paths[i][j], AudioType.OGGVORBIS);
                         clips[i].Add(clip);
                     }
-                    catch (Exception ex) 
+                    catch (Exception ex)
                     {
                         Debug.LogException(ex);
                     }
@@ -264,12 +264,6 @@ namespace MDPro3.Duel
         {
             ResetState();
 
-            if (OcgCore.inPuzzle)
-            {
-                isFirst = true;
-                myTurn = true;
-            }
-
             MasterRule = reader.ReadByte() + 1;
             if (MasterRule > 255)
                 MasterRule -= 255;
@@ -303,14 +297,14 @@ namespace MDPro3.Duel
         protected override UniTask GameMessage_NewPhase(BinaryReader reader)
         {
             duelPhase = (DuelPhase)reader.ReadUInt16();
-            if(duelPhase != DuelPhase.BattleStart && duelPhase != DuelPhase.End)
+            if (duelPhase != DuelPhase.BattleStart && duelPhase != DuelPhase.End)
                 return UniTask.CompletedTask;
 
             var targetData = GetVoiceSet(myTurn);
             var data = new VoiceData();
-            if(duelPhase == DuelPhase.BattleStart)
+            if (duelPhase == DuelPhase.BattleStart)
                 data.name = Tools.GetRandomDictionaryElement(targetData.BattleStart.rawKvp).Value.shortName;
-            else if(duelPhase == DuelPhase.End)
+            else if (duelPhase == DuelPhase.End)
             {
                 var leadingState = GetLeadingState(myTurn);
                 data.name = GetVoiceBySituation(targetData.TurnEnd, leadingState);
@@ -327,7 +321,7 @@ namespace MDPro3.Duel
         protected override UniTask GameMessage_Win(BinaryReader reader)
         {
             var player = LocalPlayer(reader.ReadByte());
-            if(player == 2)
+            if (player == 2)
                 return UniTask.CompletedTask;
 
             VoicesData targetData;
@@ -366,13 +360,14 @@ namespace MDPro3.Duel
         protected override UniTask GameMessage_PosChange(BinaryReader reader)
         {
             var nextPack = OcgCore.GetNextPackage();
-            if(nextPack == null)
+            if (nextPack == null)
                 return UniTask.CompletedTask;
             //仅检测盖卡打开
             if ((GameMessage)nextPack.Function != GameMessage.Chaining)
                 return UniTask.CompletedTask;
 
-            /*var code = */reader.ReadUInt32();
+            /*var code = */
+            reader.ReadUInt32();
             var gps = reader.ReadGPS();
             var card = Core.GCS_Get(gps);
 
@@ -428,7 +423,7 @@ namespace MDPro3.Duel
             var to = reader.ReadGPS();
             var reason = reader.ReadUInt32();
             var card = Core.GCS_Get(from);
-            if(card == null)
+            if (card == null)
             {
                 DebugNoCard();
                 return UniTask.CompletedTask;
@@ -436,7 +431,7 @@ namespace MDPro3.Duel
 
             var cardData = card.GetData();
             var nextPack = OcgCore.GetNextPackage();
-            if(nextPack == null)
+            if (nextPack == null)
                 return UniTask.CompletedTask;
             nextPack.Data.reader.BaseStream.Seek(0, 0);
 
@@ -596,7 +591,7 @@ namespace MDPro3.Duel
             }
 
             var targetData = GetVoiceSet(isMe);
-            if(category == 0)
+            if (category == 0)
                 return UniTask.CompletedTask;
             if (fromHand)
             {
@@ -630,7 +625,7 @@ namespace MDPro3.Duel
             var code = (int)reader.ReadUInt32();
             var gps = reader.ReadGPS();
             var card = Core.GCS_Get(gps);
-            if(card == null)
+            if (card == null)
             {
                 DebugNoCard();
             }
@@ -643,7 +638,7 @@ namespace MDPro3.Duel
                 voiceData.Add(GetBeforeCardEffectData(targetData, simple.isMe));
 
             var data = GetVoiceByCard(targetData, targetData.MainMonsterEffect, code, 0, simple.isMe);
-            if(data.name != string.Empty)
+            if (data.name != string.Empty)
             {
                 voiceData.Add(data);
                 return UniTask.CompletedTask;
@@ -680,11 +675,11 @@ namespace MDPro3.Duel
 
         protected override UniTask GameMessage_Draw(BinaryReader reader)
         {
-            if(duelPhase != DuelPhase.Draw)
+            if (duelPhase != DuelPhase.Draw)
                 return UniTask.CompletedTask;
-            if(turns == 0)
+            if (turns == 0)
                 return UniTask.CompletedTask;
-            if(turns == 1 && MasterRule > 2)
+            if (turns == 1 && MasterRule > 2)
                 return UniTask.CompletedTask;
 
             var player = LocalPlayer(reader.ReadByte());
@@ -723,7 +718,7 @@ namespace MDPro3.Duel
             }
 
             var data = new VoiceData();
-            if(DamageIsBig(value))
+            if (DamageIsBig(value))
                 data.name = Tools.GetRandomDictionaryElement(targetData.BigDamage.rawKvp).Value.shortName;
             else
                 data.name = Tools.GetRandomDictionaryElement(targetData.Damage.rawKvp).Value.shortName;
@@ -824,7 +819,7 @@ namespace MDPro3.Duel
             var to = reader.ReadGPS();
 
             var attackCard = Core.GCS_Get(from);
-            if(attackCard == null)
+            if (attackCard == null)
             {
                 DebugNoCard();
                 return UniTask.CompletedTask;
@@ -834,7 +829,7 @@ namespace MDPro3.Duel
             var value = attackCard.GetData().Attack;
             var attackedCard = Core.GCS_Get(to);
 
-            if(attackedCard != null)
+            if (attackedCard != null)
             {
                 directAttack = false;
                 if (attackedCard.p.InPosition(CardPosition.Attack))
@@ -899,7 +894,7 @@ namespace MDPro3.Duel
                                         inPendulumSummon = true;
             }
 
-            if(!inPendulumSummon)
+            if (!inPendulumSummon)
                 return UniTask.CompletedTask;
 
             var targetData = myTurn ? heroVoices : rivalVoices;

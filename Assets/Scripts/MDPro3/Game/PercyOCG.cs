@@ -124,27 +124,6 @@ namespace MDPro3
             ygopro.Response(resp);
         }
 
-        public void StartPuzzle(string path)
-        {
-            if (!ygopro.StartPuzzle(path))
-            {
-                MessageManager.Cast(InterString.Get("启动残局<#FF0000>[?]</color>失败。", path));
-                return;
-            }
-            else
-            {
-                Config.SetBool(path[..^4] + "_Enter", true);
-                Config.Save();
-
-                OcgCore.condition = OcgCore.Condition.Duel;
-                OcgCore.isFirst = true;
-                Program.instance.ocgcore.returnServant = DeckEditor.ToHandTest ? Program.instance.deckEditor : Program.instance.puzzle;
-                OcgCore.timeLimit = 0;
-                OcgCore.inPuzzle = true;
-                Program.instance.ShiftToServant(Program.instance.ocgcore);
-                OcgCore.handler = Response;
-            }
-        }
 
         public void StartAI()
         {

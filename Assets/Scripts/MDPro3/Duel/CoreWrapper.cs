@@ -1356,7 +1356,6 @@ namespace Percy
             stream.Close();
             return stream.ToArray();
         }
-
     }
 
     public class YRP
