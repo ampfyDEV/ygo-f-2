@@ -38,13 +38,6 @@ namespace MDPro3.UI.ServantUI
             Program.instance.ShiftToServant(Program.instance.replay);
         }
 
-        public void OnCutin()
-        {
-            if (Program.exitOnReturn)
-                return;
-
-            Program.instance.ShiftToServant(Program.instance.cutin);
-        }
 
         public void OnDeck()
         {

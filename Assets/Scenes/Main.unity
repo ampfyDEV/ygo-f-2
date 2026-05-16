@@ -1457,8 +1457,7 @@ MonoBehaviour:
   menu: {fileID: 2140741784}
   solo: {fileID: 797084640}
   replay: {fileID: 696110299}
-  cutin: {fileID: 592724623}
-  mate: {fileID: 616724218}
+  cutin: {fileID: 0}
   deckSelector: {fileID: 12210700}
   setting: {fileID: 679615501}
   appearance: {fileID: 1154949186}
@@ -2057,8 +2056,6 @@ RectTransform:
   - {fileID: 2140741782}
   - {fileID: 138809604}
   - {fileID: 696110298}
-  - {fileID: 592724622}
-  - {fileID: 616724217}
   - {fileID: 679615500}
   - {fileID: 664545265}
   - {fileID: 437956624}
@@ -2778,115 +2775,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 582056235}
   m_CullTransparentMesh: 1
---- !u!1 &592724621
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 592724622}
-  - component: {fileID: 592724623}
-  m_Layer: 5
-  m_Name: CutinViewer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &592724622
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592724621}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 365283973}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &592724623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592724621}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01002a36a0c3e8d48928cd6db991962f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  returnServant: {fileID: 0}
-  lastSelectable: {fileID: 0}
-  showing: 0
-  inTransition: 0
-  servantUI: {fileID: 0}
-  lastSelectedCutinItem: {fileID: 0}
---- !u!1 &616724216
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 616724217}
-  - component: {fileID: 616724218}
-  m_Layer: 5
-  m_Name: MateViewer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &616724217
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 616724216}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 365283973}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &616724218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 616724216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef0b390b4c4c540409c01cf455be4e6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  returnServant: {fileID: 0}
-  lastSelectable: {fileID: 0}
-  showing: 0
-  inTransition: 0
-  servantUI: {fileID: 0}
-  lastSelectedMateItem: {fileID: 0}
-  mate: {fileID: 0}
 --- !u!1 &617398410
 GameObject:
   m_ObjectHideFlags: 0

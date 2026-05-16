@@ -36,7 +36,6 @@ namespace MDPro3
         public Servant.MainMenu menu;
         public SoloSelector solo;
         public ReplaySelector replay;
-        public CutinViewer cutin;
         public DeckSelector deckSelector;
         public SettingServant setting;
         public Appearance appearance;
@@ -219,6 +218,7 @@ namespace MDPro3
             BanlistManager.Initialize();
             StringHelper.Initialize();
             CardsManager.Initialize();
+
         }
 
         private void InitializeAllManagers()
@@ -240,7 +240,7 @@ namespace MDPro3
             servants.Add(menu);
             servants.Add(solo);
             servants.Add(replay);
-            servants.Add(cutin);
+
             servants.Add(deckSelector);
             servants.Add(appearance);
             servants.Add(character);

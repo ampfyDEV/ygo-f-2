@@ -18,7 +18,7 @@ using YgomSystem.ElementSystem;
 
 namespace MDPro3.Servant
 {
-    public class CutinViewer : Servant
+    public class CutinViewer : MonoBehaviour
     {
 
         public const float CUTIN_PLAY_TIME = 1.6f;
@@ -29,101 +29,13 @@ namespace MDPro3.Servant
         public static List<int> codes2 = new();
         private static DirectoryInfo[] dirInfos;
         private static FileInfo[] fileInfos;
-        private bool randomBGMPlayed;
-        [HideInInspector] public SelectionToggle_Cutin lastSelectedCutinItem;
+
 
         private static bool playing;
-        private static bool autoPlaying;
-        private CancellationTokenSource cts;
 
-        #region Servant
-        public override int Depth => 1;
-        protected override bool ShowLine => false;
-
-        public override void Initialize()
+        public static void LoadCutins()
         {
-            returnServant = Program.instance.menu;
-            base.Initialize();
-            LoadCutins();
-        }
-
-        protected override void ApplyShowArrangement(int preDepth)
-        {
-            base.ApplyShowArrangement(preDepth);
-            UserInput.SetMoveRepeatSpeed(2f);
-        }
-
-        protected override void ApplyHideArrangement(int nextDepth)
-        {
-            base.ApplyHideArrangement(nextDepth);
-            UserInput.SetMoveRepeatSpeed(1f);
-
-            if (randomBGMPlayed)
-            {
-                randomBGMPlayed = false;
-                AudioManager.PlayBGM(AudioManager.BGM_MENU_MAIN);
-            }
-
-            CameraManager.DuelOverlayEffect3DCount = 0;
-            CameraManager.DuelOverlayEffect3DMinus();
-        }
-
-        protected override void AfterHidingEvent()
-        {
-            Program.instance.UnloadUnusedAssets();
-        }
-
-        public override void PerFrameFunction()
-        {
-            if (NeedResponseInput())
-            {
-                if (UserInput.MouseRightDown || UserInput.WasCancelPressed)
-                    OnReturn();
-
-#if UNITY_ANDROID || UNITY_IOS
-                //if (UserInput.MouseLeftDown)
-                //    if(autoPlay != null)
-                //        OnReturn();
-#endif
-
-                if (UserInput.WasGamepadButtonWestPressed)
-                    GetUI<CutinViewerUI>().FocusOnInputField();
-                if (UserInput.WasGamepadButtonNorthPressed)
-                    AutoPlay();
-            }
-        }
-
-        public override void OnReturn()
-        {
-            if (returnAction != null) return;
-            if (inTransition) return;
-            AudioManager.PlaySE("SE_MENU_CANCEL");
-            if (cts != null)
-            {
-                cts.Cancel();
-                cts.Dispose();
-                cts = null;
-
-                UIManager.ShowExitButton(TransitionTime);
-                servantUI.CG.alpha = 1;
-                servantUI.CG.blocksRaycasts = true;
-            }
-            else
-                OnExit();
-        }
-
-        public override void Select(bool forced = false)
-        {
-            if (!forced && !UserInput.NeedDefaultSelect())
-                return;
-            lastSelectedCutinItem.GetSelectable().Select();
-        }
-
-#endregion
-
-        public void LoadCutins()
-        {
-            if(dirInfos == null || fileInfos == null)
+            if (dirInfos == null || fileInfos == null)
             {
                 var targetFolder = Program.root + "MonsterCutin";
                 var targetFolder2 = Program.root + "MonsterCutin2";
@@ -146,7 +58,7 @@ namespace MDPro3.Servant
 
             for (int i = 0; i < dirInfos.Length; i++)
             {
-                if(int.TryParse(dirInfos[i].Name, out var code))
+                if (int.TryParse(dirInfos[i].Name, out var code))
                 {
                     Card card = CardsManager.GetCard(code);
                     if (card == null)
@@ -157,7 +69,7 @@ namespace MDPro3.Servant
             }
             for (int i = 0; i < fileInfos.Length; i++)
             {
-                if(int.TryParse(fileInfos[i].Name, out var code))
+                if (int.TryParse(fileInfos[i].Name, out var code))
                 {
                     if (!codes.Contains(code))
                     {
@@ -168,15 +80,6 @@ namespace MDPro3.Servant
                 }
             }
             cards.Sort(CardsManager.ComparisonOfCard());
-
-            if (servantUI != null)
-                GetUI<CutinViewerUI>().Print();
-        }
-
-        public void SelectLastCutinItem()
-        {
-            UserInput.NextSelectionIsAxis = true;
-            Select();
         }
 
         public static bool CutinExist(int code)
@@ -196,7 +99,7 @@ namespace MDPro3.Servant
 
         public static async UniTask Play(int code, int controller)
         {
-            if (playing) 
+            if (playing)
                 return;
             playing = true;
 
@@ -339,40 +242,6 @@ namespace MDPro3.Servant
             });
         }
 
-        public void AutoPlay()
-        {
-            cts = new();
-            _ = AutoPlayAsync(cts.Token);
-        }
-
-        private async UniTask AutoPlayAsync(CancellationToken token)
-        {
-            await UniTask.WaitWhile(() => playing, cancellationToken : token);
-            if(!showing)
-                return;
-
-            AudioManager.PlayRandomKeyCardBGM();
-            randomBGMPlayed = true;
-            servantUI.CG.alpha = 0f;
-            servantUI.CG.blocksRaycasts = false;
-            UIManager.HideExitButton(TransitionTime);
-            int count = 0;
-            foreach (var card in cards)
-            {
-                await Play(card.Id, 0);
-                count++;
-                if (count % 20 == 0)
-                    await Resources.UnloadUnusedAssets();
-                if (token.IsCancellationRequested)
-                    return;
-            }
-            servantUI.CG.alpha = 1f;
-            servantUI.CG.blocksRaycasts = true;
-            UIManager.ShowExitButton(TransitionTime);
-            autoPlaying = false;
-            cts.Dispose();
-            cts = null;
-        }
 
         public static async UniTask CacheCutin(int code)
         {
