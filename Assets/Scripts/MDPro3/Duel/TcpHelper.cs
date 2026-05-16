@@ -38,13 +38,13 @@ namespace MDPro3
 
         public static bool LinkStart(string ipString, string name, string portString, string pswString, bool local, Action doWhenSuccess)
         {
-            if(!canJoin)
+            if (!canJoin)
                 return false;
 
             linkThread?.Abort();
 
             canJoin = false;
-            linkThread = new Thread(() => 
+            linkThread = new Thread(() =>
             {
                 bool joined = false;
                 if (local)
@@ -99,7 +99,6 @@ namespace MDPro3
                 joinedAddress = ipString;
                 joinedPort = portString;
                 joinedPassword = pswString;
-                OcgCore.mycardDuel = joinedAddress == MyCard.duelUrl;
                 doWhenSuccess?.Invoke();
 
                 Debug.LogFormat("Joind Address: {0}, Port: {1}, Password: {2}", joinedAddress, joinedPort, joinedPassword);
@@ -185,11 +184,11 @@ namespace MDPro3
                                     Program.instance.room.StocMessage_ErrorMsg(r);
                                     break;
                                 case StocMessage.SelectHand:
-                                    if(!RoomServant.FromHandTest)
+                                    if (!RoomServant.FromHandTest)
                                         Program.instance.room.StocMessage_SelectHand(r);
                                     break;
                                 case StocMessage.SelectTp:
-                                    if(!RoomServant.FromHandTest)
+                                    if (!RoomServant.FromHandTest)
                                         Program.instance.room.StocMessage_SelectTp(r);
                                     break;
                                 case StocMessage.HandResult:
@@ -282,9 +281,9 @@ namespace MDPro3
                 else if (Program.instance.deckEditor.showing)
                 {
                     MessageManager.Cast(InterString.Get("对方已离开游戏，您现在可以离开。"));
-                    Program.instance.ShiftToServant(Program.instance.online);
+                    Program.instance.ShiftToServant(Program.instance.solo);
                 }
-                else if (!Program.instance.online.showing && !Program.instance.solo.showing)
+                else if (!Program.instance.solo.showing && !Program.instance.solo.showing)
                 {
                     MessageManager.Cast(InterString.Get("连接被断开。"));
                     if (Program.instance.room.showing)

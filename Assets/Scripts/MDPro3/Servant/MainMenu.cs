@@ -20,7 +20,7 @@ namespace MDPro3.Servant
         public override void Initialize()
         {
             base.Initialize();
-            
+
             showing = true;
             UIManager.HideExitButton(0f);
             UIManager.HideLine(0f);
@@ -51,11 +51,11 @@ namespace MDPro3.Servant
         {
             base.FirstLoadEvent();
             servantUI.ResetUI();
-            StartCoroutine(LoadMyCardNewsAsync());
+
 
             EnsureButtonsWidth();
             Program.instance.ReadParams();
-            if(!Program.exitOnReturn)
+            if (!Program.exitOnReturn)
                 VersionIntroduction.Show();
         }
 
@@ -80,18 +80,7 @@ namespace MDPro3.Servant
                 if (UserInput.WasCancelPressed)
                     OnReturn();
 
-                if (GetUI<MainMenuUI>().News.showing)
-                {
-                    if (UserInput.WasLeftPressed)
-                        GetUI<MainMenuUI>().News.OnLeft();
-                    else if (UserInput.WasRightPressed)
-                        GetUI<MainMenuUI>().News.OnRight();
 
-                    if (UserInput.WasGamepadButtonWestPressed)
-                        GetUI<MainMenuUI>().News.OnNewsClick();
-                    if (UserInput.WasGamepadButtonNorthPressed)
-                        GetUI<MainMenuUI>().News.OnClose();
-                }
             }
         }
 
@@ -141,14 +130,7 @@ namespace MDPro3.Servant
             }
         }
 
-        private IEnumerator LoadMyCardNewsAsync()
-        {
-            while(OnlineService.myCardNews == null)
-                yield return null;
-            var news = OnlineService.myCardNews;
-            GetUI<MainMenuUI>().News.news = news;
-            GetUI<MainMenuUI>().News.LoadNews();
-        }
+
 
         private SelectionButton_MainMenu[] buttons;
         private SelectionButton_MainMenu[] Buttons
@@ -170,7 +152,7 @@ namespace MDPro3.Servant
             for (int i = 0; i < Buttons.Length; i++)
                 widths[i] = buttons[i].GetPreferredWidth();
             var maxWidth = Mathf.Max(widths);
-            foreach(var button in Buttons)
+            foreach (var button in Buttons)
                 button.SetWidth(maxWidth);
         }
 

@@ -12,7 +12,7 @@ namespace MDPro3.UI
 
         private ElementObjectManager m_Manager;
         private ElementObjectManager Manager =>
-            m_Manager = m_Manager != null ? m_Manager 
+            m_Manager = m_Manager != null ? m_Manager
             : GetComponent<ElementObjectManager>();
 
         #region Top
@@ -109,27 +109,5 @@ namespace MDPro3.UI
 
         #endregion
 
-        public void SetProfile(MyCardUserExp data)
-        {
-            if (data == null)
-                return;
-
-            if(MyCard.account != null)
-                TextUserName.text = MyCard.account.user.name;
-            TextExpValue.text = data.exp.ToString();
-            TextDPValue.text = data.pt.ToString();
-            TextAthleticWinValue.text = data.athletic_win.ToString();
-            TextAthleticWinRatioValue.text = data.athletic_wl_ratio + "%";
-            TextAthleticRankValue.text = data.arena_rank.ToString();
-            TextEntertainCountValue.text = data.entertain_all.ToString();
-            TextEntertainRankValue.text = data.exp_rank.ToString();
-
-            var rankSprites = TextureManager.container.GetRankSprites(data.pt);
-            IconBG.sprite = rankSprites[0];
-            IconRank.sprite = rankSprites[1];
-            IconTier1.sprite = rankSprites[2];
-            IconTier2.sprite = rankSprites[3];
-            IconTier3.sprite = rankSprites[4];
-        }
     }
 }

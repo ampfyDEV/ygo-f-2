@@ -110,11 +110,11 @@ namespace MDPro3.Servant
         public static bool pause;
         public static bool NoMoreWait
         {
-            get 
-            { 
-                return noMoreWait; 
+            get
+            {
+                return noMoreWait;
             }
-            set 
+            set
             {
                 noMoreWait = value;
                 //Debug.Log($"Set noMoreWait: {value}");
@@ -172,8 +172,8 @@ namespace MDPro3.Servant
         public static bool HideMyHandCard
         {
             get { return hideMyHandCard; }
-            set 
-            { 
+            set
+            {
                 hideMyHandCard = value;
                 Program.instance.ocgcore.RefreshMyHandCardPosition();
             }
@@ -235,7 +235,7 @@ namespace MDPro3.Servant
 
         public void LoadDuelButton()
         {
-            if(btnConfirm == null)
+            if (btnConfirm == null)
             {
                 btnConfirm = ABLoader.LoadMasterDuelGameObject("DuelButton").GetComponent<DuelButton>();
                 btnConfirm.response.Add(-4);
@@ -243,7 +243,7 @@ namespace MDPro3.Servant
                 btnConfirm.type = ButtonType.Decide;
                 btnConfirm.Hide();
             }
-            if(btnCancel == null)
+            if (btnCancel == null)
             {
                 btnCancel = ABLoader.LoadMasterDuelGameObject("DuelButton").GetComponent<DuelButton>();
                 btnCancel.response.Add(-5);
@@ -290,8 +290,8 @@ namespace MDPro3.Servant
             }
             else
             {
-                Debug.Log($"ReturnTo: - Program.instance.online");
-                Program.instance.ShiftToServant(Program.instance.online);
+                Debug.Log($"ReturnTo: - Program.instance.solo");
+                Program.instance.ShiftToServant(Program.instance.solo);
             }
         }
 
@@ -521,7 +521,7 @@ namespace MDPro3.Servant
             Program.instance.ui_.chatPanel.Switch();
         }
 
-#endregion
+        #endregion
 
         #region Button Function
 
@@ -545,10 +545,10 @@ namespace MDPro3.Servant
                 card.SetData(datas[i]);
                 cards.Add(card);
             }
-            currentPopup.whenQuitDo = () => 
-            { 
+            currentPopup.whenQuitDo = () =>
+            {
                 GetUI<OcgCoreUI>().ShowPopupSelectCard
-                (InterString.Get("请选择需要宣言的卡片。"), cards, 1, 1, true, false); 
+                (InterString.Get("请选择需要宣言的卡片。"), cards, 1, 1, true, false);
             };
         }
 
@@ -582,13 +582,13 @@ namespace MDPro3.Servant
         {
             if (Program.instance.room.duelEnded)
                 return true;
-            if(TcpHelper.tcpClient == null)
+            if (TcpHelper.tcpClient == null)
                 return true;
-            if(!TcpHelper.tcpClient.Connected)
+            if (!TcpHelper.tcpClient.Connected)
                 return true;
             if (surrendered)
             {
-                if(RoomServant.Mode == 0)
+                if (RoomServant.Mode == 0)
                     return true;
                 if (RoomServant.Mode == 1)
                     return false;
@@ -603,7 +603,7 @@ namespace MDPro3.Servant
         {
             RoomServant.JoinWithReconnect = false;
 
-            if(condition != Condition.Watch)
+            if (condition != Condition.Watch)
             {
                 if (DuelEndNeedExit())
                 {
@@ -713,7 +713,7 @@ namespace MDPro3.Servant
 
         private void CheckMessageIsNeedInstanceResponse(Package p)
         {
-            if(p.Function == (int)GameMessage.Win)
+            if (p.Function == (int)GameMessage.Win)
             {
                 messageDispatcher.playerResponed = true;
             }
@@ -771,7 +771,7 @@ namespace MDPro3.Servant
         {
             _ = ShowErrorMessageAsync(error);
         }
-        
+
         private async UniTask ShowErrorMessageAsync(string error)
         {
             await UniTask.WaitWhile(() => servantUI == null);
@@ -846,7 +846,7 @@ namespace MDPro3.Servant
         public static bool NextMessageIs(GameMessage message)
         {
             var p = GetNextPackage();
-            if(p == null) return false;
+            if (p == null) return false;
             return p.Function == (int)message;
         }
 
@@ -933,7 +933,7 @@ namespace MDPro3.Servant
                 && to.InLocation(CardLocation.Grave))
             {
                 var location = NextMessageIsMovingToLocation();
-                if(location == CardLocation.Grave)
+                if (location == CardLocation.Grave)
                     return NextMessageIsMovingToGrave(nextMoveMessageController);
                 else if (location == CardLocation.Removed)
                     return NextMessageIsMovingToExclude(nextMoveMessageController);
@@ -963,7 +963,7 @@ namespace MDPro3.Servant
             {
                 while (showing)
                 {
-                    if(!messageDispatcher.duel.duelBGManager.loaded)
+                    if (!messageDispatcher.duel.duelBGManager.loaded)
                     {
                         await UniTask.Yield();
                         continue;
@@ -1444,7 +1444,7 @@ namespace MDPro3.Servant
                     var location = reader.ReadChar();
                     if (player != card.p.controller)
                         continue;
-                    if((location & card.p.location) == 0)
+                    if ((location & card.p.location) == 0)
                         continue;
                     while (true)
                     {
@@ -1454,7 +1454,7 @@ namespace MDPro3.Servant
 
                         var flag = reader.ReadInt32();
                         var code = 0;
-                        if((flag & (int)Query.Code) != 0)
+                        if ((flag & (int)Query.Code) != 0)
                             code = reader.ReadInt32();
                         if ((flag & (int)Query.Position) != 0)
                         {
@@ -1597,8 +1597,6 @@ namespace MDPro3.Servant
                     SetFaceWhenCharaOff(Appearance.replayFace1Tag, 1);
                 }
             }
-
-            _ = SetMyCardFace();
         }
 
         private async UniTask ApplyOnlineOpponentFaceAsync()
@@ -1642,20 +1640,6 @@ namespace MDPro3.Servant
                 GetUI<OcgCoreUI>().AvatarPlayer1.material = frameMaterial;
             if (faceSprite != null)
                 SetFaceWhenCharaOff(faceSprite, 1);
-        }
-
-        private async UniTask SetMyCardFace()
-        {
-            if (MyCard.account == null || !mycardDuel)
-                return;
-
-            var avatar = await MyCard.GetAvatarAsync(GetUI<OcgCoreUI>().TextPlayer0Name.text);
-            if (avatar != null)
-                SetFaceWhenCharaOff(TextureManager.Texture2Sprite(avatar), 0);
-
-            avatar = await  MyCard.GetAvatarAsync(GetUI<OcgCoreUI>().TextPlayer1Name.text);
-            if (avatar != null)
-                SetFaceWhenCharaOff(TextureManager.Texture2Sprite(avatar), 1);
         }
 
 
@@ -1756,7 +1740,7 @@ namespace MDPro3.Servant
                 }, 40, 0.2f));
                 sequence.Append(popupRect.DOAnchorPosY(-490, 0.2f));
 
-                if(val < 0)
+                if (val < 0)
                 {
                     GetUI<OcgCoreUI>().DamageFrame.Show();
                 }
@@ -1820,7 +1804,7 @@ namespace MDPro3.Servant
         {
             if (showing)
                 foreach (var card in cards)
-                    if(card.p.InMyControl())
+                    if (card.p.InMyControl())
                         card.SetHandToDefault();
         }
 
@@ -2130,7 +2114,7 @@ namespace MDPro3.Servant
 
         public ElementObjectManager GetDeckModel(uint player, CardLocation location)
         {
-            if(location == CardLocation.Deck)
+            if (location == CardLocation.Deck)
                 return (player == 0 ? DuelBGManager.myDeck : DuelBGManager.opDeck);
             else
                 return (player == 0 ? DuelBGManager.myExtra : DuelBGManager.opExtra);

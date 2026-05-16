@@ -221,15 +221,14 @@ namespace MDPro3.UI.ServantUI
         {
             base.AfterHideEvent();
 
-            if(!gotoAppearance && !RoomServant.FromHandTest)
+            if (!gotoAppearance && !RoomServant.FromHandTest)
                 Dispose();
         }
 
         private void Dispose()
         {
             Destroy(gameObject);
-            if (loadOnlineDeckCoroutine != null)
-                StopCoroutine(loadOnlineDeckCoroutine);
+
             callExit = false;
             deckLiked = false;
         }
@@ -349,39 +348,18 @@ namespace MDPro3.UI.ServantUI
                 Program.instance.deckEditor.SelectLastDeckViewItem();
             });
             var editConditon = DeckView.Condition.Editable;
-            if (condition == Condition.OnlineDeck
-                || condition == Condition.ReplayDeck)
+            if (condition == Condition.ReplayDeck)
                 editConditon = DeckView.Condition.NonEditable;
             else if (condition == Condition.ChangeSide)
                 editConditon = DeckView.Condition.ChangeSide;
 
             DeckView.ButtonDeck.SetClickEvent(OnDeckButtonClicked);
-            if (DeckEditor.Deck == null)
-                loadOnlineDeckCoroutine = StartCoroutine(LoadOnlineDeckAsync());
-            else
-                DeckView.PrintDeck(DeckEditor.Deck, DeckName, editConditon);
+
+            DeckView.PrintDeck(DeckEditor.Deck, DeckName, editConditon);
             SetDeckButtonText();
         }
 
-        private Coroutine loadOnlineDeckCoroutine;
-        private IEnumerator LoadOnlineDeckAsync()
-        {
-            var task = OnlineDeck.GetDeck(onlineDeckID);
-            while (!task.IsCompleted)
-                yield return null;
-            var onlineDeckData = task.Result;
-            if (onlineDeckData == null)
-            {
-                MessageManager.Cast(InterString.Get("网络异常，获取在线卡组失败。"));
-                yield break;
-            }
 
-            DeckName = onlineDeckData.deckName;
-            DeckEditor.Deck = new Deck(onlineDeckData.deckYdk, onlineDeckData.deckContributor);
-            InitializeDeckView();
-
-            loadOnlineDeckCoroutine = null;
-        }
 
         private void RefreshShowingCardCount()
         {
@@ -587,13 +565,7 @@ namespace MDPro3.UI.ServantUI
             if (!DeckView.ButtonDeck.gameObject.activeSelf)
                 return;
 
-            if (!DeckIsFromLocal && condition == Condition.OnlineDeck)
-            {
-                OnlineDeck.LikeDeck(onlineDeckID);
-                deckLiked = true;
-                SetDeckButtonText();
-                return;
-            }
+
 
             if (DeckView.GetDirty() || !DeckIsFromLocal)
             {
@@ -602,59 +574,14 @@ namespace MDPro3.UI.ServantUI
                 return;
             }
 
-            if (MyCard.account != null && Config.GetBool("SyncDeck", true))
-            {
-                var onlineDeck = OnlineDeck.GetByID(DeckEditor.Deck.deckId);
-                if (onlineDeck == null || onlineDeck.isDelete)
-                    return;
-                _ = OnlineDeck.UpdatePublicState(DeckEditor.Deck.deckId, !onlineDeck.isPublic);
-                onlineDeck.isPublic = !onlineDeck.isPublic;
-            }
-
             SetDeckButtonText();
         }
 
         private void SetDeckButtonText()
         {
             string text = string.Empty;
-            if (DeckIsFromLocal)
-            {
-                if (MyCard.account != null)
-                {
-                    if(Config.GetBool("SyncDeck", true))
-                    {
-                        var onlineDeck = OnlineDeck.GetByID(DeckEditor.Deck.deckId);
-                        if (onlineDeck == null || onlineDeck.isDelete)
-                        {
-                            DeckView.ButtonDeck.gameObject.SetActive(false);
-                            return;
-                        }
-                        else
-                        {
-                            if (onlineDeck.isPublic)
-                                text = InterString.Get("公开中");
-                            else
-                                text = InterString.Get("非公开中");
-                        }
-                    }
-                    else
-                    {
-                        text = InterString.Get("停止同步中");
-                    }
-                }
-            }
-            else
-            {
-                if (condition == Condition.OnlineDeck)
-                {
-                    text = InterString.Get("点赞");
-                    if (deckLiked)
-                    {
-                        DeckView.ButtonDeck.gameObject.SetActive(false);
-                        return;
-                    }
-                }
-            }
+
+
             DeckView.ButtonDeck.SetButtonText(text);
             DeckView.ButtonDeck.gameObject.SetActive(text != string.Empty);
         }
@@ -749,9 +676,9 @@ namespace MDPro3.UI.ServantUI
         private void ToggleCardBookmarkList(string listName)
         {
             var result = CardRarity.ToggleCardTo(bookmarkCardMenuCode, listName);
-            if(result == 1)
+            if (result == 1)
                 MessageManager.Toast(InterString.Get("已加入收藏列表「[?]」。", listName));
-            else if(result == 2)
+            else if (result == 2)
                 MessageManager.Toast(InterString.Get("已从收藏列表「[?]」移除。", listName));
 
             RefreshBookmarkViews();
@@ -924,7 +851,7 @@ namespace MDPro3.UI.ServantUI
                 InterString.Get("禁限卡表"),
                 string.Empty
             };
-            var names = cardInfoType == CardInfoType.Genesys ? 
+            var names = cardInfoType == CardInfoType.Genesys ?
                 BanlistManager.GetAllGenesysNames() : BanlistManager.GetAllNames();
             selections.AddRange(names);
             UIManager.ShowPopupSelection(selections, ChangeRegulation);
@@ -934,7 +861,7 @@ namespace MDPro3.UI.ServantUI
         {
             string selected = EventSystem.current.currentSelectedGameObject
                 .GetComponent<SelectionButton>().GetButtonText();
-            if(cardInfoType == CardInfoType.Genesys)
+            if (cardInfoType == CardInfoType.Genesys)
                 BanlistManager.currentGenesysBanList = BanlistManager.GetByName(selected);
             else
                 BanlistManager.currentBanList = BanlistManager.GetByName(selected);

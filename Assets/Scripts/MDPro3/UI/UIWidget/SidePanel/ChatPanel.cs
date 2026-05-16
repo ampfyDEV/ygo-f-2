@@ -54,7 +54,7 @@ namespace MDPro3.UI
         {
             if (showing)
             {
-                if(!input.isFocused)
+                if (!input.isFocused)
                     HideWithSound();
             }
             else
@@ -76,7 +76,7 @@ namespace MDPro3.UI
             if (!showing) return;
             if (!NeedResponse()) return;
 
-            if ((UserInput.WasCancelPressed 
+            if ((UserInput.WasCancelPressed
                 || UserInput.MouseRightDown)
                 && Program.instance.currentServant == Program.instance.ocgcore)
                 HideWithSound();
@@ -223,8 +223,7 @@ namespace MDPro3.UI
             TcpHelper.AddRecordLine(p);
             if (Program.instance.ocgcore.showing)
                 Program.instance.ocgcore.Chat(player, content);
-            if (Program.instance.online.showing)
-                MessageManager.Cast(content);
+
         }
 
         private static int GetRoomPlayerIndex(int player)
@@ -243,7 +242,7 @@ namespace MDPro3.UI
                 }
                 if (InFirst() && !OcgCore.isFirst)
                     return player ^ swapMask;
-                if(!InFirst() && OcgCore.isFirst)
+                if (!InFirst() && OcgCore.isFirst)
                     return player ^ swapMask;
             }
             return player;
@@ -251,7 +250,7 @@ namespace MDPro3.UI
 
         private static bool InFirst()
         {
-            if(RoomServant.Mode < 2)
+            if (RoomServant.Mode < 2)
                 return RoomServant.SelfType == 0;
             else
                 return RoomServant.SelfType == 0 || RoomServant.SelfType == 1;

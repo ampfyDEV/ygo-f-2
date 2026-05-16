@@ -35,7 +35,6 @@ namespace MDPro3
         [Header("Servants")]
         public Servant.MainMenu menu;
         public SoloSelector solo;
-        public OnlineServant online;
         public PuzzleSelector puzzle;
         public ReplaySelector replay;
         public CutinViewer cutin;
@@ -47,7 +46,6 @@ namespace MDPro3
         public OcgCore ocgcore;
         public RoomServant room;
         public DeckEditor deckEditor;
-        public OnlineDeckViewer onlineDeckViewer;
         public DeckBrowser deckBrowser;
 
 #if UNITY_EDITOR
@@ -129,7 +127,7 @@ namespace MDPro3
             ZipHelper.Initialize();
             items.Initialize();
             BanlistManager.Initialize();
-            OnlineService.Initialize();
+
             CardImageLoader.Initialize();
 
             InitializeAllManagers();
@@ -202,7 +200,7 @@ namespace MDPro3
 
             if (join)
             {
-                online.KF_OnlineGame(nick, host, port, password);
+
                 exitOnReturn = true;
             }
             else if (deck != null)
@@ -250,7 +248,6 @@ namespace MDPro3
             servants.Add(setting);
             servants.Add(menu);
             servants.Add(solo);
-            servants.Add(online);
             servants.Add(puzzle);
             servants.Add(replay);
             servants.Add(cutin);
@@ -261,7 +258,6 @@ namespace MDPro3
             servants.Add(ocgcore);
             servants.Add(room);
             servants.Add(deckEditor);
-            servants.Add(onlineDeckViewer);
             servants.Add(deckBrowser);
             foreach (Servant.Servant servant in servants)
                 servant.Initialize();
@@ -400,7 +396,7 @@ namespace MDPro3
                             break;
                         }
                     if (currentServant == null)
-                        currentServant = online;
+                        currentServant = solo;
                 }
                 currentServant.OnReturn();
             }
@@ -427,7 +423,6 @@ namespace MDPro3
             { TcpHelper.tcpClient.Close(); }
             catch { }
             TcpHelper.tcpClient = null;
-            MyCard.CloseAthleticWatchListWebSocket();
         }
 
         private void ClearCache()

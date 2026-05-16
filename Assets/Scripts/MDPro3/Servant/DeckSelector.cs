@@ -13,7 +13,7 @@ namespace MDPro3.Servant
             ForEdit,
             ForDuel,
             ForSolo,
-            MyCard
+
         }
         public static Condition condition = Condition.ForEdit;
         public void SwitchCondition(Condition condition)
@@ -30,9 +30,7 @@ namespace MDPro3.Servant
                 case Condition.ForSolo:
                     returnServant = Program.instance.solo;
                     break;
-                case Condition.MyCard:
-                    returnServant = Program.instance.online;
-                    break;
+
             }
         }
 
@@ -67,10 +65,7 @@ namespace MDPro3.Servant
                 if (UserInput.WasGamepadButtonWestPressed)
                 {
                     AudioManager.PlaySE("SE_MENU_SELECT_01");
-                    if (GetUI<DeckSelectorUI>().ButtonOnline.gameObject.activeSelf)
-                        GetUI<DeckSelectorUI>().OnOnlineDeckView();
-                    else
-                        GetUI<DeckSelectorUI>().OnConfirm();
+                    GetUI<DeckSelectorUI>().OnConfirm();
                 }
                 if (UserInput.WasGamepadButtonNorthPressed)
                 {
@@ -116,7 +111,7 @@ namespace MDPro3.Servant
 
         public override bool NeedResponseInput()
         {
-            if(servantUI == null
+            if (servantUI == null
                 || GetUI<DeckSelectorUI>().buttonLayoutSwitching)
                 return false;
             return base.NeedResponseInput();

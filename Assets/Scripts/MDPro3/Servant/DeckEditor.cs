@@ -26,7 +26,7 @@ namespace MDPro3.Servant
         public enum Condition
         {
             EditDeck,
-            OnlineDeck,
+
             ReplayDeck,
             ChangeSide
         }
@@ -50,14 +50,6 @@ namespace MDPro3.Servant
                     historyCards = new();
                     break;
 
-                case Condition.OnlineDeck:
-                    returnServant = Program.instance.onlineDeckViewer;
-                    DeckName = deckName;
-                    Deck = null;
-                    DeckIsFromLocal = false;
-                    historyCards = new();
-                    break;
-
                 case Condition.ReplayDeck:
                     returnServant = Program.instance.replay;
                     DeckName = deckName;
@@ -75,7 +67,7 @@ namespace MDPro3.Servant
             }
         }
 
-        public ResponseRegion ResponseRegion 
+        public ResponseRegion ResponseRegion
         {
             get { return GetUI<DeckEditorUI>()._ResponseRegion; }
             set { GetUI<DeckEditorUI>()._ResponseRegion = value; }
@@ -146,7 +138,7 @@ namespace MDPro3.Servant
 
             if (UserInput.WasGamepadSelectPressed)
             {
-                if(condition == Condition.ChangeSide)
+                if (condition == Condition.ChangeSide)
                     GetUI<DeckEditorUI>().OnChangeSideComplete();
                 else
                     GetUI<DeckEditorUI>().OnSave();
@@ -207,9 +199,9 @@ namespace MDPro3.Servant
 
         public override bool NeedResponseInput()
         {
-            if(servantUI == null)
+            if (servantUI == null)
                 return false;
-            if(GetUI<DeckEditorUI>().CardActionMenu.showing)
+            if (GetUI<DeckEditorUI>().CardActionMenu.showing)
                 return false;
             return base.NeedResponseInput();
         }

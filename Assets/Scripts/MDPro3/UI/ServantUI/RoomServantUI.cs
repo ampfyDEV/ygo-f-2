@@ -151,7 +151,7 @@ namespace MDPro3.UI.ServantUI
 
             if (!Appearance.loaded)
             {
-                foreach(var rp in roomPlayers)
+                foreach (var rp in roomPlayers)
                     rp.gameObject.SetActive(false);
                 return;
             }
@@ -203,7 +203,7 @@ namespace MDPro3.UI.ServantUI
                             roomPlayers[i].GetAvatar().sprite = Appearance.watchFace1Tag;
                             break;
                     }
-                    TryApplyOnlineAvatar(i);
+
                 }
             }
             if (RoomServant.IsHost)
@@ -292,61 +292,9 @@ namespace MDPro3.UI.ServantUI
             Program.instance.ShiftToServant(Program.instance.deckSelector);
         }
 
-        private void TryApplyOnlineAvatar(int player)
-        {
-            if (!RoomServant.TryGetOnlineAppearanceForPlayer(player, out var appearance))
-                return;
-            var iconPlayer = GetIconPlayerIndex(GetPlayerPosition(player));
 
-            if (syncedFaceIds.TryGetValue(player, out var cachedFaceId) &&
-                syncedFrameIds.TryGetValue(player, out var cachedFrameId) &&
-                cachedFaceId == appearance.Face &&
-                cachedFrameId == appearance.Frame &&
-                syncedFaces.TryGetValue(player, out var cachedFace) &&
-                syncedFrames.TryGetValue(player, out var cachedFrame) &&
-                cachedFace != null &&
-                cachedFrame != null)
-            {
-                roomPlayers[player].GetAvatar().sprite = cachedFace;
-                roomPlayers[player].GetAvatar().material = cachedFrame;
-                return;
-            }
 
-            _ = ApplyOnlineAvatarAsync(player, appearance, iconPlayer);
-        }
 
-        private async UniTask ApplyOnlineAvatarAsync(int player, OnlineAppearanceData appearance, int iconPlayer)
-        {
-            var frameCode = appearance.Frame.ToString();
-            var frameSprite = await Program.items.LoadConcreteItemIconAsync(frameCode, Items.ItemType.Frame, iconPlayer);
-            Material frameMaterial;
-            if (appearance.Frame == Items.CODE_DIY)
-                frameMaterial = Appearance.matForFace == null ? null : new Material(Appearance.matForFace);
-            else
-                frameMaterial = await ABLoader.LoadFrameMaterial(frameCode);
-            if (frameMaterial != null && frameSprite != null)
-                frameMaterial.SetTexture("_ProfileFrameTex", frameSprite.texture);
-
-            var faceSprite = await Program.items.LoadConcreteItemIconAsync(appearance.Face.ToString(), Items.ItemType.Face, iconPlayer);
-            if (!RoomServant.TryGetOnlineAppearanceForPlayer(player, out var latest))
-                return;
-            if (latest.Face != appearance.Face || latest.Frame != appearance.Frame)
-                return;
-            if (player < 0 || player >= roomPlayers.Count)
-                return;
-            if (!roomPlayers[player].gameObject.activeInHierarchy)
-                return;
-
-            if (frameMaterial != null)
-                roomPlayers[player].GetAvatar().material = frameMaterial;
-            if (faceSprite != null)
-                roomPlayers[player].GetAvatar().sprite = faceSprite;
-
-            syncedFaceIds[player] = appearance.Face;
-            syncedFrameIds[player] = appearance.Frame;
-            syncedFaces[player] = faceSprite;
-            syncedFrames[player] = frameMaterial;
-        }
 
         private static int GetIconPlayerIndex(PlayerPosition position)
         {

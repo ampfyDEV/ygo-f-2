@@ -2491,15 +2491,11 @@ Assets/Scripts/MDPro3/Managers/
  CameraManager.cs
  Manager.cs
  MessageManager.cs
- NewsManager.cs
  TextureManager.cs
  UIManager.cs
 Assets/Scripts/MDPro3/Net/
  DeckShareURL.cs
- MyCard.cs
  NetUtil.cs
- OnlineDeck.cs
- OnlineService.cs
 Assets/Scripts/MDPro3/ScriptableObjects/
  Characters.cs
  Items.cs
@@ -2517,8 +2513,6 @@ Assets/Scripts/MDPro3/Servant/
  MainMenu.cs
  MateViewer.cs
  OcgCore.cs
- OnlineDeckViewer.cs
- OnlineServant.cs
  PuzzleSelector.cs
  ReplaySelector.cs
  RoomServant.cs
@@ -2606,7 +2600,6 @@ Assets/Scripts/MDPro3/UI/
   SelectionButton_Setting.cs
   SelectionInputField.cs
   SelectionToggle.cs
-  SelectionToggle_Address.cs
   SelectionToggle_AppearanceGenre.cs
   SelectionToggle_AppearanceItem.cs
   SelectionToggle_AppearancePlayer.cs
@@ -2617,10 +2610,8 @@ Assets/Scripts/MDPro3/UI/
   SelectionToggle_CharacterSeries.cs
   SelectionToggle_Cutin.cs
   SelectionToggle_Deck.cs
-  SelectionToggle_DeckOnline.cs
   SelectionToggle_Exclusive.cs
   SelectionToggle_Mate.cs
-  SelectionToggle_Online.cs
   SelectionToggle_PickupCard.cs
   SelectionToggle_PopupSelectionItem.cs
   SelectionToggle_Puzzle.cs
@@ -2631,7 +2622,6 @@ Assets/Scripts/MDPro3/UI/
   SelectionToggle_SearchOrder.cs
   SelectionToggle_Setting.cs
   SelectionToggle_Solo.cs
-  SelectionToggle_Watch.cs
  ServantUI/
   AppearanceUI.cs
   CharacterSelectorUI.cs
@@ -2642,8 +2632,6 @@ Assets/Scripts/MDPro3/UI/
   MainMenuUI.cs
   MateViewerUI.cs
   OcgCoreUI.cs
-  OnlineDeckViewerUI.cs
-  OnlineServantUI.cs
   PuzzleSelectorUI.cs
   ReplaySelectorUI.cs
   RoomServantUI.cs
@@ -2666,16 +2654,11 @@ Assets/Scripts/MDPro3/UI/
   DropArea.cs
   DuelErrorLog.cs
   FPSHandler.cs
-  OnlineUI/
-   PageHost.cs
-   PageLegacy.cs
-   PageMyCard.cs
   PhaseButtonHandler.cs
   PlaceSelector.cs
   RoomPlayer.cs
   TimerHandler.cs
   UIHandler.cs
-  WatchListHandler.cs
  UIExtensions/
   ClampedContentSizeFitter.cs
   ConditionalAlignmentController.cs
