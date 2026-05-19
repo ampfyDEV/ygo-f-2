@@ -5306,6 +5306,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: -30
   m_lineSpacingMax: 0
@@ -5975,6 +5976,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -6593,6 +6595,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   alpha: 0.3
   label: CanNotAddBookmark
+  hoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &964610632482920214
 GameObject:
   m_ObjectHideFlags: 0
@@ -7724,6 +7727,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: -30
   m_lineSpacingMax: 0
@@ -7896,6 +7900,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -8771,7 +8776,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 7446650972608614846}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.6475
+  m_Size: 0.296
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11778,6 +11783,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: -50
   m_lineSpacingMax: 0
@@ -12309,6 +12315,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -15111,6 +15118,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: -50
   m_lineSpacingMax: 0
@@ -17194,6 +17202,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: -50
   m_lineSpacingMax: 0
@@ -18804,6 +18813,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: -30
   m_lineSpacingMax: 0
@@ -19545,7 +19555,6 @@ MonoBehaviour:
         m_Calls: []
   selected: 0
   cardCollectionView: {fileID: 0}
-  genesysCredit: 0
 --- !u!114 &3954322275822361723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22096,6 +22105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   alpha: 0.3
   label: ExtraDeck
+  hoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &3684844338375879494
 GameObject:
   m_ObjectHideFlags: 0
@@ -22376,6 +22386,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -22958,6 +22969,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: -30
   m_lineSpacingMax: 0
@@ -23206,6 +23218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   alpha: 0.3
   label: MainDeck
+  hoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &3845481775870530137
 GameObject:
   m_ObjectHideFlags: 0
@@ -23398,6 +23411,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -23662,6 +23676,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -23898,6 +23913,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: -30
   m_lineSpacingMax: 0
@@ -26364,6 +26380,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: -30
   m_lineSpacingMax: 0
@@ -30471,6 +30488,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 835e75b665084034594ec26b10fcb175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  verticalMode: 1
+  horizontalMode: 1
 --- !u!1 &5607674782771195379
 GameObject:
   m_ObjectHideFlags: 0
@@ -32313,6 +32332,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -33522,6 +33542,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: -30
   m_lineSpacingMax: 0
@@ -34169,6 +34190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   alpha: 0.3
   label: SideDeck
+  hoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &6427042709175263884
 GameObject:
   m_ObjectHideFlags: 0
@@ -40311,6 +40333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   alpha: 0.3
   label: RemoveDeck
+  hoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &7936965977469190294
 GameObject:
   m_ObjectHideFlags: 0
@@ -40526,6 +40549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   alpha: 0.3
   label: AddBookmark
+  hoverColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &7966250048253154778
 GameObject:
   m_ObjectHideFlags: 0
@@ -40887,6 +40911,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -41583,6 +41608,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -44045,6 +44071,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -44198,6 +44225,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: -30
   m_lineSpacingMax: 0
@@ -46346,7 +46374,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3036679950856914851, guid: d4403fd2f98246942bb4edbb4b732ea1, type: 3}
       propertyPath: m_Size
-      value: 0.8991754
+      value: 0.63568217
+      objectReference: {fileID: 0}
+    - target: {fileID: 3036679950856914851, guid: d4403fd2f98246942bb4edbb4b732ea1, type: 3}
+      propertyPath: m_Value
+      value: 1.0000002
       objectReference: {fileID: 0}
     - target: {fileID: 3039851360208839043, guid: d4403fd2f98246942bb4edbb4b732ea1, type: 3}
       propertyPath: m_AnchorMax.y

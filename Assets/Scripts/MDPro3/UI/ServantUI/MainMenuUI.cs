@@ -26,6 +26,7 @@ namespace MDPro3.UI.ServantUI
                 return;
 
 
+
             Program.instance.ShiftToServant(Program.instance.rpgSelector);
         }
 

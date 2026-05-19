@@ -47,14 +47,6 @@ namespace MDPro3
         public DeckEditor deckEditor;
         public DeckBrowser deckBrowser;
 
-#if UNITY_EDITOR
-        [Header("Test")]
-        public float testFloat = 1f;
-        public float testFloat2 = 1f;
-        public float testFloat3 = 1f;
-        public float testFloat4 = 1f;
-        public float testFloat5 = 1f;
-#endif
 
         [HideInInspector]
         public Servant.Servant currentServant;

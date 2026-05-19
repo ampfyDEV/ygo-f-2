@@ -143,7 +143,7 @@ namespace MDPro3
                 }
             foreach (AssetBundle bundle in bundles)
                 bundle.Unload(false);
-            if(cache && returnValue != null)
+            if (cache && returnValue != null)
                 cachedABFolder.TryAdd(path, returnValue);
 
             if (returnValue == null)
@@ -177,14 +177,14 @@ namespace MDPro3
                 bundles.Add(AssetBundle.LoadFromFile(files[i].FullName));
 
             var go = new GameObject(Path.GetFileName(path));
-            foreach(var bundle in bundles)
+            foreach (var bundle in bundles)
             {
                 var prefabs = bundle.LoadAllAssets();
                 for (int i = 0; i < prefabs.Length; i++)
                 {
                     if (typeof(GameObject).IsInstanceOfType(prefabs[i]))
                     {
-                        var p =UnityEngine.Object.Instantiate((GameObject)prefabs[i]);
+                        var p = UnityEngine.Object.Instantiate((GameObject)prefabs[i]);
                         p.transform.SetParent(go.transform);
                     }
                 }
@@ -197,7 +197,7 @@ namespace MDPro3
         }
 
         public static async UniTask<GameObject> LoadFromFolderAsync<T>(string path, bool cache, bool instantiate
-            , Action<GameObject , List<UnityEngine.Object>> processEvent = null ) where T : Component
+            , Action<GameObject, List<UnityEngine.Object>> processEvent = null) where T : Component
         {
             if (cachedABFolder.TryGetValue(path, out var returnValue))
             {
@@ -254,7 +254,7 @@ namespace MDPro3
 
             if (instantiate)
             {
-                if(returnValue != null)
+                if (returnValue != null)
                     return UnityEngine.Object.Instantiate(returnValue);
                 else
                     return UnityEngine.Object.Instantiate(allPrefabs[0]);
@@ -286,7 +286,7 @@ namespace MDPro3
             foreach (AssetBundle bundle in bundles)
             {
                 var prefabs = bundle.LoadAllAssets();
-                foreach(var prefab in prefabs)
+                foreach (var prefab in prefabs)
                     if (typeof(GameObject).IsInstanceOfType(prefab))
                         loadedPrefabs.Add(prefab as GameObject);
             }
@@ -315,7 +315,7 @@ namespace MDPro3
             //傻缺科乐美在 混沌幻魔[60110982]的Root节点留了个没删的SkeletonAnimation。
 
             var sas = prefab.GetComponentsInChildren<SkeletonAnimation>();
-            if(sas == null || sas.Length == 0 || sas.Length > 1)
+            if (sas == null || sas.Length == 0 || sas.Length > 1)
                 return;
 
             var sa = sas[0];
@@ -336,7 +336,7 @@ namespace MDPro3
         private const string defaultProtectorCode = "1070002";
         public static async UniTask<Material> LoadProtectorMaterial(string code, CancellationToken token)
         {
-            if(defaultProtectorShader == null)
+            if (defaultProtectorShader == null)
                 await InternalLoadProtectorMaterialAsync(defaultProtectorCode, token);
             return await InternalLoadProtectorMaterialAsync(code, token);
         }
@@ -579,14 +579,14 @@ namespace MDPro3
 
         public static GameObject LoadMasterDuelGameObject(string oName)
         {
-            if(mdBundleDuel == null)
+            if (mdBundleDuel == null)
             {
                 Debug.LogError("MasterDuel AssetBundle [Duel] is not cached!");
                 return null;
             }
 
             var prefab = mdBundleDuel.LoadAsset<GameObject>(oName);
-            if(prefab == null)
+            if (prefab == null)
             {
                 Debug.LogError($"MasterDuel AssetBundle [Duel] does not contain [{oName}]!");
                 return null;
