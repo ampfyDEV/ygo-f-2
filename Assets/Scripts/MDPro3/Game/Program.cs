@@ -38,9 +38,11 @@ namespace MDPro3
         public ReplaySelector replay;
         public DeckSelector deckSelector;
         public SettingServant setting;
+        public RpgSelector rpgSelector;
         public Appearance appearance;
         public CharacterSelector character;
         public OcgCore ocgcore;
+        public RpgCore rpgCore;
         public RoomServant room;
         public DeckEditor deckEditor;
         public DeckBrowser deckBrowser;
@@ -241,11 +243,12 @@ namespace MDPro3
             servants.Add(menu);
             servants.Add(solo);
             servants.Add(replay);
-
             servants.Add(deckSelector);
+            servants.Add(rpgSelector);
             servants.Add(appearance);
             servants.Add(character);
             servants.Add(ocgcore);
+            servants.Add(rpgCore);
             servants.Add(room);
             servants.Add(deckEditor);
             servants.Add(deckBrowser);

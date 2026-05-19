@@ -20,6 +20,15 @@ namespace MDPro3.UI.ServantUI
         }
 
         #region Button Function
+        public void OnRPG()
+        {
+            if (Program.exitOnReturn)
+                return;
+
+
+            Program.instance.ShiftToServant(Program.instance.rpgSelector);
+        }
+
 
         public void OnSolo()
         {
